@@ -67,9 +67,9 @@ namespace EmguCVSandbox
             }
             using (Graphics g = Graphics.FromImage(inputBmp))
             {
-                g.DrawRectangle(new Pen (Color.White),new Rectangle(pt.X - 2, pt.Y - 2,4,4));
+                g.DrawRectangle(new Pen(Color.White), new Rectangle(pt.X - 2, pt.Y - 2, 4, 4));
             }
-            inputBmp.Save(@"C:\Users\piotr\Desktop\Nowy folder\rgbCheck.jpg");
+           // inputBmp.Save(@"C:\Users\piotr\Desktop\Nowy folder\rgbCheck.jpg");
             if (result)
             {
                 ;

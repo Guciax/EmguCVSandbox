@@ -27,20 +27,20 @@ namespace EmguCVSandbox
 
 
 
-        string sceneImage = @"C:\Users\piotr\Desktop\Nowy folder\bavkFullMobs.png";
+        string sceneImage = @"Images\bavkFullMobs.png";
 
-        string questImage = @"C:\Users\piotr\Desktop\Nowy folder\quest.png";
-        string mobImage = @"C:\Users\piotr\Desktop\Nowy folder\mob.png";
-        string heroImage = @"C:\Users\piotr\Desktop\Nowy folder\hero.png";
-        string sobelMobImage = @"C:\Users\piotr\Desktop\Nowy folder\sobelMob.jpg";
+        string questImage = @"Images\quest.png";
+        string mobImage = @"Images\mob.png";
+        string heroImage = @"Images\hero.png";
+        string sobelMobImage = @"Images\sobelMob.jpg";
         
-        DirectoryInfo mobsDir = new DirectoryInfo(@"C:\Users\piotr\Desktop\Nowy folder\Mobs");
-        DirectoryInfo questssDir = new DirectoryInfo(@"C:\Users\piotr\Desktop\Nowy folder\Quests");
-        DirectoryInfo numbersAttDir = new DirectoryInfo(@"C:\Users\piotr\Desktop\Nowy folder\Numbers\Att");
-        DirectoryInfo numbersHpDir = new DirectoryInfo(@"C:\Users\piotr\Desktop\Nowy folder\Numbers\HP");
-        DirectoryInfo numbersQuestDir = new DirectoryInfo(@"C:\Users\piotr\Desktop\Nowy folder\Numbers\Quests");
-        DirectoryInfo numbersSharp = new DirectoryInfo(@"C:\Users\piotr\Desktop\Nowy folder\Numbers\Sharp");
-        DirectoryInfo numbersCardsDir = new DirectoryInfo(@"C:\Users\piotr\Desktop\Nowy folder\Numbers\Cards");
+        DirectoryInfo mobsDir = new DirectoryInfo(@"Images\Mobs");
+        DirectoryInfo questssDir = new DirectoryInfo(@"Images\Quests");
+        DirectoryInfo numbersAttDir = new DirectoryInfo(@"Images\Numbers\Att");
+        DirectoryInfo numbersHpDir = new DirectoryInfo(@"Images\Numbers\HP");
+        DirectoryInfo numbersQuestDir = new DirectoryInfo(@"Images\Numbers\Quests");
+        DirectoryInfo numbersSharp = new DirectoryInfo(@"Images\Numbers\Sharp");
+        DirectoryInfo numbersCardsDir = new DirectoryInfo(@"Images\Numbers\Cards");
 
         List<Bitmap> mobBitmaps = new List<Bitmap>();
         List<Bitmap> numberAttImages = new List<Bitmap>();
@@ -176,7 +176,7 @@ namespace EmguCVSandbox
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ImageFilters.SharpenGaussian(ScreenShot.GetScreenShop("Lord of the Rings - LCG"), (int)numericUpDown1.Value,(int)numericUpDown2.Value,(double)numericUpDown3.Value, (double)numericUpDown4.Value,(int)numericUpDown5.Value).Bitmap.Save(@"C:\Users\piotr\Desktop\Nowy folder\sharpened.jpg");
+            ImageFilters.SharpenGaussian(ScreenShot.GetScreenShop("Lord of the Rings - LCG"), (int)numericUpDown1.Value,(int)numericUpDown2.Value,(double)numericUpDown3.Value, (double)numericUpDown4.Value,(int)numericUpDown5.Value).Bitmap.Save(@"Images\sharpened.jpg");
 
         }
 

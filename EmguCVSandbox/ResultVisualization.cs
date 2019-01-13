@@ -14,7 +14,7 @@ namespace EmguCVSandbox
         {
             using (Graphics g = Graphics.FromImage(img))
             {
-                using (Brush b = new SolidBrush(Color.White))
+                using (Brush b = new SolidBrush(Color.LightYellow))
                 {
                     
                     foreach (var mob in mobs)
