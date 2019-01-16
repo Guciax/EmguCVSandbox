@@ -71,13 +71,24 @@
     </Compile>
     <Compile Include="ImageFilters.cs" />
     <Compile Include="ImageRecognition.cs" />
+    <Compile Include="ObjectsStructure.cs" />
     <Compile Include="OCR.cs" />
+    <Compile Include="OnScreenDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OnScreenDisplay.Designer.cs">
+      <DependentUpon>OnScreenDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultVisualization.cs" />
     <Compile Include="ScreenShot.cs" />
+    <Compile Include="ScreenShotRecognition.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OnScreenDisplay.resx">
+      <DependentUpon>OnScreenDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

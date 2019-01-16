@@ -56,6 +56,10 @@ namespace EmguCVSandbox
             {
                 result.Add(new Point(rect.Location.X + rect.Width / 2, rect.Location.Y + rect.Height / 2));
             }
+
+            image_source.Dispose();
+            image_partial.Dispose();
+            
             return result.ToArray();
         }
 
@@ -124,7 +128,7 @@ namespace EmguCVSandbox
                                 imgSrc.Draw(match, new Bgr(Color.Blue), -1);
                                 rectangles.Add(match);
                                 scores.Add(Math.Round(maxValues[0],2).ToString());
-                                Debug.WriteLine("found");
+                               // imgSrc.Bitmap.Save(@"C:\Users\Gucci\Desktop\Nowy folder\" + "D" + ".jpg");
                             }
                             else
                             {

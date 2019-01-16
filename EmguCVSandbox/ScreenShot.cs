@@ -41,7 +41,7 @@ namespace EmguCVSandbox
 
             var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(bmp);
-            graphics.CopyFromScreen(rect.left, rect.top, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
+            graphics.CopyFromScreen(58, 0, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
 
             return bmp;
         }

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static EmguCVSandbox.ObjectsStructure;
 
 namespace EmguCVSandbox
 {
@@ -25,7 +26,7 @@ namespace EmguCVSandbox
             InitializeComponent();
         }
 
-
+        Point windowLoc = new Point(58, 1);
 
         string sceneImage = @"Images\bavkFullMobs.png";
 
@@ -41,6 +42,7 @@ namespace EmguCVSandbox
         DirectoryInfo numbersQuestDir = new DirectoryInfo(@"Images\Numbers\Quests");
         DirectoryInfo numbersSharp = new DirectoryInfo(@"Images\Numbers\Sharp");
         DirectoryInfo numbersCardsDir = new DirectoryInfo(@"Images\Numbers\Cards");
+        DirectoryInfo herosDir = new DirectoryInfo(@"Images\HeroAlly");
 
         List<Bitmap> mobBitmaps = new List<Bitmap>();
         List<Bitmap> numberAttImages = new List<Bitmap>();
@@ -49,9 +51,23 @@ namespace EmguCVSandbox
         List<Bitmap> questsImages = new List<Bitmap>();
         List<Bitmap> sharpNumbersImages = new List<Bitmap>();
         List<Bitmap> cardValueImages = new List<Bitmap>();
+        List<Bitmap> heroAlltImages = new List<Bitmap>();
+
+        List<MobInfo> mobsOnBattlefield = new List<MobInfo>();
+        List<QuestInfo> questOnBattlefield = new List<QuestInfo>();
+        List<HeroAllyInfo> heroesAllyOnBattlefield = new List<HeroAllyInfo>();
+        List<CardInfo> cardsInHand = new List<CardInfo>();
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            FileInfo[] heroFiles = herosDir.GetFiles();
+            foreach (var heroF in heroFiles)
+            {
+                Bitmap newBmp = new Bitmap(heroF.FullName);
+                newBmp.Tag = heroF.Name.Split('.')[0];
+                heroAlltImages.Add(newBmp);
+            }
+
             FileInfo[] cardNumberFiles = numbersCardsDir.GetFiles();
             foreach (var cardV in cardNumberFiles)
             {
@@ -93,91 +109,36 @@ namespace EmguCVSandbox
             }
         }
 
-        internal class MobInfo
-        {
-            public Point location;
-            public string name;
-            public bool active;
-            public string attack;
-            public string hp;
-        }
-
-        internal class QuestInfo
-        {
-            public Point location;
-            public string name;
-            public string value;
-        }
-        internal class CardInfo
-        {
-            public Point location;
-            public string value;
-        }
+        
 
 
         private void button1_Click(object sender, EventArgs e)
         {
             Bitmap screenshot = ScreenShot.GetScreenShop("Lord of the Rings - LCG");
-            //Bitmap screenshot = new Bitmap(sceneImage);
 
             Bitmap mobsCropImage = BitmapTransformations.Crop(screenshot, new Rectangle(260, 350, 1170, 210));
+            Bitmap cardsScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(410, 840, 865, 160));
+            Bitmap heroesScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(350, 550, 1075, 210));
 
-            List<MobInfo> mobsOnBattlefield = new List<MobInfo>();
-            List<QuestInfo> questOnBattlefield = new List<QuestInfo>();
-            Bitmap sharpenedBitmap = ImageFilters.SharpenGaussian(mobsCropImage, 11, 19, 84, 500, 500).Bitmap;
-
-            foreach (var mob in mobBitmaps)
-            {
-                Point[] mobLocations= ImageRecognition.multipleTemplateMatch(mobsCropImage, mob, Color.Red, 0.7);
-                if (mobLocations.Count() > 0) 
-                {
-                    foreach (var pt in mobLocations)
-                    {
-                        MobInfo newMob = new MobInfo();
-                        newMob.location = pt;
-                        newMob.name = ((string)mob.Tag).Split('.')[0];
-
-                        newMob.active = ImageFilters.IsThisPixelRGB(mobsCropImage, new Point(pt.X, pt.Y),6);
-
-                        string ocrAtt = OCR.DecodeImg(BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X - 60, pt.Y + 35, 60, 35)),sharpNumbersImages);
-                        string ocrHp = OCR.DecodeImg(BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X , pt.Y + 35, 60, 35)), sharpNumbersImages);
-                        
-                        newMob.attack = ocrAtt;
-                        newMob.hp = ocrHp; 
-                        mobsOnBattlefield.Add(newMob);
-                    }
-                }
-            }
-
-            foreach (var quest in questsImages)
-            {
-                Point[] questLocations = ImageRecognition.multipleTemplateMatch(mobsCropImage, quest, Color.Red, 0.7);
-                if (questLocations.Count() > 0)
-                {
-                    foreach (var pt in questLocations)
-                    {
-                        QuestInfo newQuest = new QuestInfo();
-                        newQuest.location = pt;
-                        newQuest.name = ((string)quest.Tag).Split('.')[0];
-
-                        string ocr = OCR.DecodeImg(BitmapTransformations.Crop(mobsCropImage, new Rectangle(pt.X - 20, pt.Y + 35, 50, 35)), numberQuestImages);
-
-                        newQuest.value = ocr;
-                        questOnBattlefield.Add(newQuest);
-                    }
-                }
-            }
+            mobsOnBattlefield = ScreenShotRecognition.ScanMobs(mobBitmaps, mobsCropImage, sharpNumbersImages);
+            questOnBattlefield = ScreenShotRecognition.ScanQuests(questsImages, mobsCropImage, numberQuestImages);
+            heroesAllyOnBattlefield = ScreenShotRecognition.ScanHeroes(heroAlltImages, heroesScreenShot, sharpNumbersImages);
 
             mobsCropImage = ResultVisualization.ShowMobsOnBattlefield(mobsOnBattlefield, mobsCropImage);
             mobsCropImage = ResultVisualization.ShowQuestsOnBattlefield(questOnBattlefield, mobsCropImage);
-            pictureBox1.Image = mobsCropImage;
 
+            cardsInHand = ScreenShotRecognition.ScanCards(cardValueImages, cardsScreenShot);
+            cardsScreenShot = ResultVisualization.ShowCardsInHand(cardsInHand, cardsScreenShot);
+
+            BitmapTransformations.PasteBitmap(screenshot, mobsCropImage, new Point(260, 350));
+            BitmapTransformations.PasteBitmap(screenshot, cardsScreenShot, new Point(410, 840));
+
+            pictureBox1.Image = screenshot;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             ImageFilters.SharpenGaussian(ScreenShot.GetScreenShop("Lord of the Rings - LCG"), (int)numericUpDown1.Value,(int)numericUpDown2.Value,(double)numericUpDown3.Value, (double)numericUpDown4.Value,(int)numericUpDown5.Value).Bitmap.Save(@"Images\sharpened.jpg");
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -186,26 +147,23 @@ namespace EmguCVSandbox
             //Bitmap screenshot = new Bitmap(sceneImage);
 
             Bitmap cardsScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(410, 840, 865, 160));
-            List<CardInfo> cardsInHand = new List<CardInfo>();
+            List<CardInfo> cardsInHand = ScreenShotRecognition.ScanCards(cardValueImages, cardsScreenShot);
 
-            foreach (var cardValue in cardValueImages)
-            {
-                Point[] cardLocations = ImageRecognition.multipleTemplateMatch(cardsScreenShot, cardValue, Color.Red, 0.5);
-                if (cardLocations.Count() > 0)
-                {
-                    foreach (var pt in cardLocations)
-                    {
-                        CardInfo newCard = new CardInfo();
-                        newCard.location = pt;
-                        newCard.value = ((string)cardValue.Tag).Split('.')[0];
-
-                        cardsInHand.Add(newCard);
-                    }
-                }
-            }
+            
 
             cardsScreenShot = ResultVisualization.ShowCardsInHand(cardsInHand, cardsScreenShot);
             pictureBox1.Image = cardsScreenShot;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox1.Checked)
+            {
+                OnScreenDisplay osdForm = new OnScreenDisplay(cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, checkBox1, windowLoc);
+
+                    osdForm.Show();
+
+            }
         }
     }
 }

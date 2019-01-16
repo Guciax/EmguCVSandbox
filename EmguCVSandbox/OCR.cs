@@ -21,7 +21,7 @@ namespace EmguCVSandbox
             {
                 num = (string)number.Tag;
                 double ocrResult = ImageRecognition.SingleTemplateMatch(ImageFilters.SobelEdgeDetection( image), ImageFilters.SobelEdgeDetection(number));
-                results.Add(new Tuple<double, string>(ocrResult, num + "@" + Math.Round(ocrResult, 1)));
+                results.Add(new Tuple<double, string>(ocrResult, num + "@" + Math.Round(ocrResult, 2)));
             }
 
             double max = results.Select(m => m.Item1).Max();

@@ -25,6 +25,9 @@ namespace EmguCVSandbox
             mask *= k;
             //sum with the original image 
             image += mask;
+
+            mask.Dispose();
+            
             return image;
         }
 
