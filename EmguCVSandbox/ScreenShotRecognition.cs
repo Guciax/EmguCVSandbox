@@ -44,21 +44,22 @@ namespace EmguCVSandbox
 
         public static List<HeroAllyInfo> ScanHeroes(List<Bitmap> heroAllyBitmaps, Bitmap heroCrop, List<Bitmap> numbersHeroImages)
         {
-            Debug.WriteLine("<--------------> ");
+            //Debug.WriteLine("<--------------> ");
             List<HeroAllyInfo> result = new List<HeroAllyInfo>();
             Bitmap sharpenedBitmap = ImageFilters.SharpenGaussian(heroCrop, 11, 19, 84, 500, 500).Bitmap;
             heroCrop.Save(@"C:\Users\Gucci\Desktop\Nowy folder\hero.jpg");
             foreach (var hero in heroAllyBitmaps)
             {
                 Debug.WriteLine("Checking " + hero.Tag.ToString());
-                Point[] questLocations = ImageRecognition.multipleTemplateMatch(heroCrop, hero, Color.Red, 0.8);
-                if (questLocations.Count() > 0)
+                Point[] heroLocations = ImageRecognition.multipleTemplateMatch(heroCrop, hero, Color.Red, 0.75);
+                if (heroLocations.Count() > 0)
                 {
-                    foreach (var pt in questLocations)
+                    foreach (var pt in heroLocations)
                     {
                         HeroAllyInfo newHero = new HeroAllyInfo();
                         newHero.location = pt;
                         newHero.name = ((string)hero.Tag).Split('.')[0];
+                        newHero.active = ImageFilters.IsThisPixelRGB(heroCrop, new Point(pt.X, pt.Y), 6);
 
                         string ocrAtt = OCR.DecodeImg(BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X - 60, pt.Y + 35, 61, 35)), numbersHeroImages);
                         string ocrHp = OCR.DecodeImg(BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X, pt.Y + 35, 60, 35)), numbersHeroImages);
