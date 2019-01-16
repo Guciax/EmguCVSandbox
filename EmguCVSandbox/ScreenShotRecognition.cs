@@ -29,8 +29,9 @@ namespace EmguCVSandbox
                         newMob.name = ((string)mob.Tag).Split('.')[0];
 
                         newMob.active = ImageFilters.IsThisPixelRGB(mobsScreenshotCrop, new Point(pt.X, pt.Y), 6);
-
+                        Debug.WriteLine("Making mobs attack Number crop");
                         string ocrAtt = OCR.DecodeImg(BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X - 60, pt.Y + 35, 60, 35)), sharpNumbersImages);
+                        Debug.WriteLine("Making mobs def Number crop");
                         string ocrHp = OCR.DecodeImg(BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X, pt.Y + 35, 60, 35)), sharpNumbersImages);
 
                         newMob.attack = ocrAtt;
@@ -61,7 +62,9 @@ namespace EmguCVSandbox
                         newHero.name = ((string)hero.Tag).Split('.')[0];
                         newHero.active = ImageFilters.IsThisPixelRGB(heroCrop, new Point(pt.X, pt.Y), 6);
 
+                        Debug.WriteLine("Making hero attack Number crop");
                         string ocrAtt = OCR.DecodeImg(BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X - 60, pt.Y + 35, 61, 35)), numbersHeroImages);
+                        Debug.WriteLine("Making hero def kNumber crop");
                         string ocrHp = OCR.DecodeImg(BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X, pt.Y + 35, 60, 35)), numbersHeroImages);
 
                         newHero.attack = ocrAtt;
@@ -87,6 +90,7 @@ namespace EmguCVSandbox
                         newQuest.location = pt;
                         newQuest.name = ((string)quest.Tag).Split('.')[0];
 
+                        Debug.WriteLine("Making quest Number crop");
                         string ocr = OCR.DecodeImg(BitmapTransformations.Crop(mobsScreenshotCrop, new Rectangle(pt.X - 20, pt.Y + 35, 50, 35)), numberQuestImages);
 
                         newQuest.value = ocr;

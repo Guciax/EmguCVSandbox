@@ -114,10 +114,18 @@ namespace EmguCVSandbox
 
         private void button1_Click(object sender, EventArgs e)
         {
+            bool turnOnOsd = false;
+            if (checkBox1.Checked)
+            {
+                checkBox1.Checked = false;
+                turnOnOsd = true;
+            }
             Bitmap screenshot = ScreenShot.GetScreenShop("Lord of the Rings - LCG");
-
+            Debug.WriteLine("Making mobs crop");
             Bitmap mobsCropImage = BitmapTransformations.Crop(screenshot, new Rectangle(260, 350, 1170, 210));
+            Debug.WriteLine("Making cards crop");
             Bitmap cardsScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(410, 840, 865, 160));
+            Debug.WriteLine("Making hero crop");
             Bitmap heroesScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(350, 550, 1075, 210));
 
             mobsOnBattlefield = ScreenShotRecognition.ScanMobs(mobBitmaps, mobsCropImage, sharpNumbersImages);
@@ -134,6 +142,10 @@ namespace EmguCVSandbox
             BitmapTransformations.PasteBitmap(screenshot, cardsScreenShot, new Point(410, 840));
 
             pictureBox1.Image = screenshot;
+            if (turnOnOsd)
+            {
+                checkBox1.Checked = true;
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
