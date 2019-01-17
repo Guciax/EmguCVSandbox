@@ -29,9 +29,9 @@ namespace EmguCVSandbox
 
         public static Bitmap GetScreenShop(string procName)
         {
-            var proc = Process.GetProcessesByName(procName)[0];
-            var rect = new User32.Rect();
-            User32.GetWindowRect(proc.MainWindowHandle, ref rect);
+            //var proc = Process.GetProcessesByName(procName)[0];
+            //var rect = new User32.Rect();
+            //User32.GetWindowRect(proc.MainWindowHandle, ref rect);
 
             //int width = rect.right - rect.left;
             //int height = rect.bottom - rect.top;

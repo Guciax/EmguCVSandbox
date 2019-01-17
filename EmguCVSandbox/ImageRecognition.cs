@@ -54,7 +54,12 @@ namespace EmguCVSandbox
             List<Point> result = new List<Point>();
             foreach (var rect in imageFinder.Rectangles)
             {
-                result.Add(new Point(rect.Location.X + rect.Width / 2, rect.Location.Y + rect.Height / 2));
+                int x = rect.Location.X + rect.Width / 2;
+                int y = rect.Location.Y + rect.Height / 2;
+                if (x < 0 || x > image_source.Width) continue;
+                if (y < 0 || y > image_source.Height) continue;
+
+                result.Add(new Point(x, y));
             }
 
             image_source.Dispose();
