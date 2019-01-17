@@ -64,7 +64,6 @@ namespace EmguCVSandbox
         TimeSpan ts = new TimeSpan();
 
 
-
         private void Form1_Load(object sender, EventArgs e)
         {
             FileInfo[] heroFiles = herosDir.GetFiles();
