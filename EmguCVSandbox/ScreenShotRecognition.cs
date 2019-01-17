@@ -68,6 +68,7 @@ namespace EmguCVSandbox
                         Debug.WriteLine($"Making mobs attackNum crop inputBmp: {sharpenedBitmap.Width}x{sharpenedBitmap.Height} rect:{pt.X - 60}x{pt.Y + 35}x61x35");
                         Bitmap attCrop = BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X - 60, pt.Y + 35, 61, 35));
                         string ocrAtt = OCR.DecodeImg(attCrop, numbersHeroImages);
+                       // int ocrAtt = int.Parse(OCR.DecodeImg(attCrop, numbersHeroImages));
                         Debug.WriteLine($"Making mobs defNum crop inputBmp: {sharpenedBitmap.Width}x{sharpenedBitmap.Height} rect:{pt.X}x{pt.Y}x60x35");
                         Bitmap defCrop = BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X, pt.Y + 35, 60, 35));
                         string ocrHp = OCR.DecodeImg(defCrop, numbersHeroImages);
