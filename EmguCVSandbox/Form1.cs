@@ -60,6 +60,11 @@ namespace EmguCVSandbox
         List<HeroAllyInfo> heroesAllyOnBattlefield = new List<HeroAllyInfo>();
         List<CardInfo> cardsInHand = new List<CardInfo>();
 
+        Stopwatch stopWatch = new Stopwatch();
+        TimeSpan ts = new TimeSpan();
+
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             FileInfo[] heroFiles = herosDir.GetFiles();
@@ -126,29 +131,100 @@ namespace EmguCVSandbox
                 turnOnOsd = true;
             }
 
+            stopWatch.Start();
+            
+
+
             Bitmap screenshot = ScreenShot.GetScreenShop("Lord of the Rings - LCG");
+
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("Bitmap screenshot= {"+ Math.Round(ts.TotalMilliseconds,0) + "}");
+            stopWatch.Reset();
+            stopWatch.Start();
             Debug.WriteLine("Making mobs crop");
             Bitmap mobsCropImage = BitmapTransformations.Crop(screenshot, new Rectangle(260, 350, 1170, 210));
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("Bitmap mobsCropImage= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
+            stopWatch.Start();
             Debug.WriteLine("Making cards crop");
             Bitmap cardsScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(410, 840, 865, 160));
+            stopWatch.Stop();           
+            ts = stopWatch.Elapsed;
+            outToLog("Bitmap cardsScreenShot= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
+            stopWatch.Start();
             Debug.WriteLine("Making hero crop");
             Bitmap heroesScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(350, 570, 1075, 210));
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("Bitmap heroesScreenShot= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
 
-
+            stopWatch.Start();
+            
             mobsOnBattlefield = ScreenShotRecognition.ScanMobs(mobBitmaps, mobsCropImage, sharpNumbersImages);
+
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("ScreenShotRecognition.ScanMobs= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
+            stopWatch.Start();
             questOnBattlefield = ScreenShotRecognition.ScanQuests(questsImages, mobsCropImage, numberQuestImages);
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("ScreenShotRecognition.ScanQuests= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
+            stopWatch.Start();
             heroesAllyOnBattlefield = ScreenShotRecognition.ScanHeroes(heroAlltImages, heroesScreenShot, sharpNumbersImages);
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("ScreenShotRecognition.ScanHeroes= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
+            stopWatch.Start();
 
             mobsCropImage = ResultVisualization.ShowMobsOnBattlefield(mobsOnBattlefield, mobsCropImage);
             mobsCropImage = ResultVisualization.ShowQuestsOnBattlefield(questOnBattlefield, mobsCropImage);
 
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("ResultVisualization= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
+            stopWatch.Start();
             cardsInHand = ScreenShotRecognition.ScanCards(cardValueImages, cardsScreenShot);
+            lnumberofcards.Text=cardsInHand.Count().ToString();
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("ScreenShotRecognition.ScanCards= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
+            stopWatch.Start();
             cardsScreenShot = ResultVisualization.ShowCardsInHand(cardsInHand, cardsScreenShot);
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("ResultVisualization.ShowCardsInHand= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
+            stopWatch.Start();
 
             BitmapTransformations.PasteBitmap(screenshot, mobsCropImage, new Point(260, 350));
             BitmapTransformations.PasteBitmap(screenshot, cardsScreenShot, new Point(410, 840));
 
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("BitmapTransformations.PasteBitmap= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            stopWatch.Reset();
+            stopWatch.Start();
+
+
+
             pictureBox1.Image = screenshot;
+
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            outToLog("pictureBox1.Image = screenshot= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+
+            stopWatch.Reset();
             if (turnOnOsd)
             {
                 checkBox1.Checked = true;
@@ -184,10 +260,20 @@ namespace EmguCVSandbox
 
             }
         }
+        
 
-        private void label2_Click(object sender, EventArgs e)
+       // "{i} = {cardsInHand[i].location.X}"
+        void outToLog(string output)
         {
-
+            if (!string.IsNullOrWhiteSpace(richTextBox1.Text))
+            {
+                richTextBox1.AppendText("\r\n" + output);
+            }
+            else
+            {
+                richTextBox1.AppendText(output);
+            }
+            richTextBox1.ScrollToCaret();
         }
     }
 }
