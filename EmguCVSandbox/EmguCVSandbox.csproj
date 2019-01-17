@@ -72,6 +72,7 @@
     <Compile Include="ImageFilters.cs" />
     <Compile Include="ImageRecognition.cs" />
     <Compile Include="Mouse.cs" />
+    <Compile Include="NewRecognition.cs" />
     <Compile Include="ObjectsStructure.cs" />
     <Compile Include="OCR.cs" />
     <Compile Include="OnScreenDisplay.cs">

@@ -23,5 +23,19 @@ namespace EmguCVSandbox
             }
             return bigBitmap;   
         }
+
+        public static Bitmap[] TakeBitmapsInPoints(Bitmap inputBitmap, Point[] points, Size cropSize)
+        {
+            List<Bitmap> result = new List<Bitmap>();
+            foreach (var point in points)
+            {
+                Point fixedPt = new Point(point.X - cropSize.Width / 2, point.Y - cropSize.Height / 2);
+                Bitmap crop = Crop(inputBitmap,  new Rectangle(fixedPt.X,fixedPt.Y,cropSize.Width, cropSize.Height));
+                crop.Tag = fixedPt;
+                result.Add(crop);
+            }
+            return result.ToArray();
+        }
+
     }
 }

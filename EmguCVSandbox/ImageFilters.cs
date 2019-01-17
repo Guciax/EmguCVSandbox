@@ -50,6 +50,7 @@ namespace EmguCVSandbox
             return u.Bitmap;
         }
 
+        
         public static bool IsThisPixelRGB(Bitmap inputBmp, Point pt, int searchedArea)
         {
 

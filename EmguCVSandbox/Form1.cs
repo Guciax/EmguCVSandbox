@@ -13,6 +13,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static EmguCVSandbox.ObjectsStructure;
@@ -129,7 +130,6 @@ namespace EmguCVSandbox
                 checkBox1.Checked = false;
                 turnOnOsd = true;
             }
-
             stopWatch.Start();
             
 
@@ -169,13 +169,13 @@ namespace EmguCVSandbox
 
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
-            outToLog("ScreenShotRecognition.ScanMobs= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            outToLog("ScreenShotRecognition.ScanMobs= {" + Math.Round(ts.TotalMilliseconds, 0) + "}");
             stopWatch.Reset();
             stopWatch.Start();
             questOnBattlefield = ScreenShotRecognition.ScanQuests(questsImages, mobsCropImage, numberQuestImages);
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
-            outToLog("ScreenShotRecognition.ScanQuests= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
+            outToLog("ScreenShotRecognition.ScanQuests= {" + Math.Round(ts.TotalMilliseconds, 0) + "}");
             stopWatch.Reset();
             stopWatch.Start();
             heroesAllyOnBattlefield = ScreenShotRecognition.ScanHeroes(heroAlltImages, heroesScreenShot, sharpNumbersImages);
@@ -280,6 +280,41 @@ namespace EmguCVSandbox
         private void button4_Click(object sender, EventArgs e)
         {
             richTextBox1.Clear();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Stopwatch st = new Stopwatch();
+            st.Start();
+            Bitmap mobCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop("Lord of the Rings - LCG"), new Rectangle(260, 350, 1170, 190));
+            Point[] pointsOfMobs = NewRecognition.pointsOfInterest(mobCrop);
+            Bitmap[] bitmapsOfPoints = BitmapTransformations.TakeBitmapsInPoints(mobCrop,pointsOfMobs, new Size(30,30));
+            Bitmap sharpenedBitmap = ImageFilters.SharpenGaussian(mobCrop, 11, 19, 84, 500, 500).Bitmap;
+            foreach (var bmp in bitmapsOfPoints)
+            {
+                foreach (var mobBmp in mobBitmaps) //new mob bitmaps!!!! :(((
+                {
+                    double matchResult = ImageRecognition.SingleTemplateMatch(mobBmp, bmp);
+                    if (matchResult < 0.9) continue;
+
+                    Point pt = (Point)bmp.Tag; 
+                    MobInfo newMob = new MobInfo();
+                    newMob.location = pt;
+                    newMob.name = mobBmp.Tag.ToString();
+                    newMob.active = ImageFilters.IsThisPixelRGB(mobCrop, pt, 6);
+                    Bitmap attCrop = BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X - 60, pt.Y + 35, 60, 35));
+                    string ocrAtt = OCR.DecodeImg(attCrop, sharpNumbersImages);
+
+                    Bitmap defCrop = BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X, pt.Y + 35, 60, 35));
+                    string ocrHp = OCR.DecodeImg(defCrop, sharpNumbersImages);
+
+                    newMob.attack = ocrAtt;
+                    newMob.hp = ocrHp;
+                    mobsOnBattlefield.Add(newMob);
+                }
+            }
+            st.Stop();
+            ;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace EmguCVSandbox
             //return boolRresult;
         }
 
-        public static Point[] multipleTemplateMatch(Bitmap SourceImages, Bitmap searchedImage, Color rectangleColor,double minScore)
+        public static Point[] GetPointsOfTemplateImage(Bitmap SourceImages, Bitmap searchedImage, Color rectangleColor,double minScore)
         {
             Image<Bgr, byte> image_source = new Image<Bgr, byte>(SourceImages);
             Image<Bgr, byte> image_partial = new Image<Bgr, byte>(searchedImage);

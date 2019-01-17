@@ -29,19 +29,21 @@ namespace EmguCVSandbox
 
         public static Bitmap GetScreenShop(string procName)
         {
-            //var proc = Process.GetProcessesByName(procName)[0];
-            //var rect = new User32.Rect();
-            //User32.GetWindowRect(proc.MainWindowHandle, ref rect);
+            var proc = Process.GetProcessesByName(procName)[0];
+            var rect = new User32.Rect();
+            User32.GetWindowRect(proc.MainWindowHandle, ref rect);
 
-            //int width = rect.right - rect.left;
-            //int height = rect.bottom - rect.top;
+            int x = rect.left;
+            int y = rect.top;
+            int width = rect.right - rect.left;
+            int height = rect.bottom - rect.top;
 
-            int width = 1680;
-            int height = 1050;
+             //width = 1680;
+             //height = 1050;
 
             var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(bmp);
-            graphics.CopyFromScreen(58, 0, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
+            graphics.CopyFromScreen(x, y, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
 
             return bmp;
         }

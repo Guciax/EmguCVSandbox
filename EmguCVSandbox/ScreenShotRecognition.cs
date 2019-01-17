@@ -20,7 +20,7 @@ namespace EmguCVSandbox
             foreach (var mob in mobBitmaps)
             {
                 Debug.WriteLine("Scanning for mob: " + mob.Tag.ToString());
-                Point[] mobLocations = ImageRecognition.multipleTemplateMatch(mobsScreenshotCrop, mob, Color.Red, 0.75);
+                Point[] mobLocations = ImageRecognition.GetPointsOfTemplateImage(mobsScreenshotCrop, mob, Color.Red, 0.75);
                 if (mobLocations.Count() > 0)
                 {
                     foreach (var pt in mobLocations)
@@ -55,7 +55,7 @@ namespace EmguCVSandbox
             foreach (var hero in heroAllyBitmaps)
             {
                 Debug.WriteLine("Scanning for hero: " + hero.Tag.ToString());
-                Point[] heroLocations = ImageRecognition.multipleTemplateMatch(heroCrop, hero, Color.Red, 0.75);
+                Point[] heroLocations = ImageRecognition.GetPointsOfTemplateImage(heroCrop, hero, Color.Red, 0.75);
                 if (heroLocations.Count() > 0)
                 {
                     foreach (var pt in heroLocations)
@@ -91,7 +91,7 @@ namespace EmguCVSandbox
             foreach (var quest in questsBitmaps)
             {
                 Debug.WriteLine("Scanning for quest: " + quest.Tag.ToString());
-                Point[] questLocations = ImageRecognition.multipleTemplateMatch(mobsScreenshotCrop, quest, Color.Red, 0.7);
+                Point[] questLocations = ImageRecognition.GetPointsOfTemplateImage(mobsScreenshotCrop, quest, Color.Red, 0.7);
                 if (questLocations.Count() > 0)
                 {
                     foreach (var pt in questLocations)
@@ -118,7 +118,7 @@ namespace EmguCVSandbox
             foreach (var cardValue in cardValueImages)
             {
                 Debug.WriteLine("Scanning for card value: " + cardValue.Tag.ToString());
-                Point[] cardLocations = ImageRecognition.multipleTemplateMatch(cardsScreenShot, cardValue, Color.Red, 0.6);
+                Point[] cardLocations = ImageRecognition.GetPointsOfTemplateImage(cardsScreenShot, cardValue, Color.Red, 0.6);
                 if (cardLocations.Count() > 0)
                 {
                     foreach (var pt in cardLocations)
