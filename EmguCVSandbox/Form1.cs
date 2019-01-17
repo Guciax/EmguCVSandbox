@@ -29,12 +29,14 @@ namespace EmguCVSandbox
         Point windowLoc = new Point(58, 1);
 
         string sceneImage = @"Images\bavkFullMobs.png";
-
         string questImage = @"Images\quest.png";
         string mobImage = @"Images\mob.png";
         string heroImage = @"Images\hero.png";
         string sobelMobImage = @"Images\sobelMob.jpg";
-        
+        static string linestr = @"Images\linia.PNG";
+
+        Bitmap linebm = new Bitmap(linestr,true);
+
         DirectoryInfo mobsDir = new DirectoryInfo(@"Images\Mobs");
         DirectoryInfo questssDir = new DirectoryInfo(@"Images\Quests");
         DirectoryInfo numbersAttDir = new DirectoryInfo(@"Images\Numbers\Att");
@@ -107,6 +109,8 @@ namespace EmguCVSandbox
                 newBmp.Tag = numFile.Name.Split('.')[0];
                 questsImages.Add(newBmp);
             }
+
+            pictureBox2.Image = linebm;
         }
 
         
@@ -179,6 +183,11 @@ namespace EmguCVSandbox
                     osdForm.Show();
 
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
