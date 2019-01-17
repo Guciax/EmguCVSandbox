@@ -165,6 +165,7 @@ namespace EmguCVSandbox
             stopWatch.Start();
             
             mobsOnBattlefield = ScreenShotRecognition.ScanMobs(mobBitmaps, mobsCropImage, sharpNumbersImages);
+            lnumberofenemies.Text = cardsInHand.Count().ToString();
 
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
@@ -178,6 +179,7 @@ namespace EmguCVSandbox
             stopWatch.Reset();
             stopWatch.Start();
             heroesAllyOnBattlefield = ScreenShotRecognition.ScanHeroes(heroAlltImages, heroesScreenShot, sharpNumbersImages);
+            lnumberofallies.Text = cardsInHand.Count().ToString();
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
             outToLog("ScreenShotRecognition.ScanHeroes= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
@@ -273,6 +275,11 @@ namespace EmguCVSandbox
                 richTextBox1.AppendText(output);
             }
             richTextBox1.ScrollToCaret();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Clear();
         }
     }
 }

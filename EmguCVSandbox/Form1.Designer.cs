@@ -50,6 +50,9 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.lnumberofcards = new System.Windows.Forms.Label();
+            this.lnumberofallies = new System.Windows.Forms.Label();
+            this.lnumberofenemies = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -320,11 +323,44 @@
             this.lnumberofcards.TabIndex = 21;
             this.lnumberofcards.Text = "None";
             // 
+            // lnumberofallies
+            // 
+            this.lnumberofallies.AutoSize = true;
+            this.lnumberofallies.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lnumberofallies.Location = new System.Drawing.Point(169, 136);
+            this.lnumberofallies.Name = "lnumberofallies";
+            this.lnumberofallies.Size = new System.Drawing.Size(37, 13);
+            this.lnumberofallies.TabIndex = 22;
+            this.lnumberofallies.Text = "None";
+            // 
+            // lnumberofenemies
+            // 
+            this.lnumberofenemies.AutoSize = true;
+            this.lnumberofenemies.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lnumberofenemies.Location = new System.Drawing.Point(169, 162);
+            this.lnumberofenemies.Name = "lnumberofenemies";
+            this.lnumberofenemies.Size = new System.Drawing.Size(37, 13);
+            this.lnumberofenemies.TabIndex = 23;
+            this.lnumberofenemies.Text = "None";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(482, 39);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(118, 20);
+            this.button4.TabIndex = 24;
+            this.button4.Text = "Clear Debug Window";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 553);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.lnumberofenemies);
+            this.Controls.Add(this.lnumberofallies);
             this.Controls.Add(this.lnumberofcards);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.richTextBox1);
@@ -387,6 +423,9 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label lnumberofcards;
+        private System.Windows.Forms.Label lnumberofallies;
+        private System.Windows.Forms.Label lnumberofenemies;
+        private System.Windows.Forms.Button button4;
     }
 }
 
