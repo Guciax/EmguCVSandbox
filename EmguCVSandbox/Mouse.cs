@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +25,25 @@ namespace EmguCVSandbox
         private const int MOUSEEVENTF_RIGHTUP = 0x10;
         private const int MOUSEEVENTF_ABSOLUTE = 0x8000;
 
-        private enum MouseButton
+        //ustawienie czy do okna ma byc relative czy nie
+        private const bool relativetowindow = true;
+
+        //szuka okna LCG
+        Tuple<int, int> wincords = GetTuplexy("Lord of the Rings - LCG");
+
+        private static Tuple<int, int> GetTuplexy(string procName)
+        {
+
+        var proc = Process.GetProcessesByName(procName)[0];
+        var rect = new User32.Rect();
+        User32.GetWindowRect(proc.MainWindowHandle, ref rect);
+        int xw = rect.left;
+        int yw = rect.top;
+
+        return new Tuple<int, int>(xw, yw);
+        }
+
+    private enum MouseButton
         {
             Left,
             Right,
@@ -30,16 +51,36 @@ namespace EmguCVSandbox
 
         public void MouseLeftClick(int x, int y)
         {
+            if (relativetowindow == true)
+                {
+                x = x + wincords.Item1;
+                y = y+ wincords.Item2;
+            }
+
+
             Click(MouseButton.Left, x, y);
         }
 
         public void MouseDragLeft(int x, int y, int xd, int yd)
         {
+            if (relativetowindow == true)
+            {
+                x = x + wincords.Item1;
+                y = y + wincords.Item2;
+                xd = xd + wincords.Item1;
+                yd = yd + wincords.Item2;
+
+            }
             Drag(MouseButton.Left, x, y, xd,yd);
         }
 
         public void MouseRightClick(int x, int y)
         {
+            if (relativetowindow == true)
+            {
+                x = x + wincords.Item1;
+                y = y + wincords.Item2;
+            }
             Click(MouseButton.Right, x, y);
         }
 
@@ -78,6 +119,11 @@ namespace EmguCVSandbox
 
         private void Click(MouseButton mb, int x, int y)
         {
+            if (relativetowindow == true)
+            {
+                x = x + wincords.Item1;
+                y = y + wincords.Item2;
+            }
             x = rand(x);
             y = rand(y);
 
@@ -90,6 +136,16 @@ namespace EmguCVSandbox
         }
         private void Drag(MouseButton mb, int x, int y, int xd, int yd)
         {
+            if (relativetowindow == true)
+            {
+                x = x + wincords.Item1;
+                y = y + wincords.Item2;
+                xd = xd + wincords.Item1;
+                yd = yd + wincords.Item2;
+
+            }
+
+
             x = rand(x);
             y = rand(y);
             xd = rand(xd);
@@ -104,6 +160,19 @@ namespace EmguCVSandbox
             mouse_event(MbToVkUp(mb), 0, 0, 0, 0);
             Thread.Sleep(50);
         }
+        private class User32
+        {
+            [StructLayout(LayoutKind.Sequential)]
+            public struct Rect
+            {
+                public int left;
+                public int top;
+                public int right;
+                public int bottom;
+            }
 
+            [DllImport("user32.dll")]
+            public static extern IntPtr GetWindowRect(IntPtr hWnd, ref Rect rect);
+        }
     }
 }
