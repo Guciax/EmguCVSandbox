@@ -289,6 +289,10 @@ namespace EmguCVSandbox
             Bitmap mobCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop("Lord of the Rings - LCG"), new Rectangle(260, 350, 1170, 190));
             Point[] pointsOfMobs = NewRecognition.pointsOfInterest(mobCrop);
             Bitmap[] bitmapsOfPoints = BitmapTransformations.TakeBitmapsInPoints(mobCrop,pointsOfMobs, new Size(30,30));
+         //   foreach (var bmp in bitmapsOfPoints)
+         //   {
+         //       bmp.Save(@"Images\" + ((Point)bmp.Tag).X + "png");
+         //   }
             Bitmap sharpenedBitmap = ImageFilters.SharpenGaussian(mobCrop, 11, 19, 84, 500, 500).Bitmap;
             foreach (var bmp in bitmapsOfPoints)
             {
@@ -315,6 +319,31 @@ namespace EmguCVSandbox
             }
             st.Stop();
             ;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                Bitmap screensaver = ScreenShot.ScreenShopSaver("Lord of the Rings - LCG", "braknazwyscreena");
+                pictureBox3.Image = screensaver;
+            }
+            else
+            {
+                Bitmap screensaver = ScreenShot.ScreenShopSaver("Lord of the Rings - LCG", textBox1.Text);
+                pictureBox3.Image = screensaver;
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Bitmap mobCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop("Lord of the Rings - LCG"), new Rectangle(260, 350, 1170, 190));
+            Point[] pointsOfMobs = NewRecognition.pointsOfInterest(mobCrop);
+            Bitmap[] bitmapsOfPoints = BitmapTransformations.TakeBitmapsInPoints(mobCrop, pointsOfMobs, new Size(Int32.Parse(textBox2.Text), Int32.Parse(textBox3.Text)));
+               foreach (var bmp in bitmapsOfPoints)
+               {
+                   bmp.Save($@"Images\{textBox1.Text}{((Point)bmp.Tag).X}.png");
+               }
         }
     }
 }

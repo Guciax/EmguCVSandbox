@@ -85,6 +85,7 @@ namespace EmguCVSandbox
             //{ result = false; }
             //single pixel
 
+
             return result;
         }
             

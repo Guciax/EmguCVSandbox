@@ -58,6 +58,15 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -410,6 +419,15 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.label12);
+            this.tabPage2.Controls.Add(this.textBox3);
+            this.tabPage2.Controls.Add(this.textBox2);
+            this.tabPage2.Controls.Add(this.label11);
+            this.tabPage2.Controls.Add(this.button7);
+            this.tabPage2.Controls.Add(this.label10);
+            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.button6);
             this.tabPage2.Controls.Add(this.button5);
             this.tabPage2.Controls.Add(this.pictureBox3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -422,22 +440,101 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox3.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox3.Location = new System.Drawing.Point(3, 198);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(608, 555);
+            this.pictureBox3.Size = new System.Drawing.Size(608, 360);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 0;
             this.pictureBox3.TabStop = false;
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(8, 6);
+            this.button5.Location = new System.Drawing.Point(531, 6);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 1;
             this.button5.Text = "button5";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(11, 169);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(309, 23);
+            this.button6.TabIndex = 2;
+            this.button6.Text = "Take Screenshot";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(144, 146);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(176, 20);
+            this.textBox1.TabIndex = 3;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 149);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(130, 13);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "Screenshot name or prefix";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(329, 169);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(266, 23);
+            this.button7.TabIndex = 5;
+            this.button7.Text = "Take Mobs Screenshot with prefix";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(326, 149);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(148, 13);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Mobs Screenshot dimensions:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(497, 146);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(36, 20);
+            this.textBox2.TabIndex = 7;
+            this.textBox2.Text = "60";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(559, 146);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(36, 20);
+            this.textBox3.TabIndex = 8;
+            this.textBox3.Text = "60";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(477, 149);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(14, 13);
+            this.label12.TabIndex = 9;
+            this.label12.Text = "X";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(539, 149);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(14, 13);
+            this.label13.TabIndex = 10;
+            this.label13.Text = "Y";
             // 
             // Form1
             // 
@@ -460,6 +557,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
 
@@ -495,8 +593,17 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label11;
     }
 }
 
