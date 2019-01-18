@@ -5,8 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EmguCVSandbox
 {
@@ -27,62 +26,25 @@ namespace EmguCVSandbox
             return bmp;
         }
 
-        public static Bitmap GetScreenShop(string procName)
+        public static Bitmap GetScreenShop(Rectangle gameWindowRectangle)
         {
-            var proc = Process.GetProcessesByName(procName)[0];
-            var rect = new User32.Rect();
-            User32.GetWindowRect(proc.MainWindowHandle, ref rect);
-
-            int x = rect.left;
-            int y = rect.top;
-            int width = rect.right - rect.left;
-            int height = rect.bottom - rect.top;
-
-             //width = 1680;
-             //height = 1050;
-
-            var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            var bmp = new Bitmap(gameWindowRectangle.Width, gameWindowRectangle.Height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(bmp);
-            graphics.CopyFromScreen(x, y, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);        
+            graphics.CopyFromScreen(gameWindowRectangle.X, gameWindowRectangle.Y, 0, 0, new Size(gameWindowRectangle.Width, gameWindowRectangle.Height), CopyPixelOperation.SourceCopy);
             return bmp;
         }
 
         //Używana do zapisywania screenu o podanej nazwie pliku
-        public static Bitmap ScreenShopSaver(string procName, string filename)
+        public static Bitmap ScreenShopSaver(string filename, Rectangle gameWindowRectangle)
         {
-            var proc = Process.GetProcessesByName(procName)[0];
-            var rect = new User32.Rect();
-            User32.GetWindowRect(proc.MainWindowHandle, ref rect);
-
-            int x = rect.left;
-            int y = rect.top;
-            int width = rect.right - rect.left;
-            int height = rect.bottom - rect.top;
-
-            //width = 1680;
-            //height = 1050;
-
-            var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            var bmp = new Bitmap(gameWindowRectangle.Width, gameWindowRectangle.Height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(bmp);
-            graphics.CopyFromScreen(x, y, 0, 0, new Size(width, height), CopyPixelOperation.SourceCopy);
+            graphics.CopyFromScreen(gameWindowRectangle.X, gameWindowRectangle.Y, 0, 0, new Size(gameWindowRectangle.Width, gameWindowRectangle.Height), CopyPixelOperation.SourceCopy);
 
             bmp.Save(@"Images\"+filename+".png");
             return bmp;
         }
 
-        private class User32
-        {
-            [StructLayout(LayoutKind.Sequential)]
-            public struct Rect
-            {
-                public int left;
-                public int top;
-                public int right;
-                public int bottom;
-            }
-
-            [DllImport("user32.dll")]
-            public static extern IntPtr GetWindowRect(IntPtr hWnd, ref Rect rect);
-        }
+        
     }
 }

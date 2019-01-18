@@ -26,8 +26,17 @@ namespace EmguCVSandbox
         {
             InitializeComponent();
         }
+        public class GlobalParameters
+        {
+            public static readonly Rectangle mobsRegion = new Rectangle(260, 350, 1166, 190);
+            public static readonly Rectangle heroRegion = new Rectangle(350, 570, 986, 210);
+            public static readonly Rectangle cardsRegion = new Rectangle(410, 866, 865, 160);
+            public static readonly Rectangle cashRegion = new Rectangle(311, 844, 29, 35);
+            public static readonly Rectangle endPhaseButtonRegion = new Rectangle(1280, 1000, 187, 38);
+            public static readonly Rectangle questPhaseNameRegion = new Rectangle(700, 47, 281, 32);
 
-        Point windowLoc = new Point(58, 1);
+            public static readonly Bitmap emptyBmpPhase1 = new Bitmap(@"Images\empty1.png");
+        }
 
         string sceneImage = @"Images\bavkFullMobs.png";
         string questImage = @"Images\quest.png";
@@ -38,14 +47,15 @@ namespace EmguCVSandbox
 
         Bitmap linebm = new Bitmap(linestr,true);
 
-        DirectoryInfo mobsDir = new DirectoryInfo(@"Images\Mobs");
-        DirectoryInfo questssDir = new DirectoryInfo(@"Images\Quests");
+        DirectoryInfo mobsDir = new DirectoryInfo(@"Images\Newmobs");
+        DirectoryInfo questssDir = new DirectoryInfo(@"Images\Newevents");
         DirectoryInfo numbersAttDir = new DirectoryInfo(@"Images\Numbers\Att");
         DirectoryInfo numbersHpDir = new DirectoryInfo(@"Images\Numbers\HP");
         DirectoryInfo numbersQuestDir = new DirectoryInfo(@"Images\Numbers\Quests");
         DirectoryInfo numbersSharp = new DirectoryInfo(@"Images\Numbers\Sharp");
         DirectoryInfo numbersCardsDir = new DirectoryInfo(@"Images\Numbers\Cards");
         DirectoryInfo herosDir = new DirectoryInfo(@"Images\HeroAlly");
+        DirectoryInfo moneyDir = new DirectoryInfo(@"Images\Numbers\Money");
 
         List<Bitmap> mobBitmaps = new List<Bitmap>();
         List<Bitmap> numberAttImages = new List<Bitmap>();
@@ -55,18 +65,28 @@ namespace EmguCVSandbox
         List<Bitmap> sharpNumbersImages = new List<Bitmap>();
         List<Bitmap> cardValueImages = new List<Bitmap>();
         List<Bitmap> heroAlltImages = new List<Bitmap>();
+        List<Bitmap> moneyImages = new List<Bitmap>();
 
         List<MobInfo> mobsOnBattlefield = new List<MobInfo>();
         List<QuestInfo> questOnBattlefield = new List<QuestInfo>();
         List<HeroAllyInfo> heroesAllyOnBattlefield = new List<HeroAllyInfo>();
         List<CardInfo> cardsInHand = new List<CardInfo>();
 
+        int money = 0;
+
         Stopwatch stopWatch = new Stopwatch();
         TimeSpan ts = new TimeSpan();
 
-
         private void Form1_Load(object sender, EventArgs e)
         {
+            FileInfo[] moneyFiles = moneyDir.GetFiles();
+            foreach (var moneyF in moneyFiles)
+            {
+                Bitmap newBmp = new Bitmap(moneyF.FullName);
+                newBmp.Tag = moneyF.Name.Split('.')[0];
+                moneyImages.Add(newBmp);
+            }
+
             FileInfo[] heroFiles = herosDir.GetFiles();
             foreach (var heroF in heroFiles)
             {
@@ -118,9 +138,6 @@ namespace EmguCVSandbox
             pictureBox2.Image = linebm;
         }
 
-        
-
-
         private void button1_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("<----- Scan Start ----->");
@@ -134,7 +151,7 @@ namespace EmguCVSandbox
             
 
 
-            Bitmap screenshot = ScreenShot.GetScreenShop("Lord of the Rings - LCG");
+            Bitmap screenshot = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
 
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
@@ -234,12 +251,12 @@ namespace EmguCVSandbox
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ImageFilters.SharpenGaussian(ScreenShot.GetScreenShop("Lord of the Rings - LCG"), (int)numericUpDown1.Value,(int)numericUpDown2.Value,(double)numericUpDown3.Value, (double)numericUpDown4.Value,(int)numericUpDown5.Value).Bitmap.Save(@"Images\sharpened.jpg");
+            ImageFilters.SharpenGaussian(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), (int)numericUpDown1.Value,(int)numericUpDown2.Value,(double)numericUpDown3.Value, (double)numericUpDown4.Value,(int)numericUpDown5.Value).Bitmap.Save(@"Images\sharpened.jpg");
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Bitmap screenshot = ScreenShot.GetScreenShop("Lord of the Rings - LCG");
+            Bitmap screenshot = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
             //Bitmap screenshot = new Bitmap(sceneImage);
 
             Bitmap cardsScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(410, 840, 865, 160));
@@ -255,7 +272,7 @@ namespace EmguCVSandbox
         {
             if(checkBox1.Checked)
             {
-                OnScreenDisplay osdForm = new OnScreenDisplay(cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, checkBox1, windowLoc);
+                OnScreenDisplay osdForm = new OnScreenDisplay(cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, checkBox1, new Point(51,0));
 
                     osdForm.Show();
 
@@ -284,40 +301,16 @@ namespace EmguCVSandbox
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Stopwatch st = new Stopwatch();
-            st.Start();
-            Bitmap mobCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop("Lord of the Rings - LCG"), new Rectangle(260, 350, 1170, 190));
-            Point[] pointsOfMobs = NewRecognition.pointsOfInterest(mobCrop);
-            Bitmap[] bitmapsOfPoints = BitmapTransformations.TakeBitmapsInPoints(mobCrop,pointsOfMobs, new Size(30,30));
-         //   foreach (var bmp in bitmapsOfPoints)
-         //   {
-         //       bmp.Save(@"Images\" + ((Point)bmp.Tag).X + "png");
-         //   }
-            Bitmap sharpenedBitmap = ImageFilters.SharpenGaussian(mobCrop, 11, 19, 84, 500, 500).Bitmap;
-            foreach (var bmp in bitmapsOfPoints)
-            {
-                foreach (var mobBmp in mobBitmaps) //new mob bitmaps!!!! :(((
-                {
-                    double matchResult = ImageRecognition.SingleTemplateMatch(mobBmp, bmp);
-                    if (matchResult < 0.9) continue;
+            stopWatch.Reset();
+            stopWatch.Start();
+            Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
 
-                    Point pt = (Point)bmp.Tag; 
-                    MobInfo newMob = new MobInfo();
-                    newMob.location = pt;
-                    newMob.name = mobBmp.Tag.ToString();
-                    newMob.active = ImageFilters.IsThisPixelRGB(mobCrop, pt, 6);
-                    Bitmap attCrop = BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X - 60, pt.Y + 35, 60, 35));
-                    string ocrAtt = OCR.DecodeImg(attCrop, sharpNumbersImages);
-
-                    Bitmap defCrop = BitmapTransformations.Crop(sharpenedBitmap, new Rectangle(pt.X, pt.Y + 35, 60, 35));
-                    string ocrHp = OCR.DecodeImg(defCrop, sharpNumbersImages);
-
-                    newMob.attack = ocrAtt;
-                    newMob.hp = ocrHp;
-                    mobsOnBattlefield.Add(newMob);
-                }
-            }
-            st.Stop();
+            mobsOnBattlefield =  NewRecognition.ScanMobs(mobBitmaps, sharpNumbersImages, GlobalParameters.emptyBmpPhase1, ss);
+            heroesAllyOnBattlefield = NewRecognition.ScanHeroes(heroAlltImages, sharpNumbersImages, GlobalParameters.emptyBmpPhase1, ss);
+            questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages);
+            money = NewRecognition.ScanCash(ss, moneyImages);
+            
+            stopWatch.Stop();
             ;
         }
 
@@ -325,25 +318,35 @@ namespace EmguCVSandbox
         {
             if (string.IsNullOrWhiteSpace(textBox1.Text))
             {
-                Bitmap screensaver = ScreenShot.ScreenShopSaver("Lord of the Rings - LCG", "braknazwyscreena");
+                Bitmap screensaver = ScreenShot.ScreenShopSaver("braknazwyscreena", Windows.GameWindowRectangle());
                 pictureBox3.Image = screensaver;
             }
             else
             {
-                Bitmap screensaver = ScreenShot.ScreenShopSaver("Lord of the Rings - LCG", textBox1.Text);
+                Bitmap screensaver = ScreenShot.ScreenShopSaver( textBox1.Text, Windows.GameWindowRectangle());
                 pictureBox3.Image = screensaver;
             }
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Bitmap mobCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop("Lord of the Rings - LCG"), new Rectangle(260, 350, 1170, 190));
-            Point[] pointsOfMobs = NewRecognition.pointsOfInterest(mobCrop);
+            Bitmap mobCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), GlobalParameters.mobsRegion);
+            Bitmap emptyCrop = BitmapTransformations.Crop(GlobalParameters.emptyBmpPhase1, GlobalParameters.mobsRegion);
+            
+            Point[] pointsOfMobs = NewRecognition.pointsOfInterest(mobCrop, emptyCrop);
             Bitmap[] bitmapsOfPoints = BitmapTransformations.TakeBitmapsInPoints(mobCrop, pointsOfMobs, new Size(Int32.Parse(textBox2.Text), Int32.Parse(textBox3.Text)));
                foreach (var bmp in bitmapsOfPoints)
                {
                    bmp.Save($@"Images\{textBox1.Text}{((Point)bmp.Tag).X}.png");
                }
+        }
+
+        private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                pictureBox3.Image.Save("ss.PNG");
+            }
         }
     }
 }

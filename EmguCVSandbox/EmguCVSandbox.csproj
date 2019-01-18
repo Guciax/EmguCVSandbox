@@ -86,6 +86,8 @@
     <Compile Include="ResultVisualization.cs" />
     <Compile Include="ScreenShot.cs" />
     <Compile Include="ScreenShotRecognition.cs" />
+    <Compile Include="tests.cs" />
+    <Compile Include="Windows.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

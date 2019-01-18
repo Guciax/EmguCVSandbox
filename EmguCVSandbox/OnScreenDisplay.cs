@@ -80,9 +80,9 @@ namespace EmguCVSandbox
             base.OnPaint(e);
             //mobs
             int mobsXOff = windowLocation.X + 260;
-            int mobsYOff = windowLocation.Y + 350;
+            int mobsYOff = windowLocation.Y + 350-120;
             int heroXOffset = windowLocation.X + 350;
-            int heroYOffset = windowLocation.Y + 550;
+            int heroYOffset = windowLocation.Y + 550+120;
             int handXOffset = windowLocation.X + 410;
             int handYOffset = windowLocation.Y + 840;
             

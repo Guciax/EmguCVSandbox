@@ -16,6 +16,8 @@ namespace EmguCVSandbox
             public bool active;
             public string attack;
             public string hp;
+            public Bitmap mobImage;
+            public List<string> matchResults;
         }
 
         public class HeroAllyInfo
@@ -25,6 +27,8 @@ namespace EmguCVSandbox
             public bool active;
             public string attack;
             public string hp;
+            public Bitmap heroImage;
+            public List<string> matchResults;
         }
 
         public class QuestInfo
@@ -32,6 +36,8 @@ namespace EmguCVSandbox
             public Point location;
             public string name;
             public string value;
+            public Bitmap questImage;
+            public List<string> matchResults;
         }
         public class CardInfo
         {
