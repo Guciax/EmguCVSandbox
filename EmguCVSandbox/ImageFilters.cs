@@ -88,6 +88,21 @@ namespace EmguCVSandbox
 
             return result;
         }
-            
+
+        public static Bitmap RemoveColorFromImage(Bitmap inputImage, int maxRgbDiff)
+        {
+            Bitmap bmp = new Bitmap(inputImage);
+            for (var x = 0; x < bmp.Width; x++)
+                for (var y = 0; y < bmp.Height; y++)
+                {
+                    var pixel = bmp.GetPixel(x, y);
+                    if (Math.Abs(pixel.R - pixel.B) < maxRgbDiff
+                        & Math.Abs(pixel.R - pixel.G) < maxRgbDiff
+                        & Math.Abs(pixel.B - pixel.G) < maxRgbDiff) continue;
+
+                    bmp.SetPixel(x, y, Color.White);
+                }
+            return bmp;
+        }
     }
 }

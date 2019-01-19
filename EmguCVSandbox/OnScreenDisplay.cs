@@ -126,6 +126,7 @@ namespace EmguCVSandbox
                 e.Graphics.DrawString(active, this.Font, heroInfoBrush, new Point(hero.location.X - 30 + heroXOffset, hero.location.Y + 25 + heroYOffset));
                 e.Graphics.DrawString("Att:" + hero.attack, this.Font, heroInfoBrush, new Point(hero.location.X - 30 + heroXOffset, hero.location.Y + 45 + heroYOffset));
                 e.Graphics.DrawString("HP:" + hero.hp, this.Font, heroInfoBrush, new Point(hero.location.X - 30 + heroXOffset, hero.location.Y + 65 + heroYOffset));
+                e.Graphics.DrawString("Lore:" + hero.lore, this.Font, heroInfoBrush, new Point(hero.location.X - 30 + heroXOffset, hero.location.Y + 85 + heroYOffset));
             }
 
 

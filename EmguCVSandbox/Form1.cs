@@ -28,23 +28,20 @@ namespace EmguCVSandbox
         }
         public class GlobalParameters
         {
-            public static readonly Rectangle mobsRegion = new Rectangle(260, 350, 1166, 190);
-            public static readonly Rectangle heroRegion = new Rectangle(350, 570, 986, 210);
+            public static readonly Rectangle mobsRegion = new Rectangle(260, 355, 1166, 170);
+            public static readonly Rectangle heroRegion = new Rectangle(260, 590, 1166, 184);
             public static readonly Rectangle cardsRegion = new Rectangle(410, 866, 865, 160);
             public static readonly Rectangle cashRegion = new Rectangle(311, 844, 29, 35);
             public static readonly Rectangle endPhaseButtonRegion = new Rectangle(1280, 1000, 187, 38);
             public static readonly Rectangle questPhaseNameRegion = new Rectangle(700, 47, 281, 32);
+            public static int heroSocketWidth = 151;
+            public static int mobSocketWidth = 142;
+            public static Point[] pointsToCheckOkMark = new Point[] { new Point(0, 0), new Point(1, 1) }; //uzupelnic
 
             public static readonly Bitmap emptyBmpPhase1 = new Bitmap(@"Images\empty1.png");
         }
 
-        string sceneImage = @"Images\bavkFullMobs.png";
-        string questImage = @"Images\quest.png";
-        string mobImage = @"Images\mob.png";
-        string heroImage = @"Images\hero.png";
-        string sobelMobImage = @"Images\sobelMob.jpg";
         static string linestr = @"Images\linia.PNG";
-
         Bitmap linebm = new Bitmap(linestr,true);
 
         DirectoryInfo mobsDir = new DirectoryInfo(@"Images\Newmobs");
@@ -53,14 +50,17 @@ namespace EmguCVSandbox
         DirectoryInfo numbersHpDir = new DirectoryInfo(@"Images\Numbers\HP");
         DirectoryInfo numbersQuestDir = new DirectoryInfo(@"Images\Numbers\Quests");
         DirectoryInfo numbersSharp = new DirectoryInfo(@"Images\Numbers\Sharp");
+        DirectoryInfo numbersHeroDir = new DirectoryInfo(@"Images\Numbers\Hero");
+        DirectoryInfo numbersMobsDir = new DirectoryInfo(@"Images\Numbers\Mob");
         DirectoryInfo numbersCardsDir = new DirectoryInfo(@"Images\Numbers\Cards");
         DirectoryInfo herosDir = new DirectoryInfo(@"Images\HeroAlly");
         DirectoryInfo moneyDir = new DirectoryInfo(@"Images\Numbers\Money");
 
         List<Bitmap> mobBitmaps = new List<Bitmap>();
-        List<Bitmap> numberAttImages = new List<Bitmap>();
-        List<Bitmap> numberHpImages = new List<Bitmap>();
-        List<Bitmap> numberQuestImages = new List<Bitmap>();
+
+        List<Bitmap> ocrHeroNumber = new List<Bitmap>();
+        List<Bitmap> ocrMobNumbers = new List<Bitmap>();
+        
         List<Bitmap> questsImages = new List<Bitmap>();
         List<Bitmap> sharpNumbersImages = new List<Bitmap>();
         List<Bitmap> cardValueImages = new List<Bitmap>();
@@ -79,6 +79,7 @@ namespace EmguCVSandbox
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
             FileInfo[] moneyFiles = moneyDir.GetFiles();
             foreach (var moneyF in moneyFiles)
             {
@@ -103,21 +104,23 @@ namespace EmguCVSandbox
                 cardValueImages.Add(newBmp);
             }
 
-            FileInfo[] sharpNumbersFiles = numbersSharp.GetFiles();
-            foreach (var sNumFile in sharpNumbersFiles)
+            FileInfo[] numberHeroFiles = numbersHeroDir.GetFiles();
+            foreach (var num in numberHeroFiles)
             {
-                Bitmap newBmp = new Bitmap(sNumFile.FullName);
-                newBmp.Tag = sNumFile.Name.Split('.')[0];
-                sharpNumbersImages.Add(newBmp);
+                Bitmap newBmp = new Bitmap(num.FullName);
+                newBmp.Tag = num.Name.Split('.')[0];
+                ocrHeroNumber.Add(newBmp);
             }
 
-            FileInfo[] questNumImgFiles = numbersQuestDir.GetFiles();
-            foreach (var qNumFile in questNumImgFiles)
+            FileInfo[] numberMobFiles = numbersMobsDir.GetFiles();
+            foreach (var num in numberMobFiles)
             {
-                Bitmap newBmp = new Bitmap(qNumFile.FullName);
-                newBmp.Tag = qNumFile.Name.Split('.')[0];
-                numberQuestImages.Add(newBmp);
+                Bitmap newBmp = new Bitmap(num.FullName);
+                newBmp.Tag = num.Name.Split('.')[0];
+                ocrMobNumbers.Add(newBmp);
             }
+
+
 
             FileInfo[] mobImgFiles = mobsDir.GetFiles();
             foreach (var mobFile in mobImgFiles)
@@ -140,113 +143,7 @@ namespace EmguCVSandbox
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine("<----- Scan Start ----->");
-            bool turnOnOsd = false;
-            if (checkBox1.Checked)
-            {
-                checkBox1.Checked = false;
-                turnOnOsd = true;
-            }
-            stopWatch.Start();
-            
 
-
-            Bitmap screenshot = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
-
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("Bitmap screenshot= {"+ Math.Round(ts.TotalMilliseconds,0) + "}");
-            stopWatch.Reset();
-            stopWatch.Start();
-            Debug.WriteLine("Making mobs crop");
-            Bitmap mobsCropImage = BitmapTransformations.Crop(screenshot, new Rectangle(260, 350, 1170, 210));
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("Bitmap mobsCropImage= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
-            stopWatch.Reset();
-            stopWatch.Start();
-            Debug.WriteLine("Making cards crop");
-            Bitmap cardsScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(410, 840, 865, 160));
-            stopWatch.Stop();           
-            ts = stopWatch.Elapsed;
-            outToLog("Bitmap cardsScreenShot= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
-            stopWatch.Reset();
-            stopWatch.Start();
-            Debug.WriteLine("Making hero crop");
-            Bitmap heroesScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(350, 570, 1075, 210));
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("Bitmap heroesScreenShot= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
-            stopWatch.Reset();
-
-            stopWatch.Start();
-            
-            mobsOnBattlefield = ScreenShotRecognition.ScanMobs(mobBitmaps, mobsCropImage, sharpNumbersImages);
-            lnumberofenemies.Text = cardsInHand.Count().ToString();
-
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("ScreenShotRecognition.ScanMobs= {" + Math.Round(ts.TotalMilliseconds, 0) + "}");
-            stopWatch.Reset();
-            stopWatch.Start();
-            questOnBattlefield = ScreenShotRecognition.ScanQuests(questsImages, mobsCropImage, numberQuestImages);
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("ScreenShotRecognition.ScanQuests= {" + Math.Round(ts.TotalMilliseconds, 0) + "}");
-            stopWatch.Reset();
-            stopWatch.Start();
-            heroesAllyOnBattlefield = ScreenShotRecognition.ScanHeroes(heroAlltImages, heroesScreenShot, sharpNumbersImages);
-            lnumberofallies.Text = cardsInHand.Count().ToString();
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("ScreenShotRecognition.ScanHeroes= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
-            stopWatch.Reset();
-            stopWatch.Start();
-
-            mobsCropImage = ResultVisualization.ShowMobsOnBattlefield(mobsOnBattlefield, mobsCropImage);
-            mobsCropImage = ResultVisualization.ShowQuestsOnBattlefield(questOnBattlefield, mobsCropImage);
-
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("ResultVisualization= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
-            stopWatch.Reset();
-            stopWatch.Start();
-            cardsInHand = ScreenShotRecognition.ScanCards(cardValueImages, cardsScreenShot);
-            lnumberofcards.Text=cardsInHand.Count().ToString();
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("ScreenShotRecognition.ScanCards= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
-            stopWatch.Reset();
-            stopWatch.Start();
-            cardsScreenShot = ResultVisualization.ShowCardsInHand(cardsInHand, cardsScreenShot);
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("ResultVisualization.ShowCardsInHand= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
-            stopWatch.Reset();
-            stopWatch.Start();
-
-            BitmapTransformations.PasteBitmap(screenshot, mobsCropImage, new Point(260, 350));
-            BitmapTransformations.PasteBitmap(screenshot, cardsScreenShot, new Point(410, 840));
-
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("BitmapTransformations.PasteBitmap= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
-            stopWatch.Reset();
-            stopWatch.Start();
-
-
-
-            pictureBox1.Image = screenshot;
-
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            outToLog("pictureBox1.Image = screenshot= {"+Math.Round(ts.TotalMilliseconds,0)+"}");
-
-            stopWatch.Reset();
-            if (turnOnOsd)
-            {
-                checkBox1.Checked = true;
-            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -260,7 +157,7 @@ namespace EmguCVSandbox
             //Bitmap screenshot = new Bitmap(sceneImage);
 
             Bitmap cardsScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(410, 840, 865, 160));
-            List<CardInfo> cardsInHand = ScreenShotRecognition.ScanCards(cardValueImages, cardsScreenShot);
+            //List<CardInfo> cardsInHand = ScreenShotRecognition.ScanCards(cardValueImages, cardsScreenShot);
 
             
 
@@ -272,7 +169,7 @@ namespace EmguCVSandbox
         {
             if(checkBox1.Checked)
             {
-                OnScreenDisplay osdForm = new OnScreenDisplay(cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, checkBox1, new Point(51,0));
+                OnScreenDisplay osdForm = new OnScreenDisplay(cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, checkBox1, Windows.GameWindowRectangle().Location);
 
                     osdForm.Show();
 
@@ -301,17 +198,15 @@ namespace EmguCVSandbox
 
         private void button5_Click(object sender, EventArgs e)
         {
-            stopWatch.Reset();
-            stopWatch.Start();
+            checkBox1.Checked = false;
+
             Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
 
-            mobsOnBattlefield =  NewRecognition.ScanMobs(mobBitmaps, sharpNumbersImages, GlobalParameters.emptyBmpPhase1, ss);
-            heroesAllyOnBattlefield = NewRecognition.ScanHeroes(heroAlltImages, sharpNumbersImages, GlobalParameters.emptyBmpPhase1, ss);
-            questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages);
+            mobsOnBattlefield = NewRecognition.ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyBmpPhase1, ss);
+            heroesAllyOnBattlefield = NewRecognition.ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
+            questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages, ocrMobNumbers, ss);
             money = NewRecognition.ScanCash(ss, moneyImages);
-            
-            stopWatch.Stop();
-            ;
+            checkBox1.Checked = true;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -333,7 +228,7 @@ namespace EmguCVSandbox
             Bitmap mobCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), GlobalParameters.mobsRegion);
             Bitmap emptyCrop = BitmapTransformations.Crop(GlobalParameters.emptyBmpPhase1, GlobalParameters.mobsRegion);
             
-            Point[] pointsOfMobs = NewRecognition.pointsOfInterest(mobCrop, emptyCrop);
+            Point[] pointsOfMobs = NewRecognition.pointsOfInterest(mobCrop, emptyCrop, GlobalParameters.mobSocketWidth);
             Bitmap[] bitmapsOfPoints = BitmapTransformations.TakeBitmapsInPoints(mobCrop, pointsOfMobs, new Size(Int32.Parse(textBox2.Text), Int32.Parse(textBox3.Text)));
                foreach (var bmp in bitmapsOfPoints)
                {
@@ -345,7 +240,28 @@ namespace EmguCVSandbox
         {
             if (e.Button == MouseButtons.Right)
             {
-                pictureBox3.Image.Save("ss.PNG");
+                pictureBox3.Image.Save(@"Images\ss.PNG");
+            }
+        }
+
+        private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo dir = new DirectoryInfo(@"Images\NumbersToTransform");
+            FileInfo[] files = dir.GetFiles();
+            foreach (var file in files)
+            {
+                Bitmap bmp = new Bitmap(file.FullName);
+                ImageFilters.RemoveColorFromImage(bmp, 75).Save($@"Images\NumbersToTransform\Output\{file.Name}.png");
             }
         }
     }

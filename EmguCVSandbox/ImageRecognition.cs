@@ -13,33 +13,24 @@ namespace EmguCVSandbox
 {
     class ImageRecognition
     {
-        public static double SingleTemplateMatch(Bitmap background, Bitmap searchedImage)
+
+        public static double SingleTemplateMatch(Bitmap background, Bitmap searchedImage, TemplateMatchingType type)
         {
             bool boolRresult = false;
             Image<Bgr, byte> bckgImg = new Image<Bgr, byte>(background); // Image B
             Image<Bgr, byte> searchedImg = new Image<Bgr, byte>(searchedImage); // Image A
             Image<Bgr, byte> imageToShow = bckgImg.Copy();
 
-            using (Image<Gray, float> result = bckgImg.MatchTemplate(searchedImg, TemplateMatchingType.CcoeffNormed))
+            using (Image<Gray, float> result = bckgImg.MatchTemplate(searchedImg, type))
             {
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
                 result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
 
                 return maxValues[0];
-                // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
-                if (maxValues[0] > 0.8)
-                {
-                    boolRresult = true;
-                    // This is a match. Do something with it, for example draw a rectangle around it.
-                    //Rectangle match = new Rectangle(maxLocations[0], searchedImg.Size);
-                    //imageToShow.Draw(match, new Bgr(Color.Red), 3);
-                }
-                
+               
             }
 
-            // Show imageToShow in an ImageBox (here assumed to be called imageBox1)
-            //return boolRresult;
         }
 
         public static Point[] GetPointsOfTemplateImage(Bitmap SourceImages, Bitmap searchedImage, Color rectangleColor,double minScore)

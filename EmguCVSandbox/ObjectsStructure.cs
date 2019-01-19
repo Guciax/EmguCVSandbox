@@ -14,8 +14,8 @@ namespace EmguCVSandbox
             public Point location;
             public string name;
             public bool active;
-            public string attack;
-            public string hp;
+            public int attack;
+            public int hp;
             public Bitmap mobImage;
             public List<string> matchResults;
         }
@@ -25,17 +25,20 @@ namespace EmguCVSandbox
             public Point location;
             public string name;
             public bool active;
-            public string attack;
-            public string hp;
+            public int attack;
+            public int hp;
+            public int lore;
             public Bitmap heroImage;
             public List<string> matchResults;
+            public Bitmap attackImg;
+            public Bitmap defImg;
         }
 
         public class QuestInfo
         {
             public Point location;
             public string name;
-            public string value;
+            public int value;
             public Bitmap questImage;
             public List<string> matchResults;
         }

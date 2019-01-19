@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapTransformations.cs" />
+    <Compile Include="CoordinatesCalculations.cs" />
     <Compile Include="DrawMatches.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

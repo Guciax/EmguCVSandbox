@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Emgu.CV;
+using Emgu.CV.Structure;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -11,29 +13,46 @@ namespace EmguCVSandbox
 {
     class OCR
     {
-        public static string DecodeImg(Bitmap image, List<Bitmap> library)
+        public static int DecodeImg(Bitmap windowScreenshot, Rectangle cropRectangle, List<Bitmap> library, double binarisationThreshold=0)
         {
-            string num = "";
-
-            List<Tuple<double, string>> results = new List<Tuple<double, string>>();
-
-            foreach (Bitmap number in library)
+            Bitmap crop = BitmapTransformations.Crop(windowScreenshot, cropRectangle);
+            int result = 0;
+            bool failedTheFirstTime = false;
+            do
             {
-                num = (string)number.Tag;
-                double ocrResult = ImageRecognition.SingleTemplateMatch(ImageFilters.SobelEdgeDetection( image), ImageFilters.SobelEdgeDetection(number));
-                results.Add(new Tuple<double, string>(ocrResult, num + "@" + Math.Round(ocrResult, 2)));
-            }
-
-            double max = results.Select(m => m.Item1).Max();
-            string valueToReturn = "";
-            foreach (var item in results)
-            {
-                if (item.Item1==max)
+                if (failedTheFirstTime)
                 {
-                    valueToReturn = item.Item2;
+                    crop = BitmapTransformations.Crop(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), cropRectangle);
                 }
-            }
-            return valueToReturn;
+                string num = "";
+
+                List<Tuple<double, string>> results = new List<Tuple<double, string>>();
+                Bitmap noColor = ImageFilters.RemoveColorFromImage(crop, 75);
+                var img = new Image<Bgr, byte>(noColor);
+                Bitmap binarisedBmp = img.Convert<Gray, byte>().ThresholdBinary(new Gray(200), new Gray(255)).Bitmap;
+
+                foreach (Bitmap number in library)
+                {
+                    num = (string)number.Tag;
+
+                    double ocrResult = ImageRecognition.SingleTemplateMatch(noColor, number, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+                    //number.Save(@"Images\ocrResult\"+ num + "@" + Math.Round(ocrResult, 2)+".png");
+                    results.Add(new Tuple<double, string>(ocrResult, num));
+                }
+
+                double max = results.Select(m => m.Item1).Max();
+
+                foreach (var item in results)
+                {
+                    if (item.Item1 == max)
+                    {
+                        result = int.Parse(item.Item2);
+                    }
+                }
+                failedTheFirstTime = true;
+            } while (result < 0.6);
+            
+            return result;
         }
     }
 }
