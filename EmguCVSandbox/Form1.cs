@@ -345,5 +345,12 @@ namespace EmguCVSandbox
                    bmp.Save($@"Images\{textBox1.Text}{((Point)bmp.Tag).X}.png");
                }
         }
+
+        //Start play with minions deck
+        private void button8_Click(object sender, EventArgs e)
+        {
+
+
+        }
     }
 }
