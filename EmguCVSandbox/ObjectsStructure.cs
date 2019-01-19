@@ -9,6 +9,17 @@ namespace EmguCVSandbox
 {
     public class ObjectsStructure
     {
+        public class GameCurrentState
+        {
+            public List<MobInfo> mobs;
+            public List<HeroAllyInfo> heroesAlly;
+            public List<QuestInfo> quests;
+            public List<CardInfo> cardsInHand
+            public int currentPhase;
+            public int cash;
+            public int sauronCash;
+        }
+
         public class MobInfo
         {
             public Point location;
@@ -32,6 +43,7 @@ namespace EmguCVSandbox
             public List<string> matchResults;
             public Bitmap attackImg;
             public Bitmap defImg;
+            bool hasEquipment = false;
         }
 
         public class QuestInfo
