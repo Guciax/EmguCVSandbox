@@ -36,6 +36,7 @@ namespace EmguCVSandbox
             public static readonly Rectangle questPhaseNameRegion = new Rectangle(700, 47, 281, 32);
 
             public static readonly Bitmap emptyBmpPhase1 = new Bitmap(@"Images\empty1.png");
+            public static string procname = "Lord of the Rings - LCG";
         }
 
         string sceneImage = @"Images\bavkFullMobs.png";

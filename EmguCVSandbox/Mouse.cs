@@ -28,20 +28,10 @@ namespace EmguCVSandbox
         //ustawienie czy do okna ma byc relative czy nie
         private const bool relativetowindow = true;
 
-        //szuka okna LCG
-        Tuple<int, int> wincords = GetTuplexy("Lord of the Rings - LCG");
+                
+        Tuple<int, int> wincords = Windows.GetTupleWindowxy();
 
-        private static Tuple<int, int> GetTuplexy(string procName)
-        {
-
-        var proc = Process.GetProcessesByName(procName)[0];
-        var rect = new User32.Rect();
-        User32.GetWindowRect(proc.MainWindowHandle, ref rect);
-        int xw = rect.left;
-        int yw = rect.top;
-
-        return new Tuple<int, int>(xw, yw);
-        }
+        
 
     private enum MouseButton
         {

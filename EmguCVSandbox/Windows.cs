@@ -11,6 +11,20 @@ namespace EmguCVSandbox
 {
     public class Windows
     {
+        
+        public static Tuple<int, int> GetTupleWindowxy()
+        {
+
+
+            var proc = Process.GetProcessesByName("Lord of the Rings - LCG")[0];
+            var rect = new User32.Rect();
+            User32.GetWindowRect(proc.MainWindowHandle, ref rect);
+            int xw = rect.left;
+            int yw = rect.top;
+
+            return new Tuple<int, int>(xw, yw);
+
+        }
         public static Rectangle GameWindowRectangle()
         {
             var proc = Process.GetProcessesByName("Lord of the Rings - LCG")[0];
