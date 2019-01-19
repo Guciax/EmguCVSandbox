@@ -39,6 +39,7 @@ namespace EmguCVSandbox
             public static Point[] pointsToCheckOkMark = new Point[] { new Point(0, 0), new Point(1, 1) }; //uzupelnic
 
             public static readonly Bitmap emptyBmpPhase1 = new Bitmap(@"Images\empty1.png");
+            public static string procname = "Lord of the Rings - LCG";
         }
 
         static string linestr = @"Images\linia.PNG";
