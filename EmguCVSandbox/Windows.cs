@@ -19,7 +19,7 @@ namespace EmguCVSandbox
             var proc = Process.GetProcessesByName("Lord of the Rings - LCG")[0];
             var rect = new User32.Rect();
             User32.GetWindowRect(proc.MainWindowHandle, ref rect);
-            int xw = rect.left;
+            int xw = rect.left-30; // nie wiem dlaczego :D
             int yw = rect.top;
 
             return new Tuple<int, int>(xw, yw);

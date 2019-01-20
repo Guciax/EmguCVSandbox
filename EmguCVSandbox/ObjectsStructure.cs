@@ -14,7 +14,7 @@ namespace EmguCVSandbox
             public List<MobInfo> mobs;
             public List<HeroAllyInfo> heroesAlly;
             public List<QuestInfo> quests;
-            public List<CardInfo> cardsInHand
+            public List<CardInfo> cardsInHand;
             public int currentPhase;
             public int cash;
             public int sauronCash;
@@ -32,6 +32,21 @@ namespace EmguCVSandbox
         }
 
         public class HeroAllyInfo
+        {
+            public Point location;
+            public string name;
+            public bool active;
+            public int attack;
+            public int hp;
+            public int lore;
+            public Bitmap heroImage;
+            public List<string> matchResults;
+            public Bitmap attackImg;
+            public Bitmap defImg;
+            bool hasEquipment = false;
+        }
+
+        public class MyAllyInfo
         {
             public Point location;
             public string name;

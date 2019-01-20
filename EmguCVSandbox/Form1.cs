@@ -55,6 +55,7 @@ namespace EmguCVSandbox
         DirectoryInfo numbersMobsDir = new DirectoryInfo(@"Images\Numbers\Mob");
         DirectoryInfo numbersCardsDir = new DirectoryInfo(@"Images\Numbers\Cards");
         DirectoryInfo herosDir = new DirectoryInfo(@"Images\HeroAlly");
+        DirectoryInfo alliesDir = new DirectoryInfo(@"Images\Newallay");
         DirectoryInfo moneyDir = new DirectoryInfo(@"Images\Numbers\Money");
 
         List<Bitmap> mobBitmaps = new List<Bitmap>();
@@ -66,17 +67,25 @@ namespace EmguCVSandbox
         List<Bitmap> sharpNumbersImages = new List<Bitmap>();
         List<Bitmap> cardValueImages = new List<Bitmap>();
         List<Bitmap> heroAlltImages = new List<Bitmap>();
+        List<Bitmap> MyAlltImages = new List<Bitmap>();
         List<Bitmap> moneyImages = new List<Bitmap>();
 
         List<MobInfo> mobsOnBattlefield = new List<MobInfo>();
         List<QuestInfo> questOnBattlefield = new List<QuestInfo>();
         List<HeroAllyInfo> heroesAllyOnBattlefield = new List<HeroAllyInfo>();
+        List<MyAllyInfo> AllyOnBattlefield = new List<MyAllyInfo>();
         List<CardInfo> cardsInHand = new List<CardInfo>();
 
+        //BOT data
         int money = 0;
+        int nherose = 0;
+        int ncards = 0;
+        int nallies = 0;
+        int nenemies = 0;
 
         Stopwatch stopWatch = new Stopwatch();
         TimeSpan ts = new TimeSpan();
+        Mouse mysz = new Mouse();
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -95,6 +104,14 @@ namespace EmguCVSandbox
                 Bitmap newBmp = new Bitmap(heroF.FullName);
                 newBmp.Tag = heroF.Name.Split('.')[0];
                 heroAlltImages.Add(newBmp);
+            }
+
+            FileInfo[] alliesFiles = alliesDir.GetFiles();
+            foreach (var alliesF in alliesFiles)
+            {
+                Bitmap newBmp = new Bitmap(alliesF.FullName);
+                newBmp.Tag = alliesF.Name.Split('.')[0];
+                MyAlltImages.Add(newBmp);
             }
 
             FileInfo[] cardNumberFiles = numbersCardsDir.GetFiles();
@@ -170,7 +187,7 @@ namespace EmguCVSandbox
         {
             if(checkBox1.Checked)
             {
-                OnScreenDisplay osdForm = new OnScreenDisplay(cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, checkBox1, Windows.GameWindowRectangle().Location);
+                OnScreenDisplay osdForm = new OnScreenDisplay(AllyOnBattlefield, cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, checkBox1, Windows.GameWindowRectangle().Location);
 
                     osdForm.Show();
 
@@ -190,6 +207,19 @@ namespace EmguCVSandbox
                 richTextBox1.AppendText(output);
             }
             richTextBox1.ScrollToCaret();
+        }
+
+        void tologbook(string output)
+        {
+            if (!string.IsNullOrWhiteSpace(logbook.Text))
+            {
+                logbook.AppendText("\r\n" + output);
+            }
+            else
+            {
+                logbook.AppendText(output);
+            }
+            logbook.ScrollToCaret();
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -263,6 +293,143 @@ namespace EmguCVSandbox
             {
                 Bitmap bmp = new Bitmap(file.FullName);
                 ImageFilters.RemoveColorFromImage(bmp, 75).Save($@"Images\NumbersToTransform\Output\{file.Name}.png");
+            }
+        }
+
+        private void bbotstart_Click(object sender, EventArgs e)
+        {
+            tologbook("startuje gre");
+            tologbook("ustawienie: klikam bez rozpoznawania buttonów");
+            tologbook("Thread.Sleep(500);");
+            Thread.Sleep(500);
+            tologbook("klikam play");
+            mysz.MouseLeftClick(260,835);
+            tologbook("czekam 2500");
+            Thread.Sleep(2500);
+            tologbook("klikam qest");
+            mysz.MouseLeftClick(904, 331);
+            tologbook("czekam 700");
+            Thread.Sleep(700);
+            tologbook("klikam wybor decku");
+            mysz.MouseLeftClick(1280, 800);
+            tologbook("czekam 700");
+            Thread.Sleep(700);
+            tologbook("klikam deck drugi z gory");
+            mysz.MouseLeftClick(1320, 460);
+            tologbook("czekam 700");
+            Thread.Sleep(700);
+            tologbook("wybieram poziom trudnosci");
+            mysz.MouseLeftClick(1550, 740);
+            tologbook("czekam 700");
+            Thread.Sleep(700);
+            tologbook("no i jedziemy z tematem");
+            mysz.MouseLeftClick(1222, 915);
+            tologbook("tu sie moze dlugo wgrywac czekam 10 sekund");
+            Thread.Sleep(5000);
+            tologbook("juz 5 zlecialo");
+            Thread.Sleep(3000);
+            tologbook("juz 8 zlecialo");
+            Thread.Sleep(2000);
+            tologbook("koniec");
+            tologbook("klikam continue tego biadolenia");
+            mysz.MouseLeftClick(1446, 990);
+            tologbook("czekam 1000");
+            Thread.Sleep(1000);
+            tologbook("klikam continue tego biadolenia 2");
+            mysz.MouseLeftClick(1446, 990);
+            tologbook("czekam 6000");
+            Thread.Sleep(6000);
+            tologbook("klikam confirm");
+            mysz.MouseLeftClick(1370, 1010);
+            tologbook("czekam 3000");
+            Thread.Sleep(3000);
+            tologbook("klikam ok");
+            mysz.MouseLeftClick(840, 250);
+            tologbook("czekam 1000");
+            Thread.Sleep(1000);
+            tologbook("KONIEC BUTTONA NIC WIECEJ NIE ZROBI");
+
+
+
+        }
+
+
+
+        private void bbotscan_Click(object sender, EventArgs e)
+        {
+            tologbook("skanuje gre");
+            Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
+            mobsOnBattlefield = NewRecognition.ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyBmpPhase1, ss);
+            heroesAllyOnBattlefield = NewRecognition.ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
+            AllyOnBattlefield = NewRecognition.ScanAllies(MyAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
+            questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages, ocrMobNumbers, ss);
+            money = NewRecognition.ScanCash(ss, moneyImages);
+            tologbook("Kasa:"+money);
+            nherose = heroesAllyOnBattlefield.Count();
+            tologbook("Ilosc bohaterów" + nherose);
+            nenemies = mobsOnBattlefield.Count();
+            tologbook("Ilosc wrogów" + nenemies);
+            tologbook("Ilosc questów" + questOnBattlefield.Count());
+            lbotnenemies.Text = nenemies.ToString();
+            lbotnheroes.Text = nherose.ToString();
+            lbotnmoney.Text = money.ToString();
+            nallies = AllyOnBattlefield.Count();
+            tologbook("Ilosc alliasow" + nallies);
+            lbotnallies.Text = nallies.ToString();
+
+            // ncards = 0;
+            
+
+        }
+        private void bbotclearlog_Click(object sender, EventArgs e)
+        {
+            logbook.Clear();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+
+            ProcessStartInfo procInfo = new System.Diagnostics.ProcessStartInfo();
+            procInfo.FileName = ("mspaint.exe");
+
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                procInfo.Arguments = @"Images\braknazwyscreena.PNG";
+
+            }
+            else
+            {
+                procInfo.Arguments = @"Images\" + textBox1.Text + ".PNG";
+            }
+
+
+            Process.Start(procInfo);
+        }
+        private void botosd_CheckedChanged(object sender, EventArgs e)
+        {
+            if (botosd.Checked)
+            {
+                OnScreenDisplay osdForm = new OnScreenDisplay(AllyOnBattlefield, cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, botosd, Windows.GameWindowRectangle().Location);
+
+                osdForm.Show();
+
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+
+            
+            Bitmap emptyBattlefieldCrop = BitmapTransformations.Crop(GlobalParameters.emptyBmpPhase1, GlobalParameters.heroRegion);
+
+            Bitmap heroCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), GlobalParameters.heroRegion);
+            Point[] pointsOfHerroAlly = NewRecognition.pointsOfInterest(heroCrop, emptyBattlefieldCrop, GlobalParameters.heroSocketWidth);
+            Bitmap[] bitmapsOfPoints = BitmapTransformations.TakeBitmapsInPoints(heroCrop, pointsOfHerroAlly, new Size(Int32.Parse(textBox2.Text), Int32.Parse(textBox3.Text)));
+
+
+           foreach (var bmp in bitmapsOfPoints)
+            {
+                bmp.Save($@"Images\{textBox1.Text}{((Point)bmp.Tag).X}.png");
             }
         }
     }

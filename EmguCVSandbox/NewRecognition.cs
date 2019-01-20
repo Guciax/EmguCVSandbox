@@ -257,5 +257,63 @@ namespace EmguCVSandbox
             }
             return result;
         }
+        public static List<MyAllyInfo> ScanAllies(List<Bitmap> AllyLibrary, List<Bitmap> sharpNumbersImages, Bitmap emptyBattlefield, Bitmap currentScreenshot)
+        {
+            List<MyAllyInfo> AllyOnBattlefield = new List<MyAllyInfo>();
+            Bitmap emptyBattlefieldCrop = BitmapTransformations.Crop(emptyBattlefield, GlobalParameters.heroRegion);
+
+            Bitmap heroCrop = BitmapTransformations.Crop(currentScreenshot, GlobalParameters.heroRegion);
+            Point[] pointsOfAlly = NewRecognition.pointsOfInterest(heroCrop, emptyBattlefieldCrop, GlobalParameters.heroSocketWidth);
+            Bitmap[] bitmapsOfPoints = BitmapTransformations.TakeBitmapsInPoints(heroCrop, pointsOfAlly, new Size(30, 30));
+
+            //Bitmap sharpenedBitmap = ImageFilters.SharpenGaussian(heroCrop, 11, 19, 84, 500, 500).Bitmap;
+            foreach (var bmp in bitmapsOfPoints)
+            {
+                List<string> listOfMatches = new List<string>();
+                Point pt = (Point)bmp.Tag;
+                bool matchFound = false;
+
+                MyAllyInfo newAlly = new MyAllyInfo();
+
+                foreach (var MyAllyBmp in AllyLibrary)
+                {
+                    double matchResult = ImageRecognition.SingleTemplateMatch(MyAllyBmp, bmp, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
+                    listOfMatches.Add(MyAllyBmp.Tag.ToString() + "@" + matchResult);
+                    if (matchResult < 0.8) continue;
+
+                    matchFound = true;
+
+
+                    newAlly.name = MyAllyBmp.Tag.ToString();
+                    break;
+                }
+                if (!matchFound)
+                {
+                    newAlly.name = "Ally";
+                }
+
+
+                Rectangle attRegionGlobal = new Rectangle(pt.X - 50 + GlobalParameters.heroRegion.X, pt.Y + 45 + GlobalParameters.heroRegion.Y, 40, 35);
+                Rectangle hpRegionGlobal = new Rectangle(pt.X + 37 + GlobalParameters.heroRegion.X, pt.Y + 45 + GlobalParameters.heroRegion.Y, 40, 35);
+                Rectangle loreRegionGlobal = new Rectangle(pt.X - 5 + GlobalParameters.heroRegion.X, pt.Y + 65 + GlobalParameters.heroRegion.Y, 40, 30);
+
+                newAlly.active = ImageFilters.IsThisPixelRGB(heroCrop, pt, 6);
+                newAlly.matchResults = listOfMatches;
+                newAlly.location = pt;
+
+                int ocrLore = OCR.DecodeImg(currentScreenshot, loreRegionGlobal, sharpNumbersImages, 113);
+                newAlly.lore = ocrLore;
+
+                int ocrAtt = OCR.DecodeImg(currentScreenshot, attRegionGlobal, sharpNumbersImages, 113);
+                newAlly.attack = ocrAtt;
+
+
+                int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
+                newAlly.hp = ocrHp;
+
+                AllyOnBattlefield.Add(newAlly);
+            }
+            return AllyOnBattlefield;
+        }
     }
 }
