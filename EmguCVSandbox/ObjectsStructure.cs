@@ -15,14 +15,52 @@ namespace EmguCVSandbox
             public List<HeroAllyInfo> heroesAlly;
             public List<QuestInfo> quests;
             public List<CardInfo> cardsInHand;
+            public List<HeroAllyInfo> myAllies
+            {
+                get
+                {
+                    return heroesAlly.Where(a => a.name == "Ally").ToList();
+                }
+                
+            }
             public int currentPhase;
             public int cash;
             public int sauronCash;
+
             public int cardsInHandQty
             {
                 get
                 {
                     return cardsInHand.Count();
+                }
+            }
+            public int cardsInHand1
+            {
+                get
+                {
+                    return cardsInHand.Where(c => c.value == "1").Count();
+                }
+            }
+            public int cardsInHand2
+            {
+                get
+                {
+                    return cardsInHand.Where(c => c.value == "2").Count();
+                }
+            }
+            public List<CardInfo> cardsInHand1List
+            {
+                get
+                {
+                    return cardsInHand.Where(c=>c.value == "1").ToList();
+                }
+            }
+
+            public List<CardInfo> cardsInHand2List
+            {
+                get
+                {
+                    return cardsInHand.Where(c => c.value == "2").ToList();
                 }
             }
             public int activeMobs
@@ -39,18 +77,49 @@ namespace EmguCVSandbox
                     return heroesAlly.Select(a => a.name == "Ally").Count();
                 }
             }
-            public int activeAllies
+
+            
+            public int activeAlliesNumber
             {
                 get
                 {
                     return heroesAlly.Select(a => a.name == "Ally" & a.active).Count();
                 }
             }
-            public int activeHeroes
+            public int activeHeroesNumber
             {
                 get
                 {
                     return heroesAlly.Select(a => a.name != "Ally" & a.active).Count();
+                }
+            }
+
+            public List<HeroAllyInfo> activeHeroesList
+            {
+                get
+                {
+                    return heroesAlly.Where(a => a.active).ToList();
+                }
+            }
+            public List<HeroAllyInfo> eowyn
+            {
+                get
+                {
+                    return heroesAlly.Where(a => a.name == "eowyn").ToList();
+                }
+            }
+            public List<HeroAllyInfo> gimli
+            {
+                get
+                {
+                    return heroesAlly.Where(a => a.name == "gimli").ToList();
+                }
+            }
+            public List<HeroAllyInfo> dwalin
+            {
+                get
+                {
+                    return heroesAlly.Where(a => a.name == "dwalin").ToList();
                 }
             }
         }
@@ -78,7 +147,7 @@ namespace EmguCVSandbox
             public List<string> matchResults;
             public Bitmap attackImg;
             public Bitmap defImg;
-            bool hasEquipment = false;
+            public bool hasEquipment = false;
         }
 
         public class MyAllyInfo

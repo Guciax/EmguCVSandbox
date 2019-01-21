@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static EmguCVSandbox.Form1;
 using static EmguCVSandbox.ObjectsStructure;
 
@@ -14,6 +15,7 @@ namespace EmguCVSandbox
     public class NewRecognition
     {
         private readonly Form1 form;
+        private readonly RichTextBox logbook;
         private readonly List<Bitmap> mobBitmaps;
         private readonly List<Bitmap> ocrHeroNumber;
         private readonly List<Bitmap> ocrMobNumbers;
@@ -27,7 +29,7 @@ namespace EmguCVSandbox
         private readonly List<Bitmap> defendImages;
         private readonly List<Bitmap> attachmentImages;
 
-        public NewRecognition( Form1 form,
+        public NewRecognition( Form1 form, RichTextBox logbook,
             List<Bitmap> mobBitmaps,
         List<Bitmap> ocrHeroNumber,
         List<Bitmap> ocrMobNumbers,
@@ -42,6 +44,7 @@ namespace EmguCVSandbox
         List<Bitmap> attachmentImages)  
         {
             this.form = form;
+            this.logbook = logbook;
             this.mobBitmaps = mobBitmaps;
             this.ocrHeroNumber = ocrHeroNumber;
             this.ocrMobNumbers = ocrMobNumbers;
@@ -66,9 +69,12 @@ namespace EmguCVSandbox
             result.heroesAlly = ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyFieldDict[result.currentPhase], ss);
             result.quests = ScanQuests(ref result.mobs, questsImages, ocrMobNumbers, ss);
             result.cash = ScanCash(ss, moneyImages);
-
+            
+            
             return result;
         }
+
+        
         public static Point[] pointsOfInterest(Bitmap scannedCropImage, Bitmap emptyCropImage, int socketWidth)
         {
             //Bitmap ss = ScreenShot.GetScreenShop("Lord of the Rings - LCG");

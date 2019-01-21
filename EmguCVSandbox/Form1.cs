@@ -23,10 +23,12 @@ namespace EmguCVSandbox
     public partial class Form1 : Form
     {
         private NewRecognition newRecognition;
+        private Bot bot;
         public Form1()
         {
             InitializeComponent();
-            NewRecognition newRecognition = new NewRecognition(this, mobBitmaps, ocrHeroNumber, ocrMobNumbers, questsImages, sharpNumbersImages, cardValueImages, heroAlltImages, MyAlltImages, moneyImages, okImages, defendImages, attachmentImages);
+            NewRecognition newRecognition = new NewRecognition(this,logbook, mobBitmaps, ocrHeroNumber, ocrMobNumbers, questsImages, sharpNumbersImages, cardValueImages, heroAlltImages, MyAlltImages, moneyImages, okImages, defendImages, attachmentImages);
+            Bot bot = new Bot(logbook);
         }
 
 
@@ -110,6 +112,8 @@ namespace EmguCVSandbox
 
         private void Form1_Load(object sender, EventArgs e)
         {
+           
+            
 
             FileInfo[] moneyFiles = moneyDir.GetFiles();
             foreach (var moneyF in moneyFiles)
@@ -257,6 +261,7 @@ namespace EmguCVSandbox
 
         void tologbook(string output)
         {
+
             if (!string.IsNullOrWhiteSpace(logbook.Text))
             {
                 logbook.AppendText("\r\n" + output);
@@ -344,58 +349,7 @@ namespace EmguCVSandbox
 
         private void bbotstart_Click(object sender, EventArgs e)
         {
-            tologbook("startuje gre");
-            tologbook("ustawienie: klikam bez rozpoznawania buttonów");
-            tologbook("Thread.Sleep(500);");
-            Thread.Sleep(500);
-            tologbook("klikam play");
-            mysz.MouseLeftClick(260,835);
-            tologbook("czekam 2500");
-            Thread.Sleep(2500);
-            tologbook("klikam qest");
-            mysz.MouseLeftClick(904, 331);
-            tologbook("czekam 700");
-            Thread.Sleep(700);
-            tologbook("klikam wybor decku");
-            mysz.MouseLeftClick(1280, 800);
-            tologbook("czekam 700");
-            Thread.Sleep(700);
-            tologbook("klikam deck drugi z gory");
-            mysz.MouseLeftClick(1320, 460);
-            tologbook("czekam 700");
-            Thread.Sleep(700);
-            tologbook("wybieram poziom trudnosci");
-            mysz.MouseLeftClick(1550, 740);
-            tologbook("czekam 700");
-            Thread.Sleep(700);
-            tologbook("no i jedziemy z tematem");
-            mysz.MouseLeftClick(1222, 915);
-            tologbook("tu sie moze dlugo wgrywac czekam 10 sekund");
-            Thread.Sleep(5000);
-            tologbook("juz 5 zlecialo");
-            Thread.Sleep(3000);
-            tologbook("juz 8 zlecialo");
-            Thread.Sleep(2000);
-            tologbook("koniec");
-            tologbook("klikam continue tego biadolenia");
-            mysz.MouseLeftClick(1446, 990);
-            tologbook("czekam 1000");
-            Thread.Sleep(1000);
-            tologbook("klikam continue tego biadolenia 2");
-            mysz.MouseLeftClick(1446, 990);
-            tologbook("czekam 6000");
-            Thread.Sleep(6000);
-            tologbook("klikam confirm");
-            mysz.MouseLeftClick(1370, 1010);
-            tologbook("czekam 3000");
-            Thread.Sleep(3000);
-            tologbook("klikam ok");
-            mysz.MouseLeftClick(840, 250);
-            tologbook("czekam 1000");
-            Thread.Sleep(1000);
-            tologbook("KONIEC BUTTONA NIC WIECEJ NIE ZROBI");
-
-
+            bot.startquest();
 
         }
 
@@ -600,29 +554,31 @@ namespace EmguCVSandbox
         private void bbotscan_Click(object sender, EventArgs e)
         {
             tologbook("skanuje gre");
-            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
-            mobsOnBattlefield = NewRecognition.ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyBmpPhase1, ss);
-            heroesAllyOnBattlefield = NewRecognition.ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
-            AllyOnBattlefield = NewRecognition.ScanAllies(MyAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
-            questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages, ocrMobNumbers, ss);
+            //   Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
+            //   mobsOnBattlefield = NewRecognition.ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyBmpPhase1, ss);
+            //   heroesAllyOnBattlefield = NewRecognition.ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
+            //   AllyOnBattlefield = NewRecognition.ScanAllies(MyAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
+            //   questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages, ocrMobNumbers, ss);
             //cardsInHand = NewRecognition.ScanCards(cardValueImages, ss);
-            money = NewRecognition.ScanCash(ss, moneyImages);
-            tologbook("Kasa:"+money);
-            nherose = heroesAllyOnBattlefield.Count();
-            tologbook("Ilosc bohaterów" + nherose);
-            nenemies = mobsOnBattlefield.Count();
-            tologbook("Ilosc wrogów" + nenemies);
-            tologbook("Ilosc questów" + questOnBattlefield.Count());
-            lbotnenemies.Text = nenemies.ToString();
-            lbotnheroes.Text = nherose.ToString();
-            lbotnmoney.Text = money.ToString();
-            nallies = AllyOnBattlefield.Count();
-            tologbook("Ilosc alliasow" + nallies);
-            lbotnallies.Text = nallies.ToString();
+            GameCurrentState cur = newRecognition.ScanGame();
 
-            ncards = cardsInHand.Count();
-            tologbook("Ilosc kart" + ncards);
-            lbotncards.Text = ncards.ToString();
+            //money = NewRecognition.ScanCash(ss, moneyImages);
+            //tologbook("Kasa:" + money);
+            //nherose = heroesAllyOnBattlefield.Count();
+            //tologbook("Ilosc bohaterów" + nherose);
+            //nenemies = mobsOnBattlefield.Count();
+            //tologbook("Ilosc wrogów" + nenemies);
+            //tologbook("Ilosc questów" + questOnBattlefield.Count());
+            //lbotnenemies.Text = nenemies.ToString();
+            //lbotnheroes.Text = nherose.ToString();
+            //lbotnmoney.Text = money.ToString();
+            //nallies = AllyOnBattlefield.Count();
+            //tologbook("Ilosc alliasow" + nallies);
+            //lbotnallies.Text = nallies.ToString();
+            
+            //ncards = cardsInHand.Count();
+            //tologbook("Ilosc kart" + ncards);
+            //lbotncards.Text = ncards.ToString();
 
 
         }
