@@ -111,27 +111,27 @@ namespace EmguCVSandbox
         //        return result;
         //    }
 
-        //    public static List<CardInfo> ScanCards(List<Bitmap> cardValueImages, Bitmap cardsScreenShot)
-        //    {
-        //        List<CardInfo> result = new List<CardInfo>();
+            public static List<CardInfo> ScanCards(List<Bitmap> cardValueImages, Bitmap cardsScreenShot)
+            {
+                List<CardInfo> result = new List<CardInfo>();
 
-        //        foreach (var cardValue in cardValueImages)
-        //        {
-        //            Debug.WriteLine("Scanning for card value: " + cardValue.Tag.ToString());
-        //            Point[] cardLocations = ImageRecognition.GetPointsOfTemplateImage(cardsScreenShot, cardValue, Color.Red, 0.6);
-        //            if (cardLocations.Count() > 0)
-        //            {
-        //                foreach (var pt in cardLocations)
-        //                {
-        //                    CardInfo newCard = new CardInfo();
-        //                    newCard.location = pt;
-        //                    newCard.value = ((string)cardValue.Tag).Split('.')[0];
-        //                    result.Add(newCard);
-        //                }
-        //            }
-        //        }
-        //        return result;
-        //    }
+                foreach (var cardValue in cardValueImages)
+                {
+                    Debug.WriteLine("Scanning for card value: " + cardValue.Tag.ToString());
+                    Point[] cardLocations = ImageRecognition.GetPointsOfTemplateImage(cardsScreenShot, cardValue, Color.Red, 0.6);
+                    if (cardLocations.Count() > 0)
+                    {
+                        foreach (var pt in cardLocations)
+                        {
+                            CardInfo newCard = new CardInfo();
+                            newCard.location = pt;
+                            newCard.value = ((string)cardValue.Tag).Split('.')[0];
+                            result.Add(newCard);
+                        }
+                    }
+                }
+                return result;
+            }
         //}
     }
 }

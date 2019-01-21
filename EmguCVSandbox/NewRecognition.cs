@@ -187,6 +187,7 @@ namespace EmguCVSandbox
 
         public static List<HeroAllyInfo> ScanHeroes(List<Bitmap> heroAllyLibrary, List<Bitmap> sharpNumbersImages, Bitmap emptyBattlefield, Bitmap currentScreenshot)
         {
+            bool removehero = false;
             List<HeroAllyInfo> heroAllyOnBattlefield = new List<HeroAllyInfo>();
             Bitmap emptyBattlefieldCrop = BitmapTransformations.Crop(emptyBattlefield, GlobalParameters.heroRegion);
             
@@ -197,6 +198,7 @@ namespace EmguCVSandbox
             //Bitmap sharpenedBitmap = ImageFilters.SharpenGaussian(heroCrop, 11, 19, 84, 500, 500).Bitmap;
             foreach (var bmp in bitmapsOfPoints)
             {
+                
                 List<string> listOfMatches = new List<string>();
                 Point pt = (Point)bmp.Tag;
                 bool matchFound = false;
@@ -218,6 +220,8 @@ namespace EmguCVSandbox
                 if (!matchFound)
                 {
                     newHeroAlly.name = "Ally";
+                    removehero = true;
+
                 }
 
 
@@ -239,7 +243,14 @@ namespace EmguCVSandbox
                 int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
                 newHeroAlly.hp = ocrHp;
 
-                heroAllyOnBattlefield.Add(newHeroAlly);
+                if (removehero == true)
+                {
+                    removehero = false;
+                }
+                else
+                {
+                    heroAllyOnBattlefield.Add(newHeroAlly);
+                }
             }
             return heroAllyOnBattlefield;
         }
@@ -259,6 +270,7 @@ namespace EmguCVSandbox
         }
         public static List<MyAllyInfo> ScanAllies(List<Bitmap> AllyLibrary, List<Bitmap> sharpNumbersImages, Bitmap emptyBattlefield, Bitmap currentScreenshot)
         {
+            bool removeallies = false;
             List<MyAllyInfo> AllyOnBattlefield = new List<MyAllyInfo>();
             Bitmap emptyBattlefieldCrop = BitmapTransformations.Crop(emptyBattlefield, GlobalParameters.heroRegion);
 
@@ -289,7 +301,9 @@ namespace EmguCVSandbox
                 }
                 if (!matchFound)
                 {
+                    removeallies = true;
                     newAlly.name = "Ally";
+
                 }
 
 
@@ -311,7 +325,14 @@ namespace EmguCVSandbox
                 int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
                 newAlly.hp = ocrHp;
 
-                AllyOnBattlefield.Add(newAlly);
+                if (removeallies == true)
+                {
+                    removeallies = false;
+                }
+                else
+                {
+                    AllyOnBattlefield.Add(newAlly);
+                }
             }
             return AllyOnBattlefield;
         }

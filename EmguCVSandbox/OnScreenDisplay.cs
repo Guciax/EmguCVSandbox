@@ -132,16 +132,16 @@ namespace EmguCVSandbox
             }
 
             //allies
-            SolidBrush allyInfoBrush = new SolidBrush(Color.LightGreen);
+            SolidBrush allyInfoBrush = new SolidBrush(Color.LightBlue);
             foreach (var ally in AllyOnBattlefield)
             {
                 string active = ally.active ? "active" : "exaused";
-                e.Graphics.FillEllipse(heroInfoBrush, ally.location.X - 3 + heroXOffset, ally.location.Y - 3 + heroYOffset, 6, 6);
-                e.Graphics.DrawString(ally.name, this.Font, heroInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 5 + heroYOffset));
-                e.Graphics.DrawString(active, this.Font, heroInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 25 + heroYOffset));
-                e.Graphics.DrawString("Att:" + ally.attack, this.Font, heroInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 45 + heroYOffset));
-                e.Graphics.DrawString("HP:" + ally.hp, this.Font, heroInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 65 + heroYOffset));
-                e.Graphics.DrawString("Lore:" + ally.lore, this.Font, heroInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 85 + heroYOffset));
+                e.Graphics.FillEllipse(allyInfoBrush, ally.location.X - 3 + heroXOffset, ally.location.Y - 3 + heroYOffset, 6, 6);
+                e.Graphics.DrawString(ally.name, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 5 + heroYOffset));
+                e.Graphics.DrawString(active, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 25 + heroYOffset));
+                e.Graphics.DrawString("Att:" + ally.attack, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 45 + heroYOffset));
+                e.Graphics.DrawString("HP:" + ally.hp, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 65 + heroYOffset));
+                e.Graphics.DrawString("Lore:" + ally.lore, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 85 + heroYOffset));
             }
 
 

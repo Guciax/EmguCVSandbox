@@ -15,6 +15,7 @@ namespace EmguCVSandbox
     {
         public static int DecodeImg(Bitmap windowScreenshot, Rectangle cropRectangle, List<Bitmap> library, double binarisationThreshold=0)
         {
+            int petlaexit = 0;
             Bitmap crop = BitmapTransformations.Crop(windowScreenshot, cropRectangle);
             int result = 0;
             bool failedTheFirstTime = false;
@@ -50,7 +51,8 @@ namespace EmguCVSandbox
                     }
                 }
                 failedTheFirstTime = true;
-            } while (result < 0.6);
+                petlaexit = petlaexit++;
+            } while (result < 0.94 || petlaexit > 30);
             
             return result;
         }

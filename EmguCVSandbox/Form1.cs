@@ -175,12 +175,12 @@ namespace EmguCVSandbox
             //Bitmap screenshot = new Bitmap(sceneImage);
 
             Bitmap cardsScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(410, 840, 865, 160));
-            //List<CardInfo> cardsInHand = ScreenShotRecognition.ScanCards(cardValueImages, cardsScreenShot);
+            List<CardInfo> cardsInHand = ScreenShotRecognition.ScanCards(cardValueImages, cardsScreenShot);
 
             
 
-            cardsScreenShot = ResultVisualization.ShowCardsInHand(cardsInHand, cardsScreenShot);
-            pictureBox1.Image = cardsScreenShot;
+            //cardsScreenShot = ResultVisualization.ShowCardsInHand(cardsInHand, cardsScreenShot);
+            //pictureBox1.Image = cardsScreenShot;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -377,8 +377,10 @@ namespace EmguCVSandbox
             tologbook("Ilosc alliasow" + nallies);
             lbotnallies.Text = nallies.ToString();
 
-            // ncards = 0;
-            
+            ncards = cardsInHand.Count();
+            tologbook("Ilosc kart" + ncards);
+            lbotnallies.Text = ncards.ToString();
+
 
         }
         private void bbotclearlog_Click(object sender, EventArgs e)

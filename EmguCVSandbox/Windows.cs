@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace EmguCVSandbox
 {
@@ -15,10 +16,16 @@ namespace EmguCVSandbox
         public static Tuple<int, int> GetTupleWindowxy()
         {
 
+            
+                var proc = Process.GetProcessesByName("Lord of the Rings - LCG")[0];
+            
 
-            var proc = Process.GetProcessesByName("Lord of the Rings - LCG")[0];
+
             var rect = new User32.Rect();
-            User32.GetWindowRect(proc.MainWindowHandle, ref rect);
+
+                User32.GetWindowRect(proc.MainWindowHandle, ref rect);
+
+
             int xw = rect.left-30; // nie wiem dlaczego :D
             int yw = rect.top;
 
