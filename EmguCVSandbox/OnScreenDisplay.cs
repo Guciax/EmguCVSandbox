@@ -85,9 +85,11 @@ namespace EmguCVSandbox
             int mobsYOff = windowLocation.Y + 350-120;
             int heroXOffset = windowLocation.X + 350;
             int heroYOffset = windowLocation.Y + 550+120;
-            int handXOffset = windowLocation.X + 410;
-            int handYOffset = windowLocation.Y + 840;
-            
+            // int handXOffset = windowLocation.X + 410;
+            // int handYOffset = windowLocation.Y + 840;
+            int handXOffset = windowLocation.X;
+            int handYOffset = windowLocation.Y;
+
             e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
             e.Graphics.DrawString(this.Width + "x" + this.Height, this.Font, Brushes.Red, new PointF(this.Width / 2, this.Height / 2));
             ////e.Graphics.DrawString(this.Width + "x" + this.Height, this.Font, b, new Point(this.Width / 2, this.Height / 2));
@@ -115,6 +117,7 @@ namespace EmguCVSandbox
             SolidBrush cardsInfoBrush = new SolidBrush(Color.Violet);
             foreach (var card in cards)
             {
+                //e.Graphics.DrawEllipse(new Pen(Color.Violet), card.location.X - 20 + handXOffset, card.location.Y - 20 + handYOffset, 40, 40);
                 e.Graphics.DrawEllipse(new Pen(Color.Violet), card.location.X - 20 + handXOffset, card.location.Y - 20 + handYOffset, 40, 40);
                 e.Graphics.DrawString(card.value, this.Font, cardsInfoBrush, new Point(card.location.X - 30 + handXOffset, card.location.Y + 5 + handYOffset));
             }

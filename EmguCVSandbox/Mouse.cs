@@ -51,6 +51,19 @@ namespace EmguCVSandbox
             Click(MouseButton.Left, x, y);
         }
 
+        public void MouseLeftClickRelative(int x, int y,int rx, int ry)
+        {
+            if (relativetowindow == true)
+            {
+                x = x + wincords.Item1;
+                y = y + wincords.Item2;
+            }
+            x = x + rx;
+            y = y + ry;
+
+            Click(MouseButton.Left, x, y);
+        }
+
         public void MouseDragLeft(int x, int y, int xd, int yd)
         {
             if (relativetowindow == true)
@@ -62,6 +75,21 @@ namespace EmguCVSandbox
 
             }
             Drag(MouseButton.Left, x, y, xd,yd);
+        }
+
+        public void MouseDragLeftRelative(int x, int y, int xd, int yd,int rx,int ry)
+        {
+            if (relativetowindow == true)
+            {
+                x = x + wincords.Item1;
+                y = y + wincords.Item2;
+                xd = xd + wincords.Item1;
+                yd = yd + wincords.Item2;
+
+            }
+            x = x+rx;
+            y = y + ry;
+            Drag(MouseButton.Left, x, y, xd, yd);
         }
 
         public void MouseRightClick(int x, int y)

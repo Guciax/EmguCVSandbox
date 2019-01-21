@@ -52,7 +52,7 @@ namespace EmguCVSandbox
                 }
                 failedTheFirstTime = true;
                 petlaexit = petlaexit++;
-            } while (result < 0.94 || petlaexit > 30);
+            } while (result < 0.9 || petlaexit > 30);
             
             return result;
         }

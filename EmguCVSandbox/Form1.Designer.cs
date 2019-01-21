@@ -58,6 +58,8 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
@@ -70,31 +72,33 @@
             this.button7 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.logbook = new System.Windows.Forms.RichTextBox();
-            this.botosd = new System.Windows.Forms.CheckBox();
-            this.bbotstart = new System.Windows.Forms.Button();
-            this.bbotscan = new System.Windows.Forms.Button();
-            this.bplaycard = new System.Windows.Forms.Button();
-            this.bbotokscan = new System.Windows.Forms.Button();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.lbotnenemies = new System.Windows.Forms.Label();
-            this.lbotnallies = new System.Windows.Forms.Label();
-            this.lbotnheroes = new System.Windows.Forms.Label();
-            this.lbotncards = new System.Windows.Forms.Label();
-            this.lbotnmoney = new System.Windows.Forms.Label();
-            this.bbotanalyse = new System.Windows.Forms.Button();
             this.bbotclearlog = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
+            this.bbotanalyse = new System.Windows.Forms.Button();
+            this.lbotnmoney = new System.Windows.Forms.Label();
+            this.lbotncards = new System.Windows.Forms.Label();
+            this.lbotnheroes = new System.Windows.Forms.Label();
+            this.lbotnallies = new System.Windows.Forms.Label();
+            this.lbotnenemies = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.bbotokscan = new System.Windows.Forms.Button();
+            this.bplaycard = new System.Windows.Forms.Button();
+            this.bbotscan = new System.Windows.Forms.Button();
+            this.bbotstart = new System.Windows.Forms.Button();
+            this.botosd = new System.Windows.Forms.CheckBox();
+            this.logbook = new System.Windows.Forms.RichTextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.bbotscancards = new System.Windows.Forms.Button();
+            this.bbotclickok = new System.Windows.Forms.Button();
+            this.bbotserchactiveenemy = new System.Windows.Forms.Button();
+            this.label24 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -113,7 +117,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(16, 5);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(56, 19);
             this.button1.TabIndex = 0;
@@ -124,7 +128,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(6, 244);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(601, 313);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -139,7 +143,7 @@
             0,
             0});
             this.numericUpDown1.Location = new System.Drawing.Point(77, 5);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -162,7 +166,7 @@
             0,
             0});
             this.numericUpDown2.Location = new System.Drawing.Point(122, 5);
-            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -180,7 +184,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(302, 5);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(56, 19);
             this.button2.TabIndex = 4;
@@ -191,7 +195,7 @@
             // numericUpDown3
             // 
             this.numericUpDown3.Location = new System.Drawing.Point(167, 5);
-            this.numericUpDown3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDown3.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown3.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -209,7 +213,7 @@
             // numericUpDown4
             // 
             this.numericUpDown4.Location = new System.Drawing.Point(212, 5);
-            this.numericUpDown4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDown4.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown4.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -227,7 +231,7 @@
             // numericUpDown5
             // 
             this.numericUpDown5.Location = new System.Drawing.Point(257, 5);
-            this.numericUpDown5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDown5.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown5.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -245,7 +249,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(363, 5);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(56, 19);
             this.button3.TabIndex = 8;
@@ -442,7 +446,7 @@
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(614, 561);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
@@ -454,7 +458,7 @@
             this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(614, 561);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
@@ -488,10 +492,30 @@
             this.panel1.Controls.Add(this.label11);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(608, 81);
             this.panel1.TabIndex = 11;
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(264, 3);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(191, 23);
+            this.button10.TabIndex = 13;
+            this.button10.Text = "Take Allies Screenshot with prefix";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(115, 50);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(143, 23);
+            this.button9.TabIndex = 12;
+            this.button9.Text = "Open Screenshot in editor";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button8
             // 
@@ -594,6 +618,10 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label24);
+            this.tabPage3.Controls.Add(this.bbotserchactiveenemy);
+            this.tabPage3.Controls.Add(this.bbotclickok);
+            this.tabPage3.Controls.Add(this.bbotscancards);
             this.tabPage3.Controls.Add(this.bbotclearlog);
             this.tabPage3.Controls.Add(this.bbotanalyse);
             this.tabPage3.Controls.Add(this.lbotnmoney);
@@ -625,60 +653,159 @@
             this.tabPage3.Text = "BOT";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // label14
+            // bbotclearlog
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(1, 133);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(613, 13);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "_________________________________________________________________________________" +
-    "____________________";
+            this.bbotclearlog.Location = new System.Drawing.Point(4, 290);
+            this.bbotclearlog.Name = "bbotclearlog";
+            this.bbotclearlog.Size = new System.Drawing.Size(132, 23);
+            this.bbotclearlog.TabIndex = 22;
+            this.bbotclearlog.Text = "Clear logbook";
+            this.bbotclearlog.UseVisualStyleBackColor = true;
+            this.bbotclearlog.Click += new System.EventHandler(this.bbotclearlog_Click);
             // 
-            // label15
+            // bbotanalyse
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(1, 274);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(613, 13);
-            this.label15.TabIndex = 1;
-            this.label15.Text = "_________________________________________________________________________________" +
-    "____________________";
+            this.bbotanalyse.Location = new System.Drawing.Point(280, 16);
+            this.bbotanalyse.Name = "bbotanalyse";
+            this.bbotanalyse.Size = new System.Drawing.Size(132, 23);
+            this.bbotanalyse.TabIndex = 21;
+            this.bbotanalyse.Text = "Analyse";
+            this.bbotanalyse.UseVisualStyleBackColor = true;
             // 
-            // label16
+            // lbotnmoney
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(250, 3);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(106, 13);
-            this.label16.TabIndex = 2;
-            this.label16.Text = "Bot actions by action";
+            this.lbotnmoney.AutoSize = true;
+            this.lbotnmoney.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbotnmoney.Location = new System.Drawing.Point(139, 218);
+            this.lbotnmoney.Name = "lbotnmoney";
+            this.lbotnmoney.Size = new System.Drawing.Size(97, 13);
+            this.lbotnmoney.TabIndex = 20;
+            this.lbotnmoney.Text = "waiting for scan";
             // 
-            // label17
+            // lbotncards
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(250, 146);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(77, 13);
-            this.label17.TabIndex = 3;
-            this.label17.Text = "Battlefield data";
+            this.lbotncards.AutoSize = true;
+            this.lbotncards.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbotncards.Location = new System.Drawing.Point(139, 205);
+            this.lbotncards.Name = "lbotncards";
+            this.lbotncards.Size = new System.Drawing.Size(97, 13);
+            this.lbotncards.TabIndex = 19;
+            this.lbotncards.Text = "waiting for scan";
             // 
-            // label18
+            // lbotnheroes
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(250, 287);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(49, 13);
-            this.label18.TabIndex = 4;
-            this.label18.Text = "Logbook";
+            this.lbotnheroes.AutoSize = true;
+            this.lbotnheroes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbotnheroes.Location = new System.Drawing.Point(139, 192);
+            this.lbotnheroes.Name = "lbotnheroes";
+            this.lbotnheroes.Size = new System.Drawing.Size(97, 13);
+            this.lbotnheroes.TabIndex = 18;
+            this.lbotnheroes.Text = "waiting for scan";
             // 
-            // logbook
+            // lbotnallies
             // 
-            this.logbook.Location = new System.Drawing.Point(0, 318);
-            this.logbook.Name = "logbook";
-            this.logbook.Size = new System.Drawing.Size(614, 247);
-            this.logbook.TabIndex = 5;
-            this.logbook.Text = "";
+            this.lbotnallies.AutoSize = true;
+            this.lbotnallies.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbotnallies.Location = new System.Drawing.Point(139, 179);
+            this.lbotnallies.Name = "lbotnallies";
+            this.lbotnallies.Size = new System.Drawing.Size(97, 13);
+            this.lbotnallies.TabIndex = 17;
+            this.lbotnallies.Text = "waiting for scan";
+            // 
+            // lbotnenemies
+            // 
+            this.lbotnenemies.AutoSize = true;
+            this.lbotnenemies.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbotnenemies.Location = new System.Drawing.Point(139, 166);
+            this.lbotnenemies.Name = "lbotnenemies";
+            this.lbotnenemies.Size = new System.Drawing.Size(97, 13);
+            this.lbotnenemies.TabIndex = 16;
+            this.lbotnenemies.Text = "waiting for scan";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(8, 218);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(70, 13);
+            this.label23.TabIndex = 15;
+            this.label23.Text = "Money status";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(8, 192);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(91, 13);
+            this.label22.TabIndex = 14;
+            this.label22.Text = "Number of heroes";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(8, 179);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(82, 13);
+            this.label21.TabIndex = 13;
+            this.label21.Text = "Number of allies";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(8, 166);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(98, 13);
+            this.label20.TabIndex = 12;
+            this.label20.Text = "Number of enemies";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(8, 205);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(123, 13);
+            this.label19.TabIndex = 11;
+            this.label19.Text = "Number of cards in hand";
+            // 
+            // bbotokscan
+            // 
+            this.bbotokscan.Location = new System.Drawing.Point(4, 74);
+            this.bbotokscan.Name = "bbotokscan";
+            this.bbotokscan.Size = new System.Drawing.Size(132, 23);
+            this.bbotokscan.TabIndex = 10;
+            this.bbotokscan.Text = "Scan for OK and click";
+            this.bbotokscan.UseVisualStyleBackColor = true;
+            this.bbotokscan.Click += new System.EventHandler(this.bbotokscan_Click);
+            // 
+            // bplaycard
+            // 
+            this.bplaycard.Location = new System.Drawing.Point(142, 16);
+            this.bplaycard.Name = "bplaycard";
+            this.bplaycard.Size = new System.Drawing.Size(132, 23);
+            this.bplaycard.TabIndex = 9;
+            this.bplaycard.Text = "Play card";
+            this.bplaycard.UseVisualStyleBackColor = true;
+            this.bplaycard.Click += new System.EventHandler(this.bplaycard_Click);
+            // 
+            // bbotscan
+            // 
+            this.bbotscan.Location = new System.Drawing.Point(4, 45);
+            this.bbotscan.Name = "bbotscan";
+            this.bbotscan.Size = new System.Drawing.Size(132, 23);
+            this.bbotscan.TabIndex = 8;
+            this.bbotscan.Text = "Scan battlefield";
+            this.bbotscan.UseVisualStyleBackColor = true;
+            this.bbotscan.Click += new System.EventHandler(this.bbotscan_Click);
+            // 
+            // bbotstart
+            // 
+            this.bbotstart.Location = new System.Drawing.Point(4, 16);
+            this.bbotstart.Name = "bbotstart";
+            this.bbotstart.Size = new System.Drawing.Size(132, 23);
+            this.bbotstart.TabIndex = 7;
+            this.bbotstart.Text = "Start bot untill battlefield";
+            this.bbotstart.UseVisualStyleBackColor = true;
+            this.bbotstart.Click += new System.EventHandler(this.bbotstart_Click);
             // 
             // botosd
             // 
@@ -691,177 +818,99 @@
             this.botosd.UseVisualStyleBackColor = true;
             this.botosd.CheckedChanged += new System.EventHandler(this.botosd_CheckedChanged);
             // 
-            // bbotstart
+            // logbook
             // 
-            this.bbotstart.Location = new System.Drawing.Point(4, 16);
-            this.bbotstart.Name = "bbotstart";
-            this.bbotstart.Size = new System.Drawing.Size(132, 23);
-            this.bbotstart.TabIndex = 7;
-            this.bbotstart.Text = "Start bot untill battlefield";
-            this.bbotstart.UseVisualStyleBackColor = true;
-            this.bbotstart.Click += new System.EventHandler(this.bbotstart_Click);
+            this.logbook.Location = new System.Drawing.Point(0, 318);
+            this.logbook.Name = "logbook";
+            this.logbook.Size = new System.Drawing.Size(614, 247);
+            this.logbook.TabIndex = 5;
+            this.logbook.Text = "";
             // 
-            // bbotscan
+            // label18
             // 
-            this.bbotscan.Location = new System.Drawing.Point(4, 45);
-            this.bbotscan.Name = "bbotscan";
-            this.bbotscan.Size = new System.Drawing.Size(132, 23);
-            this.bbotscan.TabIndex = 8;
-            this.bbotscan.Text = "Scan battlefield";
-            this.bbotscan.UseVisualStyleBackColor = true;
-            this.bbotscan.Click += new System.EventHandler(this.bbotscan_Click);
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(250, 287);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(49, 13);
+            this.label18.TabIndex = 4;
+            this.label18.Text = "Logbook";
             // 
-            // bplaycard
+            // label17
             // 
-            this.bplaycard.Location = new System.Drawing.Point(142, 16);
-            this.bplaycard.Name = "bplaycard";
-            this.bplaycard.Size = new System.Drawing.Size(132, 23);
-            this.bplaycard.TabIndex = 9;
-            this.bplaycard.Text = "Play card";
-            this.bplaycard.UseVisualStyleBackColor = true;
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(82, 146);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(77, 13);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "Battlefield data";
             // 
-            // bbotokscan
+            // label16
             // 
-            this.bbotokscan.Location = new System.Drawing.Point(4, 74);
-            this.bbotokscan.Name = "bbotokscan";
-            this.bbotokscan.Size = new System.Drawing.Size(132, 23);
-            this.bbotokscan.TabIndex = 10;
-            this.bbotokscan.Text = "Scan for OK";
-            this.bbotokscan.UseVisualStyleBackColor = true;
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(250, 3);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(106, 13);
+            this.label16.TabIndex = 2;
+            this.label16.Text = "Bot actions by action";
             // 
-            // label19
+            // label15
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(8, 205);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(123, 13);
-            this.label19.TabIndex = 11;
-            this.label19.Text = "Number of cards in hand";
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(1, 274);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(613, 13);
+            this.label15.TabIndex = 1;
+            this.label15.Text = "_________________________________________________________________________________" +
+    "____________________";
             // 
-            // label20
+            // label14
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(8, 166);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(98, 13);
-            this.label20.TabIndex = 12;
-            this.label20.Text = "Number of enemies";
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(1, 133);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(613, 13);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "_________________________________________________________________________________" +
+    "____________________";
             // 
-            // label21
+            // bbotscancards
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(8, 179);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(82, 13);
-            this.label21.TabIndex = 13;
-            this.label21.Text = "Number of allies";
+            this.bbotscancards.Location = new System.Drawing.Point(142, 45);
+            this.bbotscancards.Name = "bbotscancards";
+            this.bbotscancards.Size = new System.Drawing.Size(132, 23);
+            this.bbotscancards.TabIndex = 23;
+            this.bbotscancards.Text = "Scan cards in hand";
+            this.bbotscancards.UseVisualStyleBackColor = true;
+            this.bbotscancards.Click += new System.EventHandler(this.bbotscancards_Click);
             // 
-            // label22
+            // bbotclickok
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(8, 192);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(91, 13);
-            this.label22.TabIndex = 14;
-            this.label22.Text = "Number of heroes";
+            this.bbotclickok.Location = new System.Drawing.Point(537, 166);
+            this.bbotclickok.Name = "bbotclickok";
+            this.bbotclickok.Size = new System.Drawing.Size(57, 23);
+            this.bbotclickok.TabIndex = 24;
+            this.bbotclickok.Text = "Click ok";
+            this.bbotclickok.UseVisualStyleBackColor = true;
+            this.bbotclickok.Click += new System.EventHandler(this.bbotclickok_Click);
             // 
-            // label23
+            // bbotserchactiveenemy
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(8, 218);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(70, 13);
-            this.label23.TabIndex = 15;
-            this.label23.Text = "Money status";
+            this.bbotserchactiveenemy.Location = new System.Drawing.Point(280, 45);
+            this.bbotserchactiveenemy.Name = "bbotserchactiveenemy";
+            this.bbotserchactiveenemy.Size = new System.Drawing.Size(181, 23);
+            this.bbotserchactiveenemy.TabIndex = 25;
+            this.bbotserchactiveenemy.Text = "Search active enemy if yes defend";
+            this.bbotserchactiveenemy.UseVisualStyleBackColor = true;
+            this.bbotserchactiveenemy.Click += new System.EventHandler(this.bbotserchactiveenemy_Click);
             // 
-            // lbotnenemies
+            // label24
             // 
-            this.lbotnenemies.AutoSize = true;
-            this.lbotnenemies.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbotnenemies.Location = new System.Drawing.Point(139, 166);
-            this.lbotnenemies.Name = "lbotnenemies";
-            this.lbotnenemies.Size = new System.Drawing.Size(97, 13);
-            this.lbotnenemies.TabIndex = 16;
-            this.lbotnenemies.Text = "waiting for scan";
-            // 
-            // lbotnallies
-            // 
-            this.lbotnallies.AutoSize = true;
-            this.lbotnallies.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbotnallies.Location = new System.Drawing.Point(139, 179);
-            this.lbotnallies.Name = "lbotnallies";
-            this.lbotnallies.Size = new System.Drawing.Size(97, 13);
-            this.lbotnallies.TabIndex = 17;
-            this.lbotnallies.Text = "waiting for scan";
-            // 
-            // lbotnheroes
-            // 
-            this.lbotnheroes.AutoSize = true;
-            this.lbotnheroes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbotnheroes.Location = new System.Drawing.Point(139, 192);
-            this.lbotnheroes.Name = "lbotnheroes";
-            this.lbotnheroes.Size = new System.Drawing.Size(97, 13);
-            this.lbotnheroes.TabIndex = 18;
-            this.lbotnheroes.Text = "waiting for scan";
-            // 
-            // lbotncards
-            // 
-            this.lbotncards.AutoSize = true;
-            this.lbotncards.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbotncards.Location = new System.Drawing.Point(139, 205);
-            this.lbotncards.Name = "lbotncards";
-            this.lbotncards.Size = new System.Drawing.Size(97, 13);
-            this.lbotncards.TabIndex = 19;
-            this.lbotncards.Text = "waiting for scan";
-            // 
-            // lbotnmoney
-            // 
-            this.lbotnmoney.AutoSize = true;
-            this.lbotnmoney.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbotnmoney.Location = new System.Drawing.Point(139, 218);
-            this.lbotnmoney.Name = "lbotnmoney";
-            this.lbotnmoney.Size = new System.Drawing.Size(97, 13);
-            this.lbotnmoney.TabIndex = 20;
-            this.lbotnmoney.Text = "waiting for scan";
-            // 
-            // bbotanalyse
-            // 
-            this.bbotanalyse.Location = new System.Drawing.Point(142, 45);
-            this.bbotanalyse.Name = "bbotanalyse";
-            this.bbotanalyse.Size = new System.Drawing.Size(132, 23);
-            this.bbotanalyse.TabIndex = 21;
-            this.bbotanalyse.Text = "Analyse";
-            this.bbotanalyse.UseVisualStyleBackColor = true;
-            // 
-            // bbotclearlog
-            // 
-            this.bbotclearlog.Location = new System.Drawing.Point(4, 290);
-            this.bbotclearlog.Name = "bbotclearlog";
-            this.bbotclearlog.Size = new System.Drawing.Size(132, 23);
-            this.bbotclearlog.TabIndex = 22;
-            this.bbotclearlog.Text = "Clear logbook";
-            this.bbotclearlog.UseVisualStyleBackColor = true;
-            this.bbotclearlog.Click += new System.EventHandler(this.bbotclearlog_Click);
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(115, 50);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(143, 23);
-            this.button9.TabIndex = 12;
-            this.button9.Text = "Open Screenshot in editor";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(264, 3);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(191, 23);
-            this.button10.TabIndex = 13;
-            this.button10.Text = "Take Allies Screenshot with prefix";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(422, 146);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(72, 13);
+            this.label24.TabIndex = 26;
+            this.label24.Text = "Trash buttons";
             // 
             // Form1
             // 
@@ -869,7 +918,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(622, 587);
             this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -962,6 +1011,10 @@
         private System.Windows.Forms.Button bbotclearlog;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button bbotscancards;
+        private System.Windows.Forms.Button bbotclickok;
+        private System.Windows.Forms.Button bbotserchactiveenemy;
+        private System.Windows.Forms.Label label24;
     }
 }
 

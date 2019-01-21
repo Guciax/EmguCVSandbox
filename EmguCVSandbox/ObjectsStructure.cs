@@ -61,6 +61,7 @@ namespace EmguCVSandbox
             bool hasEquipment = false;
         }
 
+
         public class QuestInfo
         {
             public Point location;
@@ -74,5 +75,24 @@ namespace EmguCVSandbox
             public Point location;
             public string value;
         }
+        public class OkInfo
+        {
+            public Point location;
+            public string value;
+        }
+
+        public class DefendInfo
+        {
+            public Point location;
+            public string value;
+        }
+
+        public class AttachmentInfo
+        {
+            public Point location;
+            public string name;
+        }
+
+
     }
 }

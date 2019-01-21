@@ -335,6 +335,95 @@ namespace EmguCVSandbox
                 }
             }
             return AllyOnBattlefield;
+
+
+        }
+        public static List<CardInfo> ScanCards(List<Bitmap> cardValueImages, Bitmap cardsScreenShot)
+        {
+            List<CardInfo> result = new List<CardInfo>();
+            Bitmap cardsCrop = BitmapTransformations.Crop(cardsScreenShot, GlobalParameters.cardsRegion);
+
+            foreach (var cardValue in cardValueImages)
+            {
+                //Debug.WriteLine("Scanning for card value: " + cardValue.Tag.ToString());
+                Point[] cardLocations = ImageRecognition.GetPointsOfTemplateImage(cardsCrop, cardValue, Color.Red, 0.7);
+                if (cardLocations.Count() > 0)
+                {
+                    foreach (var pt in cardLocations)
+                    {
+                        CardInfo newCard = new CardInfo();
+                        newCard.location = pt;
+                        newCard.value = ((string)cardValue.Tag).Split('.')[0];
+                        result.Add(newCard);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static List<OkInfo> ScanOk(List<Bitmap> cardValueImages, Bitmap cardsScreenShot)
+        {
+            List<OkInfo> result = new List<OkInfo>();
+
+            foreach (var cardValue in cardValueImages)
+            {
+                //Debug.WriteLine("Scanning for card value: " + cardValue.Tag.ToString());
+                Point[] cardLocations = ImageRecognition.GetPointsOfTemplateImage(cardsScreenShot, cardValue, Color.Red, 0.9);
+                if (cardLocations.Count() > 0)
+                {
+                    foreach (var pt in cardLocations)
+                    {
+                        OkInfo newCard = new OkInfo();
+                        newCard.location = pt;
+                        newCard.value = ((string)cardValue.Tag).Split('.')[0];
+                        result.Add(newCard);
+                    }
+                }
+            }
+            return result;
+        }
+            public static List<AttachmentInfo> ScanAttachment(List<Bitmap> attachmentImages, Bitmap attachmentScreenShot)
+            {
+                List<AttachmentInfo> result = new List<AttachmentInfo>();
+            Bitmap attachmentCrop = BitmapTransformations.Crop(attachmentScreenShot, GlobalParameters.attachmentRegion);
+
+            foreach (var cardValue in attachmentImages)
+                {
+                    //Debug.WriteLine("Scanning for card value: " + cardValue.Tag.ToString());
+                    Point[] cardLocations = ImageRecognition.GetPointsOfTemplateImage(attachmentScreenShot, cardValue, Color.Red, 0.9);
+                    if (cardLocations.Count() > 0)
+                    {
+                        foreach (var pt in cardLocations)
+                        {
+                        AttachmentInfo newCard = new AttachmentInfo();
+                            newCard.location = pt;
+                            newCard.name = ((string)cardValue.Tag).Split('.')[0];
+                            result.Add(newCard);
+                        }
+                    }
+                }
+                return result;
+            }
+        public static List<DefendInfo> ScanDefend(List<Bitmap> defendImages, Bitmap cardsScreenShot)
+        {
+            List<DefendInfo> result = new List<DefendInfo>();
+
+            foreach (var cardValue in defendImages)
+            {
+                //Debug.WriteLine("Scanning for card value: " + cardValue.Tag.ToString());
+                Point[] cardLocations = ImageRecognition.GetPointsOfTemplateImage(cardsScreenShot, cardValue, Color.Red, 0.9);
+                if (cardLocations.Count() > 0)
+                {
+                    foreach (var pt in cardLocations)
+                    {
+                        DefendInfo newCard = new DefendInfo();
+                        newCard.location = pt;
+                        newCard.value = ((string)cardValue.Tag).Split('.')[0];
+                        result.Add(newCard);
+                    }
+                }
+            }
+            return result;
         }
     }
 }
