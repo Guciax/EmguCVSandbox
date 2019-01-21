@@ -13,6 +13,62 @@ namespace EmguCVSandbox
 {
     public class NewRecognition
     {
+        private readonly Form1 form;
+        private readonly List<Bitmap> mobBitmaps;
+        private readonly List<Bitmap> ocrHeroNumber;
+        private readonly List<Bitmap> ocrMobNumbers;
+        private readonly List<Bitmap> questsImages;
+        private readonly List<Bitmap> sharpNumbersImages;
+        private readonly List<Bitmap> cardValueImages;
+        private readonly List<Bitmap> heroAlltImages;
+        private readonly List<Bitmap> myAlltImages;
+        private readonly List<Bitmap> moneyImages;
+        private readonly List<Bitmap> okImages;
+        private readonly List<Bitmap> defendImages;
+        private readonly List<Bitmap> attachmentImages;
+
+        public NewRecognition( Form1 form,
+            List<Bitmap> mobBitmaps,
+        List<Bitmap> ocrHeroNumber,
+        List<Bitmap> ocrMobNumbers,
+        List<Bitmap> questsImages,
+        List<Bitmap> sharpNumbersImages,
+        List<Bitmap> cardValueImages,
+        List<Bitmap> heroAlltImages,
+        List<Bitmap> MyAlltImages,
+        List<Bitmap> moneyImages,
+        List<Bitmap> okImages,
+        List<Bitmap> defendImages,
+        List<Bitmap> attachmentImages)  
+        {
+            this.form = form;
+            this.mobBitmaps = mobBitmaps;
+            this.ocrHeroNumber = ocrHeroNumber;
+            this.ocrMobNumbers = ocrMobNumbers;
+            this.questsImages = questsImages;
+            this.sharpNumbersImages = sharpNumbersImages;
+            this.cardValueImages = cardValueImages;
+            this.heroAlltImages = heroAlltImages;
+            this.myAlltImages = MyAlltImages;
+            this.moneyImages = moneyImages;
+            this.okImages = okImages;
+            this.defendImages = defendImages;
+            this.attachmentImages = attachmentImages;
+        }
+        public GameCurrentState ScanGame()
+        {
+            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
+
+            GameCurrentState result = new GameCurrentState();
+            result.currentPhase = 1; // I need some method
+            result.cardsInHand = ScanCards(cardValueImages, BitmapTransformations.Crop(ss, GlobalParameters.cardsRegion));
+            result.mobs = ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyFieldDict[result.currentPhase], ss);
+            result.heroesAlly = ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyFieldDict[result.currentPhase], ss);
+            result.quests = ScanQuests(ref result.mobs, questsImages, ocrMobNumbers, ss);
+            result.cash = ScanCash(ss, moneyImages);
+
+            return result;
+        }
         public static Point[] pointsOfInterest(Bitmap scannedCropImage, Bitmap emptyCropImage, int socketWidth)
         {
             //Bitmap ss = ScreenShot.GetScreenShop("Lord of the Rings - LCG");

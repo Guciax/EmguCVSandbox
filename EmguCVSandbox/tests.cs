@@ -14,8 +14,8 @@ namespace EmguCVSandbox
     {
         public static Bitmap pointsOfInterest(Bitmap emptyFullImage)
         {
-            Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
-            Bitmap ssCropImage = BitmapTransformations.Crop(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), GlobalParameters.heroRegion);
+            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
+            Bitmap ssCropImage = BitmapTransformations.Crop(ScreenShot.GetScreenShot(Windows.GameWindowRectangle()), GlobalParameters.heroRegion);
             Image<Bgr, byte> ssImage = new Image<Bgr, byte>(ssCropImage);
 
             Bitmap emptyCropImage = BitmapTransformations.Crop(emptyFullImage, GlobalParameters.heroRegion);

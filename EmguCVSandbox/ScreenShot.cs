@@ -26,7 +26,7 @@ namespace EmguCVSandbox
             return bmp;
         }
 
-        public static Bitmap GetScreenShop(Rectangle gameWindowRectangle)
+        public static Bitmap GetScreenShot(Rectangle gameWindowRectangle)
         {
             var bmp = new Bitmap(gameWindowRectangle.Width, gameWindowRectangle.Height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(bmp);

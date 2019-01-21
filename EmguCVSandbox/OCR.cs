@@ -23,7 +23,7 @@ namespace EmguCVSandbox
             {
                 if (failedTheFirstTime)
                 {
-                    crop = BitmapTransformations.Crop(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), cropRectangle);
+                    crop = BitmapTransformations.Crop(ScreenShot.GetScreenShot(Windows.GameWindowRectangle()), cropRectangle);
                 }
                 string num = "";
 

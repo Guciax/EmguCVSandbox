@@ -22,10 +22,15 @@ namespace EmguCVSandbox
 {
     public partial class Form1 : Form
     {
+        private NewRecognition newRecognition;
         public Form1()
         {
             InitializeComponent();
+            NewRecognition newRecognition = new NewRecognition(this, mobBitmaps, ocrHeroNumber, ocrMobNumbers, questsImages, sharpNumbersImages, cardValueImages, heroAlltImages, MyAlltImages, moneyImages, okImages, defendImages, attachmentImages);
         }
+
+
+
         public class GlobalParameters
         {
             public static readonly Rectangle mobsRegion = new Rectangle(260, 355, 1166, 170);
@@ -39,6 +44,11 @@ namespace EmguCVSandbox
             public static int mobSocketWidth = 142;
             public static Point[] pointsToCheckOkMark = new Point[] { new Point(0, 0), new Point(1, 1) }; //uzupelnic
 
+            public static readonly Dictionary<int, Bitmap> emptyFieldDict = new Dictionary<int, Bitmap>
+                {
+                        { 1, new Bitmap(@"Images\empty1.png") },
+                        { 2, new Bitmap(@"Images\empty1.png") } //uzupelnic
+            };
             public static readonly Bitmap emptyBmpPhase1 = new Bitmap(@"Images\empty1.png");
             public static string procname = "Lord of the Rings - LCG";
         }
@@ -202,12 +212,12 @@ namespace EmguCVSandbox
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ImageFilters.SharpenGaussian(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), (int)numericUpDown1.Value,(int)numericUpDown2.Value,(double)numericUpDown3.Value, (double)numericUpDown4.Value,(int)numericUpDown5.Value).Bitmap.Save(@"Images\sharpened.jpg");
+            ImageFilters.SharpenGaussian(ScreenShot.GetScreenShot(Windows.GameWindowRectangle()), (int)numericUpDown1.Value,(int)numericUpDown2.Value,(double)numericUpDown3.Value, (double)numericUpDown4.Value,(int)numericUpDown5.Value).Bitmap.Save(@"Images\sharpened.jpg");
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Bitmap screenshot = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
+            Bitmap screenshot = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
             //Bitmap screenshot = new Bitmap(sceneImage);
 
             Bitmap cardsScreenShot = BitmapTransformations.Crop(screenshot, new Rectangle(410, 840, 865, 160));
@@ -267,7 +277,7 @@ namespace EmguCVSandbox
         {
             checkBox1.Checked = false;
 
-            Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
+            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
 
             mobsOnBattlefield = NewRecognition.ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyBmpPhase1, ss);
             heroesAllyOnBattlefield = NewRecognition.ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
@@ -292,7 +302,7 @@ namespace EmguCVSandbox
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Bitmap mobCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), GlobalParameters.mobsRegion);
+            Bitmap mobCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShot(Windows.GameWindowRectangle()), GlobalParameters.mobsRegion);
             Bitmap emptyCrop = BitmapTransformations.Crop(GlobalParameters.emptyBmpPhase1, GlobalParameters.mobsRegion);
             
             Point[] pointsOfMobs = NewRecognition.pointsOfInterest(mobCrop, emptyCrop, GlobalParameters.mobSocketWidth);
@@ -391,7 +401,7 @@ namespace EmguCVSandbox
 
         private void bbotscancards_Click(object sender, EventArgs e)
         {
-            Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
+            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
             cardsInHand = NewRecognition.ScanCards(cardValueImages, ss);
             ncards = cardsInHand.Count();
             tologbook("Ilosc kart" + ncards);
@@ -438,7 +448,7 @@ namespace EmguCVSandbox
                         Thread.Sleep(500);
 
                         tologbook("szukam obrony");
-                        Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
+                        Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
                         defendOnScreen = NewRecognition.ScanDefend(defendImages, ss);
                         if (defendOnScreen.Count() > 0)
                         {
@@ -467,7 +477,7 @@ namespace EmguCVSandbox
 
         private void bbotokscan_Click(object sender, EventArgs e)
         {
-            Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
+            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
             okOnScreen = NewRecognition.ScanOk(okImages, ss);
 
             for (int i = 0; i < okOnScreen.Count; i++)
@@ -521,7 +531,7 @@ namespace EmguCVSandbox
                         tologbook("x: " + (cardsInHand[i].location.X) + " Y: " + (cardsInHand[i].location.Y));
                         Thread.Sleep(500);
                         tologbook("sprawdzam czy to nie jest attachment");
-                        Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
+                        Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
                         attachmentOnScreen = NewRecognition.ScanAttachment(attachmentImages, ss);
                         if (attachmentOnScreen.Count()>0)
                         {
@@ -590,7 +600,7 @@ namespace EmguCVSandbox
         private void bbotscan_Click(object sender, EventArgs e)
         {
             tologbook("skanuje gre");
-            Bitmap ss = ScreenShot.GetScreenShop(Windows.GameWindowRectangle());
+            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
             mobsOnBattlefield = NewRecognition.ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyBmpPhase1, ss);
             heroesAllyOnBattlefield = NewRecognition.ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
             AllyOnBattlefield = NewRecognition.ScanAllies(MyAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
@@ -647,7 +657,7 @@ namespace EmguCVSandbox
                 OnScreenDisplay osdForm = new OnScreenDisplay(AllyOnBattlefield, cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, botosd, Windows.GameWindowRectangle().Location);
 
                 osdForm.Show();
-
+                
             }
         }
 
@@ -657,7 +667,7 @@ namespace EmguCVSandbox
             
             Bitmap emptyBattlefieldCrop = BitmapTransformations.Crop(GlobalParameters.emptyBmpPhase1, GlobalParameters.heroRegion);
 
-            Bitmap heroCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShop(Windows.GameWindowRectangle()), GlobalParameters.heroRegion);
+            Bitmap heroCrop = BitmapTransformations.Crop(ScreenShot.GetScreenShot(Windows.GameWindowRectangle()), GlobalParameters.heroRegion);
             Point[] pointsOfHerroAlly = NewRecognition.pointsOfInterest(heroCrop, emptyBattlefieldCrop, GlobalParameters.heroSocketWidth);
             Bitmap[] bitmapsOfPoints = BitmapTransformations.TakeBitmapsInPoints(heroCrop, pointsOfHerroAlly, new Size(Int32.Parse(textBox2.Text), Int32.Parse(textBox3.Text)));
 

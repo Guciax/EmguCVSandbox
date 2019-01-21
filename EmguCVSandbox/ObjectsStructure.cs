@@ -18,6 +18,41 @@ namespace EmguCVSandbox
             public int currentPhase;
             public int cash;
             public int sauronCash;
+            public int cardsInHandQty
+            {
+                get
+                {
+                    return cardsInHand.Count();
+                }
+            }
+            public int activeMobs
+            {
+                get
+                {
+                    return mobs.Select(m => m.active).Count();
+                }
+            }
+            public int alliesQty
+            {
+                get
+                {
+                    return heroesAlly.Select(a => a.name == "Ally").Count();
+                }
+            }
+            public int activeAllies
+            {
+                get
+                {
+                    return heroesAlly.Select(a => a.name == "Ally" & a.active).Count();
+                }
+            }
+            public int activeHeroes
+            {
+                get
+                {
+                    return heroesAlly.Select(a => a.name != "Ally" & a.active).Count();
+                }
+            }
         }
 
         public class MobInfo
