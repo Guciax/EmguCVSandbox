@@ -13,17 +13,22 @@ namespace EmguCVSandbox
 {
     class OCR
     {
+        struct ValueScore { int value; double score; }
+
         public static int DecodeImg(Bitmap windowScreenshot, Rectangle cropRectangle, List<Bitmap> library, double binarisationThreshold=0)
         {
             int petlaexit = 0;
             Bitmap crop = BitmapTransformations.Crop(windowScreenshot, cropRectangle);
             int result = 0;
+            double maxScore = 0;
+
             bool failedTheFirstTime = false;
             do
             {
                 if (failedTheFirstTime)
                 {
                     crop = BitmapTransformations.Crop(ScreenShot.GetScreenShot(Windows.GameWindowRectangle()), cropRectangle);
+                    
                 }
                 string num = "";
 
@@ -41,18 +46,20 @@ namespace EmguCVSandbox
                     results.Add(new Tuple<double, string>(ocrResult, num));
                 }
 
-                double max = results.Select(m => m.Item1).Max();
+                maxScore = results.Select(m => m.Item1).Max();
 
                 foreach (var item in results)
                 {
-                    if (item.Item1 == max)
+                    if (item.Item1 == maxScore)
                     {
                         result = int.Parse(item.Item2);
                     }
                 }
+
                 failedTheFirstTime = true;
-                petlaexit = petlaexit++;
-            } while (result < 0.9 || petlaexit > 30);
+                petlaexit++;
+                Debug.WriteLine($"{petlaexit}.Max: {maxScore}");
+            } while (maxScore < 0.55 & petlaexit < 10);
             
             return result;
         }

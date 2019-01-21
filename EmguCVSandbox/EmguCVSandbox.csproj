@@ -63,6 +63,8 @@
   <ItemGroup>
     <Compile Include="BitmapTransformations.cs" />
     <Compile Include="Bot.cs" />
+    <Compile Include="BT\BT_Actions.cs" />
+    <Compile Include="BT\BT_Nodes.cs" />
     <Compile Include="CoordinatesCalculations.cs" />
     <Compile Include="DrawMatches.cs" />
     <Compile Include="Form1.cs">

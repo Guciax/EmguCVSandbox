@@ -15,6 +15,7 @@ namespace EmguCVSandbox
             public List<HeroAllyInfo> heroesAlly;
             public List<QuestInfo> quests;
             public List<CardInfo> cardsInHand;
+            public int threadLevel;
             public List<HeroAllyInfo> myAllies
             {
                 get
@@ -133,6 +134,7 @@ namespace EmguCVSandbox
             public int hp;
             public Bitmap mobImage;
             public List<string> matchResults;
+            public bool hasBlock = false;
         }
 
         public class HeroAllyInfo

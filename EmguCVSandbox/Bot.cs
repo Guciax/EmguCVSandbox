@@ -18,13 +18,13 @@ namespace EmguCVSandbox
         {
             this.logbook = logbook;
 
-            FileInfo[] attachmentFiles = attachmentDir.GetFiles();
-            foreach (var attachmentF in attachmentFiles)
-            {
-                Bitmap newBmp = new Bitmap(attachmentF.FullName);
-                newBmp.Tag = attachmentF.Name.Split('.')[0];
-                attachmentImages.Add(newBmp);
-            }
+            //FileInfo[] attachmentFiles = attachmentDir.GetFiles();
+            //foreach (var attachmentF in attachmentFiles)
+            //{
+            //    Bitmap newBmp = new Bitmap(attachmentF.FullName);
+            //    newBmp.Tag = attachmentF.Name.Split('.')[0];
+            //    attachmentImages.Add(newBmp);
+            //}
 
         }
 

@@ -123,30 +123,30 @@ namespace EmguCVSandbox
                 moneyImages.Add(newBmp);
             }
 
-            FileInfo[] okFiles = okDir.GetFiles();
-            foreach (var okF in okFiles)
-            {
-                Bitmap newBmp = new Bitmap(okF.FullName);
-                newBmp.Tag = okF.Name.Split('.')[0];
-                okImages.Add(newBmp);
-            }
+            //FileInfo[] okFiles = okDir.GetFiles();
+            //foreach (var okF in okFiles)
+            //{
+            //    Bitmap newBmp = new Bitmap(okF.FullName);
+            //    newBmp.Tag = okF.Name.Split('.')[0];
+            //    okImages.Add(newBmp);
+            //}
 
-            FileInfo[] attachmentFiles = attachmentDir.GetFiles();
-            foreach (var attachmentF in attachmentFiles)
-            {
-                Bitmap newBmp = new Bitmap(attachmentF.FullName);
-                newBmp.Tag = attachmentF.Name.Split('.')[0];
-                attachmentImages.Add(newBmp);
-            }
+            //FileInfo[] attachmentFiles = attachmentDir.GetFiles();
+            //foreach (var attachmentF in attachmentFiles)
+            //{
+            //    Bitmap newBmp = new Bitmap(attachmentF.FullName);
+            //    newBmp.Tag = attachmentF.Name.Split('.')[0];
+            //    attachmentImages.Add(newBmp);
+            //}
 
 
-            FileInfo[] defendFiles = defendDir.GetFiles();
-            foreach (var defendF in defendFiles)
-            {
-                Bitmap newBmp = new Bitmap(defendF.FullName);
-                newBmp.Tag = defendF.Name.Split('.')[0];
-                defendImages.Add(newBmp);
-            }
+            //FileInfo[] defendFiles = defendDir.GetFiles();
+            //foreach (var defendF in defendFiles)
+            //{
+            //    Bitmap newBmp = new Bitmap(defendF.FullName);
+            //    newBmp.Tag = defendF.Name.Split('.')[0];
+            //    defendImages.Add(newBmp);
+            //}
 
             FileInfo[] heroFiles = herosDir.GetFiles();
             foreach (var heroF in heroFiles)
@@ -156,13 +156,13 @@ namespace EmguCVSandbox
                 heroAlltImages.Add(newBmp);
             }
 
-            FileInfo[] alliesFiles = alliesDir.GetFiles();
-            foreach (var alliesF in alliesFiles)
-            {
-                Bitmap newBmp = new Bitmap(alliesF.FullName);
-                newBmp.Tag = alliesF.Name.Split('.')[0];
-                MyAlltImages.Add(newBmp);
-            }
+            //FileInfo[] alliesFiles = alliesDir.GetFiles();
+            //foreach (var alliesF in alliesFiles)
+            //{
+            //    Bitmap newBmp = new Bitmap(alliesF.FullName);
+            //    newBmp.Tag = alliesF.Name.Split('.')[0];
+            //    MyAlltImages.Add(newBmp);
+            //}
 
             FileInfo[] cardNumberFiles = numbersCardsDir.GetFiles();
             foreach (var cardV in cardNumberFiles)
@@ -561,7 +561,7 @@ namespace EmguCVSandbox
             //   questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages, ocrMobNumbers, ss);
             //cardsInHand = NewRecognition.ScanCards(cardValueImages, ss);
             GameCurrentState cur = newRecognition.ScanGame();
-
+            ;
             //money = NewRecognition.ScanCash(ss, moneyImages);
             //tologbook("Kasa:" + money);
             //nherose = heroesAllyOnBattlefield.Count();
