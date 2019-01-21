@@ -283,7 +283,7 @@ namespace EmguCVSandbox
             checkBox1.Checked = false;
 
             Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
-
+            
             mobsOnBattlefield = NewRecognition.ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyBmpPhase1, ss);
             heroesAllyOnBattlefield = NewRecognition.ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
             questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages, ocrMobNumbers, ss);

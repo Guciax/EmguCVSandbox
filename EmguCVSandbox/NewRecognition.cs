@@ -176,9 +176,9 @@ namespace EmguCVSandbox
 
                 Rectangle attRegionGlobal = new Rectangle(pt.X - 40 + GlobalParameters.mobsRegion.X, pt.Y + 60 + GlobalParameters.mobsRegion.Y, 40, 30);
                 Rectangle hpRegionGlobal = new Rectangle(pt.X + 40 + GlobalParameters.mobsRegion.X, pt.Y + 60 + GlobalParameters.mobsRegion.Y, 40, 30);
-                Debug.WriteLine($"<-------- mobX={pt.X} scanAtt");
+                //Debug.WriteLine($"<-------- mobX={pt.X} scanAtt");
                 int ocrAtt = OCR.DecodeImg(currentScreenshot, attRegionGlobal, sharpNumbersImages, 113);
-                Debug.WriteLine($"<-------- mobX={pt.X} scanDef");
+                //Debug.WriteLine($"<-------- mobX={pt.X} scanDef");
                 int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
                 MobInfo newMob = new MobInfo();
 
@@ -236,7 +236,7 @@ namespace EmguCVSandbox
                     mob.name = "quest";
 
                     Rectangle valueRRegionGlobal = new Rectangle(mob.location.X - 5 + GlobalParameters.mobsRegion.X, mob.location.Y + 65 + GlobalParameters.mobsRegion.Y, 40, 30);
-                    Debug.WriteLine($"<-------- Quest={mob.location.X} scan");
+                    //Debug.WriteLine($"<-------- Quest={mob.location.X} scan");
                     int ocr = OCR.DecodeImg(currentScreenshot, valueRRegionGlobal, numbersLibrary, 113);
                     newQ.value = ocr;
                     result.Add(newQ);
@@ -297,14 +297,14 @@ namespace EmguCVSandbox
                 newHeroAlly.active = ImageFilters.IsThisPixelRGB(heroCrop, pt, 6);
                 newHeroAlly.matchResults = listOfMatches;
                 newHeroAlly.location = pt;
-                Debug.WriteLine($"<-------- heroX={pt.X} scanLore");
+                //Debug.WriteLine($"<-------- heroX={pt.X} scanLore");
                 int ocrLore = OCR.DecodeImg(currentScreenshot, loreRegionGlobal, sharpNumbersImages, 113);
                 newHeroAlly.lore = ocrLore;
-                Debug.WriteLine($"<----------------scanAtt");
+                //Debug.WriteLine($"<----------------scanAtt");
                 int ocrAtt = OCR.DecodeImg(currentScreenshot, attRegionGlobal, sharpNumbersImages, 113);
                 newHeroAlly.attack = ocrAtt;
 
-                Debug.WriteLine($"<---------------- scanDef");
+                //Debug.WriteLine($"<---------------- scanDef");
                 int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
                 newHeroAlly.hp = ocrHp;
 
