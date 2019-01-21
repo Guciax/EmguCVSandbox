@@ -29,7 +29,7 @@ namespace EmguCVSandbox
         private const bool relativetowindow = true;
 
                 
-        Tuple<int, int> wincords = Windows.GetTupleWindowxy();
+        Point winLoc = new Point(Windows.GameWindowRectangle().X, Windows.GameWindowRectangle().Y);
 
         
 
@@ -39,24 +39,24 @@ namespace EmguCVSandbox
             Right,
         }
 
-        public void MouseLeftClick(int x, int y)
+        public void MouseLeftClick(Point pt)
         {
             if (relativetowindow == true)
                 {
-                x = x + wincords.Item1;
-                y = y+ wincords.Item2;
+                pt.X += winLoc.X;
+                pt.Y += winLoc.Y;
             }
 
 
-            Click(MouseButton.Left, x, y);
+            Click(MouseButton.Left, pt.X, pt.Y);
         }
 
         public void MouseLeftClickRelative(int x, int y,int rx, int ry)
         {
             if (relativetowindow == true)
             {
-                x = x + wincords.Item1;
-                y = y + wincords.Item2;
+                x = x + winLoc.X;
+                y = y + winLoc.Y;
             }
             x = x + rx;
             y = y + ry;
@@ -64,27 +64,27 @@ namespace EmguCVSandbox
             Click(MouseButton.Left, x, y);
         }
 
-        public void MouseDragLeft(int x, int y, int xd, int yd)
+        public void MouseDragLeft(Point from, Point to)
         {
             if (relativetowindow == true)
             {
-                x = x + wincords.Item1;
-                y = y + wincords.Item2;
-                xd = xd + wincords.Item1;
-                yd = yd + wincords.Item2;
+                from.X += winLoc.X;
+                from.Y += winLoc.Y;
+                to.X += winLoc.X;
+                to.Y += winLoc.Y;
 
             }
-            Drag(MouseButton.Left, x, y, xd,yd);
+            Drag(MouseButton.Left, from.X, from.Y, to.X, to.Y);
         }
 
         public void MouseDragLeftRelative(int x, int y, int xd, int yd,int rx,int ry)
         {
             if (relativetowindow == true)
             {
-                x = x + wincords.Item1;
-                y = y + wincords.Item2;
-                xd = xd + wincords.Item1;
-                yd = yd + wincords.Item2;
+                x = x + winLoc.X;
+                y = y + winLoc.Y;
+                xd = xd + winLoc.X;
+                yd = yd + winLoc.Y;
 
             }
             x = x+rx;
@@ -96,8 +96,8 @@ namespace EmguCVSandbox
         {
             if (relativetowindow == true)
             {
-                x = x + wincords.Item1;
-                y = y + wincords.Item2;
+                x = x + winLoc.X;
+                y = y + winLoc.Y;
             }
             Click(MouseButton.Right, x, y);
         }
@@ -139,8 +139,8 @@ namespace EmguCVSandbox
         {
             if (relativetowindow == true)
             {
-                x = x + wincords.Item1;
-                y = y + wincords.Item2;
+                x = x + winLoc.X;
+                y = y + winLoc.Y;
             }
             x = rand(x);
             y = rand(y);
@@ -156,10 +156,10 @@ namespace EmguCVSandbox
         {
             if (relativetowindow == true)
             {
-                x = x + wincords.Item1;
-                y = y + wincords.Item2;
-                xd = xd + wincords.Item1;
-                yd = yd + wincords.Item2;
+                x = x + winLoc.X;
+                y = y + winLoc.Y;
+                xd = xd + winLoc.X;
+                yd = yd + winLoc.Y;
 
             }
 

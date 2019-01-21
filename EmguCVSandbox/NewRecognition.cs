@@ -71,7 +71,7 @@ namespace EmguCVSandbox
             result.heroesAlly = ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyFieldDict[result.currentPhase], ss);
             result.quests = ScanQuests(ref result.mobs, questsImages, ocrMobNumbers, ss);
             result.cash = ScanCash(ss, moneyImages);
-            
+            result.threadLevel = ScanThreadLevel();
             
             return result;
         }
@@ -447,6 +447,7 @@ namespace EmguCVSandbox
             }
             return result;
         }
+
             public static List<AttachmentInfo> ScanAttachment(List<Bitmap> attachmentImages, Bitmap attachmentScreenShot)
             {
                 List<AttachmentInfo> result = new List<AttachmentInfo>();
@@ -469,6 +470,7 @@ namespace EmguCVSandbox
                 }
                 return result;
             }
+
         public static List<DefendInfo> ScanDefend(List<Bitmap> defendImages, Bitmap cardsScreenShot)
         {
             List<DefendInfo> result = new List<DefendInfo>();
@@ -489,6 +491,25 @@ namespace EmguCVSandbox
                 }
             }
             return result;
+        }
+
+        public static int ScanThreadLevel()
+        {
+            int loopCounter = 0;
+            string stringResult = "";
+            do
+            {
+                stringResult = OCR.TesseractOcr(ScreenShot.GetScreenShot(GlobalParameters.threadRegion));
+            } while (stringResult == "" & loopCounter < 11);
+
+            if (stringResult!="")
+            {
+                return int.Parse(stringResult);
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

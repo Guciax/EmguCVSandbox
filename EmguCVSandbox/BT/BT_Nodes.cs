@@ -14,7 +14,7 @@ namespace EmguCVSandbox.BT
             return gameState.mobs.Select(mob => mob.hp).Min() <= gameState.heroesAlly.Where(h => h.active).Select(h => h.attack).Max();
         }
 
-        public static bool IsHeroLifeInDanger(GameCurrentState gameState)
+        public static bool IsHeroLifeInDanger (GameCurrentState gameState)
         {
             return gameState.mobs.Select(mob => mob.attack).Max() >= gameState.heroesAlly.Select(h => h.hp).Min();
         }

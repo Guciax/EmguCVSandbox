@@ -42,9 +42,11 @@ namespace EmguCVSandbox
             public static readonly Rectangle attachmentRegion = new Rectangle(464, 176, 120, 120);
             public static readonly Rectangle endPhaseButtonRegion = new Rectangle(1280, 1000, 187, 38);
             public static readonly Rectangle questPhaseNameRegion = new Rectangle(700, 47, 281, 32);
-            public static int heroSocketWidth = 151;
-            public static int mobSocketWidth = 142;
-            public static Point[] pointsToCheckOkMark = new Point[] { new Point(0, 0), new Point(1, 1) }; //uzupelnic
+            public static readonly int heroSocketWidth = 151;
+            public static readonly int mobSocketWidth = 142;
+            public static readonly Point[] pointsToCheckOkMark = new Point[] { new Point(0, 0), new Point(1, 1) }; //uzupelnic
+            public static readonly Rectangle threadRegion = new Rectangle(1620, 692, 38, 27);
+            public static readonly Point guardPoint = new Point(310, 875);
 
             public static readonly Dictionary<int, Bitmap> emptyFieldDict = new Dictionary<int, Bitmap>
                 {
@@ -53,6 +55,7 @@ namespace EmguCVSandbox
             };
             public static readonly Bitmap emptyBmpPhase1 = new Bitmap(@"Images\empty1.png");
             public static string procname = "Lord of the Rings - LCG";
+            
         }
 
         static string linestr = @"Images\linia.PNG";
@@ -211,7 +214,7 @@ namespace EmguCVSandbox
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            OCR.TesseractOcr(new Bitmap(@"Images\thread.PNG"));
         }
 
         private void button2_Click(object sender, EventArgs e)
