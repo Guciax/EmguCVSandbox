@@ -27,8 +27,8 @@ namespace EmguCVSandbox
         public Form1()
         {
             InitializeComponent();
-            NewRecognition newRecognition = new NewRecognition(this,logbook, mobBitmaps, ocrHeroNumber, ocrMobNumbers, questsImages, sharpNumbersImages, cardValueImages, heroAlltImages, MyAlltImages, moneyImages, okImages, defendImages, attachmentImages);
-            Bot bot = new Bot(logbook,okImages,defendImages,attachmentImages);
+            newRecognition = new NewRecognition(this,logbook, mobBitmaps, ocrHeroNumber, ocrMobNumbers, questsImages, sharpNumbersImages, cardValueImages, heroAlltImages, MyAlltImages, moneyImages, okImages, defendImages, attachmentImages);
+            bot = new Bot(logbook,okImages,defendImages,attachmentImages);
         }
 
 
@@ -139,30 +139,30 @@ namespace EmguCVSandbox
                 moneyImages.Add(newBmp);
             }
 
-            //FileInfo[] okFiles = okDir.GetFiles();
-            //foreach (var okF in okFiles)
-            //{
-            //    Bitmap newBmp = new Bitmap(okF.FullName);
-            //    newBmp.Tag = okF.Name.Split('.')[0];
-            //    okImages.Add(newBmp);
-            //}
+            FileInfo[] okFiles = okDir.GetFiles();
+            foreach (var okF in okFiles)
+            {
+                Bitmap newBmp = new Bitmap(okF.FullName);
+                newBmp.Tag = okF.Name.Split('.')[0];
+                okImages.Add(newBmp);
+            }
 
-            //FileInfo[] attachmentFiles = attachmentDir.GetFiles();
-            //foreach (var attachmentF in attachmentFiles)
-            //{
-            //    Bitmap newBmp = new Bitmap(attachmentF.FullName);
-            //    newBmp.Tag = attachmentF.Name.Split('.')[0];
-            //    attachmentImages.Add(newBmp);
-            //}
+            FileInfo[] attachmentFiles = attachmentDir.GetFiles();
+            foreach (var attachmentF in attachmentFiles)
+            {
+                Bitmap newBmp = new Bitmap(attachmentF.FullName);
+                newBmp.Tag = attachmentF.Name.Split('.')[0];
+                attachmentImages.Add(newBmp);
+            }
 
 
-            //FileInfo[] defendFiles = defendDir.GetFiles();
-            //foreach (var defendF in defendFiles)
-            //{
-            //    Bitmap newBmp = new Bitmap(defendF.FullName);
-            //    newBmp.Tag = defendF.Name.Split('.')[0];
-            //    defendImages.Add(newBmp);
-            //}
+            FileInfo[] defendFiles = defendDir.GetFiles();
+            foreach (var defendF in defendFiles)
+            {
+                Bitmap newBmp = new Bitmap(defendF.FullName);
+                newBmp.Tag = defendF.Name.Split('.')[0];
+                defendImages.Add(newBmp);
+            }
 
             FileInfo[] heroFiles = herosDir.GetFiles();
             foreach (var heroF in heroFiles)
@@ -172,13 +172,13 @@ namespace EmguCVSandbox
                 heroAlltImages.Add(newBmp);
             }
 
-            //FileInfo[] alliesFiles = alliesDir.GetFiles();
-            //foreach (var alliesF in alliesFiles)
-            //{
-            //    Bitmap newBmp = new Bitmap(alliesF.FullName);
-            //    newBmp.Tag = alliesF.Name.Split('.')[0];
-            //    MyAlltImages.Add(newBmp);
-            //}
+            FileInfo[] alliesFiles = alliesDir.GetFiles();
+            foreach (var alliesF in alliesFiles)
+            {
+                Bitmap newBmp = new Bitmap(alliesF.FullName);
+                newBmp.Tag = alliesF.Name.Split('.')[0];
+                MyAlltImages.Add(newBmp);
+            }
 
             FileInfo[] cardNumberFiles = numbersCardsDir.GetFiles();
             foreach (var cardV in cardNumberFiles)
@@ -253,7 +253,7 @@ namespace EmguCVSandbox
         {
             if(checkBox1.Checked)
             {
-                OnScreenDisplay osdForm = new OnScreenDisplay(AllyOnBattlefield, cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, checkBox1, Windows.GameWindowRectangle().Location);
+                OnScreenDisplay osdForm = new OnScreenDisplay(cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, checkBox1, Windows.GameWindowRectangle().Location);
 
                     osdForm.Show();
 
@@ -386,79 +386,16 @@ namespace EmguCVSandbox
 
         private void bbotserchactiveenemy_Click(object sender, EventArgs e)
         {
-            bbotscan_Click(sender,e);
-            int activemobscount = 0;
-            for (int i = 0; i < mobsOnBattlefield.Count; i++)
-            {
-                if (mobsOnBattlefield[i].active == true)
-                {
-                    tologbook("moby aktywne " + i + ": " + mobsOnBattlefield[i].name + " X=" + mobsOnBattlefield[i].location.X + " Y=" + mobsOnBattlefield[i].location.Y);
-                    activemobscount++;
-                }
-            }
-
-            tologbook("Aktywnych potworów jest "+ activemobscount);
-            tologbook("Próba obrony");
-
-            if (activemobscount > 0)
-            {
-                bool obronione = false;
-                for (int i = 0; i < AllyOnBattlefield.Count; i++)
-                {
-                    if (AllyOnBattlefield[i].active == true)
-                    {
-                        tologbook("bronie aktywnym " + i + ": " + AllyOnBattlefield[i].name + " X=" + AllyOnBattlefield[i].location.X + " Y=" + AllyOnBattlefield[i].location.Y);
-                        obronione = true;
-
-
-                        tologbook("klikam goscia");
-                        tologbook(" X=" + AllyOnBattlefield[i].location.X + GlobalParameters.heroRegion.X + " Y=" + AllyOnBattlefield[i].location.Y + GlobalParameters.heroRegion.Y);
-                        //260, 590
-                        mysz.MouseLeftClick(AllyOnBattlefield[i].location.X + GlobalParameters.heroRegion.X, AllyOnBattlefield[i].location.Y + GlobalParameters.heroRegion.Y);
-                        Thread.Sleep(500);
-
-                        tologbook("szukam obrony");
-                        Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
-                        defendOnScreen = NewRecognition.ScanDefend(defendImages, ss);
-                        if (defendOnScreen.Count() > 0)
-                        {
-                            tologbook("klikam obrone");
-                            tologbook(" X=" + defendOnScreen[0].location.X + " Y=" + defendOnScreen[0].location.Y);
-                            mysz.MouseLeftClick(defendOnScreen[0].location.X, defendOnScreen[0].location.Y);
-                        }
-                        else
-                        {
-                            tologbook("nieznalazlem obrony - we are fucked");
-                        }
-                        break;
-                    }
-                }
-                if (obronione==false)
-                {
-                    tologbook("nie mam przyjaciół do obrony przed aktywnymi mobami");
-                }
-            }
-            else
-            {
-                tologbook("nie ma aktywnych enemy, nie bronie");
-            }
+            GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+            bot.defendIfAble(gamecurrentstate);
 
         }
 
         private void bbotokscan_Click(object sender, EventArgs e)
         {
-            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
-            okOnScreen = NewRecognition.ScanOk(okImages, ss);
+            
 
-            for (int i = 0; i < okOnScreen.Count; i++)
-            {
-                tologbook("Ok on screen " + i + ": " + okOnScreen[i].value + " X=" + okOnScreen[i].location.X + " Y=" + okOnScreen[i].location.Y);
-            }
-
-            tologbook("klikam ok");
-            tologbook(" X=" + okOnScreen[0].location.X + " Y=" + okOnScreen[0].location.Y);
-            mysz.MouseLeftClick(okOnScreen[0].location.X, okOnScreen[0].location.Y);
-            Thread.Sleep(500);
+            
 
         }
 
@@ -475,7 +412,6 @@ namespace EmguCVSandbox
             GameCurrentState gamecurrentstate = newRecognition.ScanGame();
             bot.playcardfromhand(gamecurrentstate);
 
-            
         }
 
         private void bbotscan_Click(object sender, EventArgs e)
@@ -487,8 +423,9 @@ namespace EmguCVSandbox
             //   AllyOnBattlefield = NewRecognition.ScanAllies(MyAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
             //   questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages, ocrMobNumbers, ss);
             //cardsInHand = NewRecognition.ScanCards(cardValueImages, ss);
-            GameCurrentState cur = newRecognition.ScanGame();
-            
+            GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+
+
             //money = NewRecognition.ScanCash(ss, moneyImages);
             //tologbook("Kasa:" + money);
             //nherose = heroesAllyOnBattlefield.Count();
@@ -502,7 +439,7 @@ namespace EmguCVSandbox
             //nallies = AllyOnBattlefield.Count();
             //tologbook("Ilosc alliasow" + nallies);
             //lbotnallies.Text = nallies.ToString();
-            
+
             //ncards = cardsInHand.Count();
             //tologbook("Ilosc kart" + ncards);
             //lbotncards.Text = ncards.ToString();
@@ -537,7 +474,8 @@ namespace EmguCVSandbox
         {
             if (botosd.Checked)
             {
-                OnScreenDisplay osdForm = new OnScreenDisplay(AllyOnBattlefield, cardsInHand, mobsOnBattlefield, questOnBattlefield, heroesAllyOnBattlefield, botosd, Windows.GameWindowRectangle().Location);
+                GameCurrentState cur = newRecognition.ScanGame();
+                OnScreenDisplay osdForm = new OnScreenDisplay(cur.cardsInHand, cur.mobs, cur.quests, cur.heroesAlly, botosd, Windows.GameWindowRectangle().Location);
 
                 osdForm.Show();
                 
@@ -561,6 +499,86 @@ namespace EmguCVSandbox
             }
         }
 
+        private void bbotanalyse_Click(object sender, EventArgs e)
+        {
+            bot.checkEndButton();
+            GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+            tologbook("gamecurrentstate.mobs.Count:" + gamecurrentstate.mobs.Count);
+            tologbook("activeAlliesNumber:" + gamecurrentstate.activeAlliesNumber);
+            tologbook("myAllies.Count:" + gamecurrentstate.myAllies.Count);
+            tologbook("activeHeroesNumber:" + gamecurrentstate.activeHeroesNumber);
+            tologbook("heroesAlly.Count:" + gamecurrentstate.heroesAlly.Count);
+            tologbook("mobsMaxatt[0].attack:" + gamecurrentstate.mobsMaxatt[0].attack);
+            tologbook("cash:" + gamecurrentstate.cash);
+            tologbook("cardsInHand.Count:" + gamecurrentstate.cardsInHand.Count);
+            tologbook("activeMobspriority1:" + gamecurrentstate.activeMobspriority1);
 
+
+
+
+
+        }
+
+        private void botplay_Click(object sender, EventArgs e)
+        {
+            int jedziemy = Convert.ToInt32(Math.Round(numericUpDownBotIterations.Value, 0));
+            for (int i = 0; jedziemy > i; i++)
+            {
+                Thread.Sleep(500);
+                // skanuje czy koniec tury
+                if (bot.checkEndButton() == false)
+                {
+
+                }
+                else
+                {
+
+                    //skanuje ok
+                    bot.checkOkButtonAndClick();
+                    //skanuje gre
+                    GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+                    //patrze czy moge sie bronic jak sie bronie to ok jak nie to karta
+                    if (bot.defendIfAble(gamecurrentstate) == true)
+                    {
+                        bot.checkOkButtonAndClick();
+                        //obronilem
+                    }
+                    else if (gamecurrentstate.activeAlliesNumber < 1)
+                    {
+                        if (bot.playcardfromhand(gamecurrentstate) == true)
+                        {
+                            bot.checkOkButtonAndClick();
+                        }
+                        else
+                        {
+                            mysz.MouseLeftClick(1365, 1027);
+                            //klikaj koniec tury
+                        }
+                    }
+                    else
+                    {
+                        bot.checkOkButtonAndClick();
+                        if (gamecurrentstate.mobs.Count > 0)
+                        {
+                            bot.attackMob(gamecurrentstate);
+                        }
+                        else
+                        {
+                            mysz.MouseLeftClick(837, 220);
+                            //klikaj travel
+                        }
+                    }
+                    //zagrywam karte
+
+                    //sprawdzam ok
+                    Thread.Sleep(500);
+                    bot.checkOkButtonAndClick();
+                }
+
+
+            }
+        }
+
+        }
     }
-}
+

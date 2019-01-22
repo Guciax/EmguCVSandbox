@@ -25,7 +25,8 @@ namespace EmguCVSandbox
         int screenW = 0;
         int screenH = 0;
 
-        public OnScreenDisplay(List<MyAllyInfo> AllyOnBattlefield, List<CardInfo> cards,List<MobInfo> mobsOnBattlefield, List<QuestInfo> questOnBattlefield, List<HeroAllyInfo> heroesAllyOnBattlefield,CheckBox formCheckbox,  Point windowLocation)
+        // public OnScreenDisplay(List<MyAllyInfo> AllyOnBattlefield, List<CardInfo> cards,List<MobInfo> mobsOnBattlefield, List<QuestInfo> questOnBattlefield, List<HeroAllyInfo> heroesAllyOnBattlefield,CheckBox formCheckbox,  Point windowLocation)
+        public OnScreenDisplay( List<CardInfo> cards, List<MobInfo> mobsOnBattlefield, List<QuestInfo> questOnBattlefield, List<HeroAllyInfo> heroesAllyOnBattlefield, CheckBox formCheckbox, Point windowLocation)
         {
             InitializeComponent();
             this.TopMost = true; 
@@ -44,7 +45,7 @@ namespace EmguCVSandbox
             this.mobsOnBattlefield = mobsOnBattlefield;
             this.questOnBattlefield = questOnBattlefield;
             HeroesAllyOnBattlefield = heroesAllyOnBattlefield;
-            this.AllyOnBattlefield = AllyOnBattlefield;
+          //  this.AllyOnBattlefield = AllyOnBattlefield;
             this.formCheckbox = formCheckbox;
             this.windowLocation = windowLocation;
 
@@ -135,17 +136,17 @@ namespace EmguCVSandbox
             }
 
             //allies
-            SolidBrush allyInfoBrush = new SolidBrush(Color.LightBlue);
-            foreach (var ally in AllyOnBattlefield)
-            {
-                string active = ally.active ? "active" : "exaused";
-                e.Graphics.FillEllipse(allyInfoBrush, ally.location.X - 3 + heroXOffset, ally.location.Y - 3 + heroYOffset, 6, 6);
-                e.Graphics.DrawString(ally.name, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 5 + heroYOffset));
-                e.Graphics.DrawString(active, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 25 + heroYOffset));
-                e.Graphics.DrawString("Att:" + ally.attack, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 45 + heroYOffset));
-                e.Graphics.DrawString("HP:" + ally.hp, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 65 + heroYOffset));
-                e.Graphics.DrawString("Lore:" + ally.lore, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 85 + heroYOffset));
-            }
+            //SolidBrush allyInfoBrush = new SolidBrush(Color.LightBlue);
+            //foreach (var ally in AllyOnBattlefield)
+            //{
+            //    string active = ally.active ? "active" : "exaused";
+            //    e.Graphics.FillEllipse(allyInfoBrush, ally.location.X - 3 + heroXOffset, ally.location.Y - 3 + heroYOffset, 6, 6);
+            //    e.Graphics.DrawString(ally.name, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 5 + heroYOffset));
+            //    e.Graphics.DrawString(active, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 25 + heroYOffset));
+            //    e.Graphics.DrawString("Att:" + ally.attack, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 45 + heroYOffset));
+            //    e.Graphics.DrawString("HP:" + ally.hp, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 65 + heroYOffset));
+            //    e.Graphics.DrawString("Lore:" + ally.lore, this.Font, allyInfoBrush, new Point(ally.location.X - 30 + heroXOffset, ally.location.Y + 85 + heroYOffset));
+            //}
 
 
         }

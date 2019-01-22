@@ -66,7 +66,8 @@ namespace EmguCVSandbox
 
             GameCurrentState result = new GameCurrentState();
             result.currentPhase = 1; // I need some method
-            result.cardsInHand = ScanCards(cardValueImages, BitmapTransformations.Crop(ss, GlobalParameters.cardsRegion));
+            //result.cardsInHand = ScanCards(cardValueImages, BitmapTransformations.Crop(ss, GlobalParameters.cardsRegion));
+            result.cardsInHand = ScanCards(cardValueImages, ss);
             result.mobs = ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyFieldDict[result.currentPhase], ss);
             result.heroesAlly = ScanHeroes(heroAlltImages, ocrHeroNumber, GlobalParameters.emptyFieldDict[result.currentPhase], ss);
             result.quests = ScanQuests(ref result.mobs, questsImages, ocrMobNumbers, ss);
@@ -179,7 +180,7 @@ namespace EmguCVSandbox
                 //Debug.WriteLine($"<-------- mobX={pt.X} scanAtt");
                 int ocrAtt = OCR.DecodeImg(currentScreenshot, attRegionGlobal, sharpNumbersImages, 113);
                 //Debug.WriteLine($"<-------- mobX={pt.X} scanDef");
-                int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
+         //       int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
                 MobInfo newMob = new MobInfo();
 
                 foreach (var mobBmp in mobBitmaps) 
@@ -199,7 +200,7 @@ namespace EmguCVSandbox
 
                 newMob.active = ImageFilters.IsThisPixelRGB(mobCrop, pt, 6);
                 newMob.attack = ocrAtt;
-                newMob.hp = ocrHp;
+           //     newMob.hp = ocrHp;
                 newMob.matchResults = listOfMatches;
                 newMob.mobImage = bmp;
                 newMob.location = pt;
@@ -215,6 +216,7 @@ namespace EmguCVSandbox
         public static List<QuestInfo> ScanQuests(ref List<MobInfo> mobsOnBF, List<Bitmap> questsLibrary, List<Bitmap> numbersLibrary, Bitmap currentScreenshot)
         {
             Bitmap mobcrop = BitmapTransformations.Crop(currentScreenshot, GlobalParameters.mobsRegion);
+            
             List<QuestInfo> result = new List<QuestInfo>();
             foreach (var mob in mobsOnBF)
             {
@@ -285,7 +287,8 @@ namespace EmguCVSandbox
                 if (!matchFound)
                 {
                     newHeroAlly.name = "Ally";
-                    removehero = true;
+                    //zmiana jesli chemy wywalic
+                    removehero = false;
 
                 }
 
@@ -298,15 +301,15 @@ namespace EmguCVSandbox
                 newHeroAlly.matchResults = listOfMatches;
                 newHeroAlly.location = pt;
                 //Debug.WriteLine($"<-------- heroX={pt.X} scanLore");
-                int ocrLore = OCR.DecodeImg(currentScreenshot, loreRegionGlobal, sharpNumbersImages, 113);
-                newHeroAlly.lore = ocrLore;
+       //         int ocrLore = OCR.DecodeImg(currentScreenshot, loreRegionGlobal, sharpNumbersImages, 113);
+       //         newHeroAlly.lore = ocrLore;
                 //Debug.WriteLine($"<----------------scanAtt");
-                int ocrAtt = OCR.DecodeImg(currentScreenshot, attRegionGlobal, sharpNumbersImages, 113);
-                newHeroAlly.attack = ocrAtt;
+       //         int ocrAtt = OCR.DecodeImg(currentScreenshot, attRegionGlobal, sharpNumbersImages, 113);
+       //         newHeroAlly.attack = ocrAtt;
 
                 //Debug.WriteLine($"<---------------- scanDef");
-                int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
-                newHeroAlly.hp = ocrHp;
+        //        int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
+        //        newHeroAlly.hp = ocrHp;
 
                 if (removehero == true)
                 {
@@ -333,6 +336,8 @@ namespace EmguCVSandbox
             }
             return result;
         }
+
+       
         public static List<MyAllyInfo> ScanAllies(List<Bitmap> AllyLibrary, List<Bitmap> sharpNumbersImages, Bitmap emptyBattlefield, Bitmap currentScreenshot)
         {
             bool removeallies = false;

@@ -18,7 +18,8 @@ namespace EmguCVSandbox
                    List<Bitmap> okImages,
                    List<Bitmap> defendImages,
                    List<Bitmap> attachmentImages
-
+           
+        
 
             )
         {
@@ -34,6 +35,7 @@ namespace EmguCVSandbox
         private readonly List<Bitmap> defendImages;
         private readonly List<Bitmap> attachmentImages;
         List<AttachmentInfo> attachmentOnScreen = new List<AttachmentInfo>();
+        List<OkInfo> okOnScreen = new List<OkInfo>();
 
 
 
@@ -52,15 +54,130 @@ namespace EmguCVSandbox
         Mouse mysz = new Mouse();
         private readonly RichTextBox logbook;
 
-
-        public void playcardfromhand(GameCurrentState gamecurrentstate)
+        public void checkOkButtonAndClick()
         {
 
+            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
+            okOnScreen = NewRecognition.ScanOk(okImages, ss);
+
+            tologbook("widze ok w liczbie:" + okOnScreen.Count);
+            for (int i = 0; i < okOnScreen.Count; i++)
+            {
+                tologbook("Ok on screen " + i + ": " + okOnScreen[i].value + " X=" + okOnScreen[i].location.X + " Y=" + okOnScreen[i].location.Y);
+                tologbook("klikam ok");
+                mysz.MouseLeftClick(okOnScreen[0].location.X, okOnScreen[0].location.Y);
+                Thread.Sleep(500);
+            }
+        }
+
+
+        public bool checkEndButton()
+        {
+ 
+            Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
+            Point endPoint = new Point(1292, 1011);
+            Color endPointColor = Color.FromArgb(255, 255, 255, 195);
+            bool czyend = ImageFilters.IsThisPixelPixel(ss, endPoint, endPointColor);
+            //
+            Point defPoint = new Point(309, 878);
+            Color defPointColor = Color.FromArgb(255, 231, 224, 178);
+            bool czydef = ImageFilters.IsThisPixelPixel(ss, defPoint, defPointColor);
+            //kolor endphase
+            //1290x1010
+            Point travelPoint1 = new Point(806, 219);
+            Point travelPoint2 = new Point(885, 212);
+
+            Color travelPointColor = Color.FromArgb(255, 255, 255, 255);
+            bool czytravel1 = ImageFilters.IsThisPixelPixel(ss, travelPoint1, travelPointColor);
+            bool czytravel2 = ImageFilters.IsThisPixelPixel(ss, travelPoint2, travelPointColor);
+            bool czytravel = false;
+            if (czytravel1 == true && czytravel2 == true)
+            {
+                czytravel = true;
+            }
+
+            tologbook("czy def ?:" + czydef);
+            tologbook("czy end ?:" + czyend);
+            tologbook("czy travel ?:" + czytravel);
+            return czyend;
+        }
+
+        public bool defendIfAble(GameCurrentState gamecurrentstate)
+        {
+            bool obronione = false;
+
+            tologbook("Aktywnych potworów jest " + gamecurrentstate.activeMobsNumber);
+            for (int i = 0; i < gamecurrentstate.activeMobsNumber; i++)
+            {
+                
+                    tologbook("moby aktywne " + gamecurrentstate.activeMobs + ": " + gamecurrentstate.activeMobs[i].name + " X=" + gamecurrentstate.activeMobs[i].location.X + " Y=" + gamecurrentstate.activeMobs[i].location.Y);
+
+            }
+
+            
+            tologbook("Próba obrony");
+
+            if (gamecurrentstate.activeMobsNumber > 0 && gamecurrentstate.myAlliesActive.Count>0)
+            {
+                
+                for (int i = 0; i < gamecurrentstate.myAlliesActive.Count; i++)
+                {
+
+                      //  tologbook("bronie aktywnym " + i + ": " + gamecurrentstate.myAlliesActive[i].name + " X=" + gamecurrentstate.myAlliesActive[i].location.X + " Y=" + gamecurrentstate.myAlliesActive[i].location.Y);
+                        obronione = true;
+
+
+                        tologbook("klikam goscia");
+                    //    tologbook(" X=" + gamecurrentstate.myAlliesActive[i].location.X + GlobalParameters.heroRegion.X + " Y=" + gamecurrentstate.myAlliesActive[i].location.Y + GlobalParameters.heroRegion.Y);
+                        //260, 590
+                        mysz.MouseLeftClick(gamecurrentstate.myAlliesActive[i].location.X + GlobalParameters.heroRegion.X, gamecurrentstate.myAlliesActive[i].location.Y + GlobalParameters.heroRegion.Y);
+                        Thread.Sleep(500);
+
+                        tologbook("szukam obrony");
+                        Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
+                        Point defPoint = new Point(309, 878);
+                        Color defPointColor = Color.FromArgb(255, 231, 224, 178);
+                        bool czydef = ImageFilters.IsThisPixelPixel(ss, defPoint, defPointColor);
+                        
+                        if (czydef== true)
+                        {
+                            tologbook("klikam obrone");
+                            tologbook(" X=" + 309 + " Y=" + 878);
+                            mysz.MouseLeftClick(309, 878);
+                        //ustawiam mysz ponizej
+                        mysz.MouseLeftClick(309, 910);
+
+                    }
+                        else
+                        {
+                            tologbook("nieznalazlem obrony - we are fucked");
+                        }
+                        break;
+                    }
+            
+                if (obronione == false)
+                {
+                    tologbook("nie mam przyjaciół do obrony przed aktywnymi mobami");
+                }
+            }
+            else
+            {
+                tologbook("nie ma aktywnych enemy, nie bronie");
+            }
+            return obronione;
+        }
+
+
+            public bool playcardfromhand(GameCurrentState gamecurrentstate)
+        {
+            bool kartazagrana = false;
 
             tologbook("kart o koszcie 1: " + gamecurrentstate.cardsInHand1 + " kart o koszcie 2: " + gamecurrentstate.cardsInHand2);
+            tologbook("kasa:"+ gamecurrentstate.cash);
             // Jeśli kasy mamy w lub więcej i mamy kartę o koszcie 2 to ją zagrywamy
             if (gamecurrentstate.cash > 1 && gamecurrentstate.cardsInHand2 > 0)
             {
+                kartazagrana = true;
                 tologbook("zagrywam karte o koszcie 2");
                 mysz.MouseDragLeft(gamecurrentstate.cardsInHand2List[0].location.X + GlobalParameters.cardsRegion.X, gamecurrentstate.cardsInHand2List[0].location.Y + GlobalParameters.cardsRegion.Y, 1300, 600);
                 //        tologbook("x: " + (cardsInHand[i].location.X + 410) + " Y: " + (cardsInHand[i].location.Y + 866));
@@ -157,10 +274,13 @@ namespace EmguCVSandbox
 
                     //    mysz.MouseLeftClick(heroesAllyOnBattlefield[0].location.X + GlobalParameters.heroRegion.X, heroesAllyOnBattlefield[0].location.Y + GlobalParameters.heroRegion.Y);
                 }
-
+                
             }
+
+
             else if (gamecurrentstate.cash >= 1 && gamecurrentstate.cardsInHand1 > 0)
             {
+                kartazagrana = true;
                 tologbook("zagrywam karte o koszcie 1");
 
                 mysz.MouseDragLeft(gamecurrentstate.cardsInHand1List[0].location.X + GlobalParameters.cardsRegion.X, gamecurrentstate.cardsInHand1List[0].location.Y + GlobalParameters.cardsRegion.Y, 1300, 600);
@@ -170,12 +290,88 @@ namespace EmguCVSandbox
             }
             else
             {
-                //    tologbook("No money to play cards or no cards to play");
+                tologbook("No money to play cards or no cards to play");
                 //}
 
             }
+            return kartazagrana;
         }
-        public void startquest()
+        public void attackMob(GameCurrentState gamecurrentstate)
+        {
+            //jesli sa aktywne moby atakuj aktywnego moba
+            bool atakally = false;
+            if (gamecurrentstate.activeAlliesNumber > 0)
+            {
+                atakally = true;
+            }
+            bool atakhero = false;
+            if (gamecurrentstate.activeHeroesNumber > 0)
+            {
+                atakhero = true;
+            }
+
+            tologbook("atakuje ally:" + atakally + "atakuje hero:" + atakhero);
+            tologbook("aktywne moby:" + gamecurrentstate.activeMobsNumber);
+            tologbook("moby total:" + gamecurrentstate.mobs.Count);
+            // Jeśli kasy mamy w lub więcej i mamy kartę o koszcie 2 to ją zagrywamy
+            if (gamecurrentstate.activeMobsNumber > 0)
+            {
+
+                if (gamecurrentstate.activeMobspriority1.Count > 0)
+                {
+                    if (atakally == true)
+                    {
+                        mysz.MouseDragLeft(gamecurrentstate.myAlliesActive[0].location.X + GlobalParameters.heroRegion.X, gamecurrentstate.myAlliesActive[0].location.Y + GlobalParameters.heroRegion.Y, gamecurrentstate.activeMobspriority1[0].location.X + GlobalParameters.mobsRegion.X, gamecurrentstate.activeMobspriority1[0].location.Y + GlobalParameters.mobsRegion.Y);
+                    }
+                    else if (atakhero == true)
+                    {
+                        mysz.MouseDragLeft(gamecurrentstate.activeHeroesList[0].location.X + GlobalParameters.heroRegion.X, gamecurrentstate.activeHeroesList[0].location.Y + GlobalParameters.heroRegion.Y, gamecurrentstate.activeMobspriority1[0].location.X + GlobalParameters.mobsRegion.X, gamecurrentstate.activeMobspriority1[0].location.Y + GlobalParameters.mobsRegion.Y);
+                    }
+                    tologbook("atakuje aktywnego moba z priorytetem 1");
+                }
+                else if (gamecurrentstate.activeMobspriority2.Count > 0)
+                {
+                    if (atakally == true)
+                    {
+                        mysz.MouseDragLeft(gamecurrentstate.myAlliesActive[0].location.X + GlobalParameters.heroRegion.X, gamecurrentstate.myAlliesActive[0].location.Y + GlobalParameters.heroRegion.Y, gamecurrentstate.activeMobspriority2[0].location.X + GlobalParameters.mobsRegion.X, gamecurrentstate.activeMobspriority2[0].location.Y + GlobalParameters.mobsRegion.Y);
+                    }
+                    else if (atakhero == true)
+                    {
+                        mysz.MouseDragLeft(gamecurrentstate.activeHeroesList[0].location.X + GlobalParameters.heroRegion.X, gamecurrentstate.activeHeroesList[0].location.Y + GlobalParameters.heroRegion.Y, gamecurrentstate.activeMobspriority2[0].location.X + GlobalParameters.mobsRegion.X, gamecurrentstate.activeMobspriority2[0].location.Y + GlobalParameters.mobsRegion.Y);
+                    }
+                    tologbook("atakuje aktywnego moba z priorytetem 2");
+                }
+                else if (gamecurrentstate.activeMobsNumber > 0)
+                {
+                    if (atakally == true)
+                    {
+                        mysz.MouseDragLeft(gamecurrentstate.myAlliesActive[0].location.X + GlobalParameters.heroRegion.X, gamecurrentstate.myAlliesActive[0].location.Y + GlobalParameters.heroRegion.Y, gamecurrentstate.activeMobs[0].location.X + GlobalParameters.mobsRegion.X, gamecurrentstate.activeMobs[0].location.Y + GlobalParameters.mobsRegion.Y);
+                    }
+                    else if (atakhero == true)
+                    {
+                        mysz.MouseDragLeft(gamecurrentstate.activeHeroesList[0].location.X + GlobalParameters.heroRegion.X, gamecurrentstate.activeHeroesList[0].location.Y + GlobalParameters.heroRegion.Y, gamecurrentstate.activeMobs[0].location.X + GlobalParameters.mobsRegion.X, gamecurrentstate.activeMobs[0].location.Y + GlobalParameters.mobsRegion.Y);
+                    }
+                    tologbook("atakuje aktywnego moba bez priorytetu");
+
+                }
+
+
+            }
+            else if (gamecurrentstate.mobs.Count > 0)
+            {
+                if (atakally == true)
+                {
+                    mysz.MouseDragLeft(gamecurrentstate.myAlliesActive[0].location.X + GlobalParameters.heroRegion.X, gamecurrentstate.myAlliesActive[0].location.Y + GlobalParameters.heroRegion.Y, gamecurrentstate.mobsMaxatt[0].location.X + GlobalParameters.mobsRegion.X, gamecurrentstate.mobsMaxatt[0].location.Y + GlobalParameters.mobsRegion.Y);
+                }
+                else if (atakhero == true)
+                {
+                    mysz.MouseDragLeft(gamecurrentstate.activeHeroesList[0].location.X + GlobalParameters.heroRegion.X, gamecurrentstate.activeHeroesList[0].location.Y + GlobalParameters.heroRegion.Y, gamecurrentstate.mobsMaxatt[0].location.X + GlobalParameters.mobsRegion.X, gamecurrentstate.mobsMaxatt[0].location.Y + GlobalParameters.mobsRegion.Y);
+                }
+                tologbook("atakuje moba o najwyzzszym att");
+                //   Thread.Sleep(500);
+            }
+        }
+            public void startquest()
         {
             //tologbook("startuje gre");
             //tologbook("ustawienie: klikam bez rozpoznawania buttonów");

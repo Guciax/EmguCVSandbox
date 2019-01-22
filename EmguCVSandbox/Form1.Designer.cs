@@ -72,6 +72,10 @@
             this.button7 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label24 = new System.Windows.Forms.Label();
+            this.bbotserchactiveenemy = new System.Windows.Forms.Button();
+            this.bbotclickok = new System.Windows.Forms.Button();
+            this.bbotscancards = new System.Windows.Forms.Button();
             this.bbotclearlog = new System.Windows.Forms.Button();
             this.bbotanalyse = new System.Windows.Forms.Button();
             this.lbotnmoney = new System.Windows.Forms.Label();
@@ -95,10 +99,8 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.bbotscancards = new System.Windows.Forms.Button();
-            this.bbotclickok = new System.Windows.Forms.Button();
-            this.bbotserchactiveenemy = new System.Windows.Forms.Button();
-            this.label24 = new System.Windows.Forms.Label();
+            this.botplay = new System.Windows.Forms.Button();
+            this.numericUpDownBotIterations = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -112,6 +114,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBotIterations)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -618,6 +621,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.numericUpDownBotIterations);
+            this.tabPage3.Controls.Add(this.botplay);
             this.tabPage3.Controls.Add(this.label24);
             this.tabPage3.Controls.Add(this.bbotserchactiveenemy);
             this.tabPage3.Controls.Add(this.bbotclickok);
@@ -653,6 +658,45 @@
             this.tabPage3.Text = "BOT";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(422, 146);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(72, 13);
+            this.label24.TabIndex = 26;
+            this.label24.Text = "Trash buttons";
+            // 
+            // bbotserchactiveenemy
+            // 
+            this.bbotserchactiveenemy.Location = new System.Drawing.Point(280, 45);
+            this.bbotserchactiveenemy.Name = "bbotserchactiveenemy";
+            this.bbotserchactiveenemy.Size = new System.Drawing.Size(181, 23);
+            this.bbotserchactiveenemy.TabIndex = 25;
+            this.bbotserchactiveenemy.Text = "Search active enemy if yes defend";
+            this.bbotserchactiveenemy.UseVisualStyleBackColor = true;
+            this.bbotserchactiveenemy.Click += new System.EventHandler(this.bbotserchactiveenemy_Click);
+            // 
+            // bbotclickok
+            // 
+            this.bbotclickok.Location = new System.Drawing.Point(537, 166);
+            this.bbotclickok.Name = "bbotclickok";
+            this.bbotclickok.Size = new System.Drawing.Size(57, 23);
+            this.bbotclickok.TabIndex = 24;
+            this.bbotclickok.Text = "Click ok";
+            this.bbotclickok.UseVisualStyleBackColor = true;
+            this.bbotclickok.Click += new System.EventHandler(this.bbotclickok_Click);
+            // 
+            // bbotscancards
+            // 
+            this.bbotscancards.Location = new System.Drawing.Point(142, 45);
+            this.bbotscancards.Name = "bbotscancards";
+            this.bbotscancards.Size = new System.Drawing.Size(132, 23);
+            this.bbotscancards.TabIndex = 23;
+            this.bbotscancards.Text = "Scan cards in hand";
+            this.bbotscancards.UseVisualStyleBackColor = true;
+            this.bbotscancards.Click += new System.EventHandler(this.bbotscancards_Click);
+            // 
             // bbotclearlog
             // 
             this.bbotclearlog.Location = new System.Drawing.Point(4, 290);
@@ -671,6 +715,7 @@
             this.bbotanalyse.TabIndex = 21;
             this.bbotanalyse.Text = "Analyse";
             this.bbotanalyse.UseVisualStyleBackColor = true;
+            this.bbotanalyse.Click += new System.EventHandler(this.bbotanalyse_Click);
             // 
             // lbotnmoney
             // 
@@ -873,44 +918,22 @@
             this.label14.Text = "_________________________________________________________________________________" +
     "____________________";
             // 
-            // bbotscancards
+            // botplay
             // 
-            this.bbotscancards.Location = new System.Drawing.Point(142, 45);
-            this.bbotscancards.Name = "bbotscancards";
-            this.bbotscancards.Size = new System.Drawing.Size(132, 23);
-            this.bbotscancards.TabIndex = 23;
-            this.bbotscancards.Text = "Scan cards in hand";
-            this.bbotscancards.UseVisualStyleBackColor = true;
-            this.bbotscancards.Click += new System.EventHandler(this.bbotscancards_Click);
+            this.botplay.Location = new System.Drawing.Point(142, 74);
+            this.botplay.Name = "botplay";
+            this.botplay.Size = new System.Drawing.Size(132, 23);
+            this.botplay.TabIndex = 27;
+            this.botplay.Text = "Bot Play";
+            this.botplay.UseVisualStyleBackColor = true;
+            this.botplay.Click += new System.EventHandler(this.botplay_Click);
             // 
-            // bbotclickok
+            // numericUpDownBotIterations
             // 
-            this.bbotclickok.Location = new System.Drawing.Point(537, 166);
-            this.bbotclickok.Name = "bbotclickok";
-            this.bbotclickok.Size = new System.Drawing.Size(57, 23);
-            this.bbotclickok.TabIndex = 24;
-            this.bbotclickok.Text = "Click ok";
-            this.bbotclickok.UseVisualStyleBackColor = true;
-            this.bbotclickok.Click += new System.EventHandler(this.bbotclickok_Click);
-            // 
-            // bbotserchactiveenemy
-            // 
-            this.bbotserchactiveenemy.Location = new System.Drawing.Point(280, 45);
-            this.bbotserchactiveenemy.Name = "bbotserchactiveenemy";
-            this.bbotserchactiveenemy.Size = new System.Drawing.Size(181, 23);
-            this.bbotserchactiveenemy.TabIndex = 25;
-            this.bbotserchactiveenemy.Text = "Search active enemy if yes defend";
-            this.bbotserchactiveenemy.UseVisualStyleBackColor = true;
-            this.bbotserchactiveenemy.Click += new System.EventHandler(this.bbotserchactiveenemy_Click);
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(422, 146);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(72, 13);
-            this.label24.TabIndex = 26;
-            this.label24.Text = "Trash buttons";
+            this.numericUpDownBotIterations.Location = new System.Drawing.Point(280, 77);
+            this.numericUpDownBotIterations.Name = "numericUpDownBotIterations";
+            this.numericUpDownBotIterations.Size = new System.Drawing.Size(64, 20);
+            this.numericUpDownBotIterations.TabIndex = 28;
             // 
             // Form1
             // 
@@ -938,6 +961,7 @@
             this.panel1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBotIterations)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1015,6 +1039,8 @@
         private System.Windows.Forms.Button bbotclickok;
         private System.Windows.Forms.Button bbotserchactiveenemy;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.NumericUpDown numericUpDownBotIterations;
+        private System.Windows.Forms.Button botplay;
     }
 }
 

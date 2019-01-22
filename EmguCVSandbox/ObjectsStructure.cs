@@ -9,6 +9,7 @@ namespace EmguCVSandbox
 {
     public class ObjectsStructure
     {
+
         public class GameCurrentState
         {
             public List<MobInfo> mobs;
@@ -64,18 +65,52 @@ namespace EmguCVSandbox
                     return cardsInHand.Where(c => c.value == "2").ToList();
                 }
             }
-            public int activeMobs
+            public int activeMobsNumber
             {
                 get
                 {
-                    return mobs.Select(m => m.active).Count();
+                    return mobs.Where(m => m.active).Count();
                 }
             }
+
+            public List<MobInfo> activeMobs
+            {
+                get
+                {
+                    return mobs.Where(a => a.active).ToList();
+                }
+
+            }
+            public List<MobInfo> activeMobspriority1
+            {
+                get
+                {
+                    return mobs.Where(a => (a.active && a.name == "hiveguardian") || (a.active && a.name == "forestspider") || (a.active && a.name == "spiderguard")).ToList();
+                }
+
+            }
+            public List<MobInfo> mobsMaxatt
+            {
+                get
+                {
+                    return mobs.Where(a => a.attack == mobs.Max(ab => ab.attack)).ToList();
+                }
+
+            }
+            public List<MobInfo> activeMobspriority2
+            {
+                get
+                {
+                    return mobs.Where(a => (a.active && a.name == "bloodmother") || (a.active && a.name == "kirous")).ToList();
+                }
+
+            }
+
             public int alliesQty
             {
                 get
                 {
-                    return heroesAlly.Select(a => a.name == "Ally").Count();
+                    return heroesAlly.Where(a => a.name == "Ally").Count();
                 }
             }
 
@@ -84,14 +119,22 @@ namespace EmguCVSandbox
             {
                 get
                 {
-                    return heroesAlly.Select(a => a.name == "Ally" & a.active).Count();
+                    return heroesAlly.Where(a => (a.name == "Ally" && a.active)).Count();
+                }
+            }
+
+            public List<HeroAllyInfo> myAlliesActive
+            {
+                get
+                {
+                    return heroesAlly.Where(a => (a.name == "Ally" && a.active)).ToList();
                 }
             }
             public int activeHeroesNumber
             {
                 get
                 {
-                    return heroesAlly.Select(a => a.name != "Ally" & a.active).Count();
+                    return heroesAlly.Where(a => (a.name != "Ally" && a.active)).Count();
                 }
             }
 

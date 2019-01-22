@@ -46,6 +46,20 @@ namespace EmguCVSandbox
             return new Rectangle(x, y, width, height);
         }
 
+        public static Rectangle EndButtonRectangle()
+        {
+            var proc = Process.GetProcessesByName("Lord of the Rings - LCG")[0];
+            var rect = new User32.Rect();
+            User32.GetWindowRect(proc.MainWindowHandle, ref rect);
+
+            int x = rect.left+1290;
+            int y = rect.top+1010;
+            int width = 1;
+            int height = 1;
+
+            return new Rectangle(x, y, width, height);
+        }
+
         private class User32
         {
 
