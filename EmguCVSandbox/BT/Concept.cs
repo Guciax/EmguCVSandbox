@@ -25,7 +25,7 @@ namespace EmguCVSandbox.BT
         public void Do()
         {
             //to  trzeba poprawic.
-            act(GuccisDomain.s);
+            act(GuccisDomain.gameState);
             child.Do();
         }
 
@@ -61,7 +61,7 @@ namespace EmguCVSandbox.BT
 
         public void Do()
         {
-            if(Cond(GuccisDomain.s) )
+            if(Cond(GuccisDomain.gameState) )
             {
                 OnSuccess.Do();
             } else
@@ -93,8 +93,9 @@ namespace EmguCVSandbox.BT
         {
             //... choose priority many?
         }
+
         //narazie static workaround
-        public static GameCurrentState s;
+        public static GameCurrentState gameState;
 
         void Stuff()
         {

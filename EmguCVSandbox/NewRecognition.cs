@@ -30,7 +30,7 @@ namespace EmguCVSandbox
         private readonly List<Bitmap> defendImages;
         private readonly List<Bitmap> attachmentImages;
 
-        public NewRecognition( Form1 form, RichTextBox logbook,
+        public NewRecognition( Form1 form, 
             List<Bitmap> mobBitmaps,
         List<Bitmap> ocrHeroNumber,
         List<Bitmap> ocrMobNumbers,

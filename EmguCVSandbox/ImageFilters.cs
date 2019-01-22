@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace EmguCVSandbox
 {
     class ImageFilters
@@ -52,8 +53,8 @@ namespace EmguCVSandbox
 
         public static bool IsThisPixelPixel(Bitmap inputbitmap, Point pt, Color color)
         {
-         //   Color clr = Color.FromArgb
             return inputbitmap.GetPixel(pt.X, pt.Y) == color;
+
         }
 
         

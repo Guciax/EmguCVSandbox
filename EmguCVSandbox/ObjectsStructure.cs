@@ -9,40 +9,26 @@ namespace EmguCVSandbox
 {
     public class ObjectsStructure
     {
-        public class GameCurrentState
+        public class CardsAndCash
         {
-            public List<MobInfo> mobs;
-            public List<HeroAllyInfo> heroesAlly;
-            public List<QuestInfo> quests;
             public List<CardInfo> cardsInHand;
-            public int threadLevel;
-            public List<HeroAllyInfo> myAllies
-            {
-                get
-                {
-                    return heroesAlly.Where(a => a.name == "Ally").ToList();
-                }
-                
-            }
-            public int currentPhase;
             public int cash;
             public int sauronCash;
-
-            public int cardsInHandQty
+            public int cardsInHandCount
             {
                 get
                 {
                     return cardsInHand.Count();
                 }
             }
-            public int cardsInHand1
+            public int cards1InHandCount
             {
                 get
                 {
                     return cardsInHand.Where(c => c.value == "1").Count();
                 }
             }
-            public int cardsInHand2
+            public int cards2InHandCount
             {
                 get
                 {
@@ -53,7 +39,7 @@ namespace EmguCVSandbox
             {
                 get
                 {
-                    return cardsInHand.Where(c=>c.value == "1").ToList();
+                    return cardsInHand.Where(c => c.value == "1").ToList();
                 }
             }
 
@@ -64,30 +50,39 @@ namespace EmguCVSandbox
                     return cardsInHand.Where(c => c.value == "2").ToList();
                 }
             }
-            public int activeMobs
+        }
+
+        public class MobsAndQuests
+        {
+            public List<MobInfo> mobs;
+            public List<QuestInfo> quests;
+            public int activeMobsCount
             {
                 get
                 {
                     return mobs.Select(m => m.active).Count();
                 }
             }
-            public int alliesQty
+        }
+
+        public class HeroesAndAllies
+        {
+            public List<HeroAllyInfo> heroesAlly;
+            public List<HeroAllyInfo> alliesList
             {
                 get
                 {
-                    return heroesAlly.Select(a => a.name == "Ally").Count();
+                    return heroesAlly.Where(a => a.name == "Ally").ToList();
                 }
             }
-
-            
-            public int activeAlliesNumber
+            public int activeAlliesCount
             {
                 get
                 {
                     return heroesAlly.Select(a => a.name == "Ally" & a.active).Count();
                 }
             }
-            public int activeHeroesNumber
+            public int activeHeroesCount
             {
                 get
                 {
@@ -102,31 +97,30 @@ namespace EmguCVSandbox
                     return heroesAlly.Where(a => a.active).ToList();
                 }
             }
-            public List<HeroAllyInfo> eowyn
-            {
-                get
-                {
-                    return heroesAlly.Where(a => a.name == "eowyn").ToList();
-                }
-            }
-            public List<HeroAllyInfo> gimli
-            {
-                get
-                {
-                    return heroesAlly.Where(a => a.name == "gimli").ToList();
-                }
-            }
-            public List<HeroAllyInfo> dwalin
-            {
-                get
-                {
-                    return heroesAlly.Where(a => a.name == "dwalin").ToList();
-                }
-            }
         }
+
+        public class GameCurrentState
+        {
+            public CardsAndCash cardsAndCash;
+            public MobsAndQuests mobsAndQuests;
+            public HeroesAndAllies heroesAndAllies;
+
+            public int threadLevel;
+            public int currentPhase;
+        }
+
+        
 
         public class MobInfo
         {
+            List<string> mobsWithGuard = new List<string> { "mob1", "mob2" };
+            List<string> mobsWithStalward = new List<string> { "mob1", "mob2" };
+            List<string> mobsWithBlock = new List<string> { "mob1", "mob2" };
+            Dictionary<string, int> mobDangerDict = new Dictionary<string, int>
+            {
+                { "mob1",0 },{"mob2",1}
+            };
+
             public Point location;
             public string name;
             public bool active;
@@ -134,7 +128,36 @@ namespace EmguCVSandbox
             public int hp;
             public Bitmap mobImage;
             public List<string> matchResults;
-            public bool hasBlock = false;
+            public int attackPriority
+            {
+                get
+                {
+                    return mobDangerDict[name];
+                }
+            }
+               
+
+            public bool hasGuard
+            {
+                get
+                {
+                    return mobsWithGuard.Contains(name);
+                }
+            }
+            public bool hasStalward
+            {
+                get
+                {
+                    return mobsWithStalward.Contains(name);
+                }
+            }
+            public bool hasBlock
+            {
+                get
+                {
+                    return mobsWithBlock.Contains(name);
+                }
+            }
         }
 
         public class HeroAllyInfo

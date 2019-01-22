@@ -29,7 +29,7 @@ namespace EmguCVSandbox.BT
             Mouse mo = new Mouse();
             mo.MouseLeftClick(character.location);
             Thread.Sleep(50);
-            mo.MouseLeftClick(GlobalParameters.guardPoint);
+            mo.MouseLeftClick(GlobalParameters.guardActionButtonPoint);
         }
 
     }

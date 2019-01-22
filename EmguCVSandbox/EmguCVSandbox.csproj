@@ -67,6 +67,7 @@
     <Compile Include="BitmapTransformations.cs" />
     <Compile Include="Bot.cs" />
     <Compile Include="BT\BT_Actions.cs" />
+    <Compile Include="BT\BT_AI.cs" />
     <Compile Include="BT\BT_Flow.cs" />
     <Compile Include="BT\BT_Nodes.cs" />
     <Compile Include="BT\Concept.cs" />
