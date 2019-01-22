@@ -28,7 +28,7 @@ namespace EmguCVSandbox
         {
             InitializeComponent();
             NewRecognition newRecognition = new NewRecognition(this,logbook, mobBitmaps, ocrHeroNumber, ocrMobNumbers, questsImages, sharpNumbersImages, cardValueImages, heroAlltImages, MyAlltImages, moneyImages, okImages, defendImages, attachmentImages);
-            Bot bot = new Bot(logbook);
+            Bot bot = new Bot(logbook,okImages,defendImages,attachmentImages);
         }
 
 
@@ -100,15 +100,31 @@ namespace EmguCVSandbox
         List<AttachmentInfo> attachmentOnScreen = new List<AttachmentInfo>();
 
         //BOT data
+        
         int money = 0;
         int nherose = 0;
         int ncards = 0;
         int nallies = 0;
         int nenemies = 0;
 
+
+        //do przeniesienia do bota
+        //---------------------------------
+        bool eowynranger = false;
+        bool eowynraven = false;
+
+        bool gimliranger = false;
+        bool gimliraven = false;
+
+        bool dwalinranger = false;
+        bool dwalinraven = false;
+        //-------------------------------
+
         Stopwatch stopWatch = new Stopwatch();
         TimeSpan ts = new TimeSpan();
         Mouse mysz = new Mouse();
+        
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -350,7 +366,7 @@ namespace EmguCVSandbox
         private void bbotstart_Click(object sender, EventArgs e)
         {
             bot.startquest();
-
+           
         }
 
         private void bbotscancards_Click(object sender, EventArgs e)
@@ -456,99 +472,10 @@ namespace EmguCVSandbox
 
         private void bplaycard_Click(object sender, EventArgs e)
         {
-            bbotscan_Click(sender, e);
-            bbotscancards_Click(sender, e);
-            int cards1 = 0;
-            int cards2 = 0;
-            for (int i = 0; i < cardsInHand.Count; i++)
-            {
-                if (cardsInHand[i].value=="1")
-                {
-                    cards1++;
-                }
-                else if (cardsInHand[i].value =="2")
-                {
-                    cards2++;
-                }
-                
-            }
-            tologbook("kart o koszcie 1: " + cards1 + " kart o koszcie 2: " + cards2);
-            if (money > 1 && cards2 > 0)
-            {
-                tologbook("zagrywam karte o koszcie 2");
-                for (int i = 0; i < cardsInHand.Count; i++)
-                {
-                    if (cardsInHand[i].value == "2")
-                    {
-                        mysz.MouseDragLeft(cardsInHand[i].location.X+ GlobalParameters.cardsRegion.X, cardsInHand[i].location.Y + GlobalParameters.cardsRegion.Y, 1300, 600);
-                        tologbook("x: " + (cardsInHand[i].location.X + 410) + " Y: " + (cardsInHand[i].location.Y + 866));
-                        tologbook("x: " + (cardsInHand[i].location.X) + " Y: " + (cardsInHand[i].location.Y));
-                        Thread.Sleep(500);
-                        tologbook("sprawdzam czy to nie jest attachment");
-                        Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
-                        attachmentOnScreen = NewRecognition.ScanAttachment(attachmentImages, ss);
-                        if (attachmentOnScreen.Count()>0)
-                        {
-                            tologbook("to jest attachment "+attachmentOnScreen[0].name);
-                            tologbook("daje bohaterowi 0");
-                            
-                            mysz.MouseLeftClick(heroesAllyOnBattlefield[0].location.X + GlobalParameters.heroRegion.X, heroesAllyOnBattlefield[0].location.Y + GlobalParameters.heroRegion.Y);
-                            Thread.Sleep(500);
-                        }
-
-                        
-                        
-                        
-                        Thread.Sleep(500);
-
-                        break;
-
-                    }
- 
-                }
-            }
-            else if (money > 1 && cards1 > 0)
-            {
-                tologbook("zagrywam karte o koszcie 1");
-                for (int i = 0; i < cardsInHand.Count; i++)
-                {
-                    if (cardsInHand[i].value == "1")
-                    {
-                        mysz.MouseDragLeft(cardsInHand[i].location.X + GlobalParameters.cardsRegion.X, cardsInHand[i].location.Y + GlobalParameters.cardsRegion.Y, 1300, 600);
-
-                        Thread.Sleep(500);
-                        break;
-
-                    }
-
-                }
-            }
-            else if (money == 1 && cards1 > 0)
-            {
-                tologbook("zagrywam karte o koszcie 1");
-                for (int i = 0; i < cardsInHand.Count; i++)
-                {
-                    if (cardsInHand[i].value == "1")
-                    {
-                        mysz.MouseDragLeft(cardsInHand[i].location.X + GlobalParameters.cardsRegion.X, cardsInHand[i].location.Y + GlobalParameters.cardsRegion.Y, 1300, 600);
-
-                        Thread.Sleep(500);
-                        break;
-
-                    }
-
-                }
-            }
-            else
-            {
-                tologbook("No money to play cards or no cards to play");
-            }
-
-
-       
+            GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+            bot.playcardfromhand(gamecurrentstate);
 
             
-
         }
 
         private void bbotscan_Click(object sender, EventArgs e)
@@ -561,7 +488,7 @@ namespace EmguCVSandbox
             //   questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages, ocrMobNumbers, ss);
             //cardsInHand = NewRecognition.ScanCards(cardValueImages, ss);
             GameCurrentState cur = newRecognition.ScanGame();
-            ;
+            
             //money = NewRecognition.ScanCash(ss, moneyImages);
             //tologbook("Kasa:" + money);
             //nherose = heroesAllyOnBattlefield.Count();
