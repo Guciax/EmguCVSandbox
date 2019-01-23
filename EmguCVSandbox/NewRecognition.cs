@@ -60,12 +60,12 @@ namespace EmguCVSandbox
             this.attachmentImages = attachmentImages;
         }
 
-        public GameCurrentState ScanGame()
+        public GameCurrentState ScanGame(int currentphase)
         {
             Bitmap ss = ScreenShot.GetScreenShot(Windows.GameWindowRectangle());
 
             GameCurrentState result = new GameCurrentState();
-            result.currentPhase = 1; // I need some method
+            result.currentPhase = currentphase; // I need some method
             //result.cardsInHand = ScanCards(cardValueImages, BitmapTransformations.Crop(ss, GlobalParameters.cardsRegion));
             result.cardsInHand = ScanCards(cardValueImages, ss);
             result.mobs = ScanMobs(mobBitmaps, ocrMobNumbers, GlobalParameters.emptyFieldDict[result.currentPhase], ss);
@@ -171,7 +171,8 @@ namespace EmguCVSandbox
                 List<string> listOfMatches = new List<string>();
                 Point pt = (Point)bmp.Tag;
                 bool matchFound = false;
-                
+                bool removemob = false;
+
                 Bitmap attCrop = BitmapTransformations.Crop(mobCrop, new Rectangle(pt.X - 40, pt.Y + 69, 40, 30));
                 Bitmap defCrop = BitmapTransformations.Crop(mobCrop, new Rectangle(pt.X + 40, pt.Y + 69, 40, 30));
 
@@ -187,7 +188,7 @@ namespace EmguCVSandbox
                 {
                     double matchResult = ImageRecognition.SingleTemplateMatch(mobBmp, bmp, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed);
                     listOfMatches.Add(mobBmp.Tag.ToString() + "@" + matchResult);
-                    if (matchResult < 0.6) continue;
+                    if (matchResult < 0.65) continue;
 
                     newMob.name = mobBmp.Tag.ToString();
                     matchFound = true;
@@ -196,6 +197,7 @@ namespace EmguCVSandbox
                 if (!matchFound)
                 {
                     newMob.name = "unknown";
+                    removemob = true;
                 }
 
                 newMob.active = ImageFilters.IsThisPixelRGB(mobCrop, pt, 6);
@@ -205,7 +207,14 @@ namespace EmguCVSandbox
                 newMob.mobImage = bmp;
                 newMob.location = pt;
 
-                mobsOnBattlefield.Add(newMob);
+                if (removemob == true)
+                {
+                    
+                }
+                else
+                {
+                    mobsOnBattlefield.Add(newMob);
+                }
 
                 //attCrop.Save(@"Images\\ocrResult\mobAt" + newMob.attack + ".png");
                 //defCrop.Save(@"Images\\ocrResult\mobHp" + newMob.hp + ".png");
@@ -296,20 +305,20 @@ namespace EmguCVSandbox
                 Rectangle attRegionGlobal = new Rectangle(pt.X - 50 + GlobalParameters.heroRegion.X, pt.Y + 40 + GlobalParameters.heroRegion.Y, 40, 35);
                 Rectangle hpRegionGlobal = new Rectangle(pt.X + 37 + GlobalParameters.heroRegion.X, pt.Y + 40 + GlobalParameters.heroRegion.Y, 40, 35);
                 Rectangle loreRegionGlobal = new Rectangle(pt.X - 5 + GlobalParameters.heroRegion.X, pt.Y + 57 + GlobalParameters.heroRegion.Y, 40, 30);
-
-                newHeroAlly.active = ImageFilters.IsThisPixelRGB(heroCrop, pt, 6);
+                //zmniejszylem z 6
+                newHeroAlly.active = ImageFilters.IsThisPixelRGB(heroCrop, pt, 3);
                 newHeroAlly.matchResults = listOfMatches;
                 newHeroAlly.location = pt;
                 //Debug.WriteLine($"<-------- heroX={pt.X} scanLore");
-       //         int ocrLore = OCR.DecodeImg(currentScreenshot, loreRegionGlobal, sharpNumbersImages, 113);
-       //         newHeroAlly.lore = ocrLore;
+                int ocrLore = OCR.DecodeImg(currentScreenshot, loreRegionGlobal, sharpNumbersImages, 113);
+                newHeroAlly.lore = ocrLore;
                 //Debug.WriteLine($"<----------------scanAtt");
        //         int ocrAtt = OCR.DecodeImg(currentScreenshot, attRegionGlobal, sharpNumbersImages, 113);
        //         newHeroAlly.attack = ocrAtt;
 
                 //Debug.WriteLine($"<---------------- scanDef");
-        //        int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
-        //        newHeroAlly.hp = ocrHp;
+                int ocrHp = OCR.DecodeImg(currentScreenshot, hpRegionGlobal, sharpNumbersImages, 66);
+                newHeroAlly.hp = ocrHp;
 
                 if (removehero == true)
                 {

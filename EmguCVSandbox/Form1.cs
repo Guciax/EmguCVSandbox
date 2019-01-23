@@ -49,7 +49,7 @@ namespace EmguCVSandbox
             public static readonly Dictionary<int, Bitmap> emptyFieldDict = new Dictionary<int, Bitmap>
                 {
                         { 1, new Bitmap(@"Images\empty1.png") },
-                        { 2, new Bitmap(@"Images\empty1.png") } //uzupelnic
+                        { 2, new Bitmap(@"Images\empty2.png") } //uzupelnic
             };
             public static readonly Bitmap emptyBmpPhase1 = new Bitmap(@"Images\empty1.png");
             public static string procname = "Lord of the Rings - LCG";
@@ -386,7 +386,7 @@ namespace EmguCVSandbox
 
         private void bbotserchactiveenemy_Click(object sender, EventArgs e)
         {
-            GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+            GameCurrentState gamecurrentstate = newRecognition.ScanGame(1);
             bot.defendIfAble(gamecurrentstate);
 
         }
@@ -409,7 +409,7 @@ namespace EmguCVSandbox
 
         private void bplaycard_Click(object sender, EventArgs e)
         {
-            GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+            GameCurrentState gamecurrentstate = newRecognition.ScanGame(1);
             bot.playcardfromhand(gamecurrentstate);
 
         }
@@ -423,7 +423,7 @@ namespace EmguCVSandbox
             //   AllyOnBattlefield = NewRecognition.ScanAllies(MyAlltImages, ocrHeroNumber, GlobalParameters.emptyBmpPhase1, ss);
             //   questOnBattlefield = NewRecognition.ScanQuests(ref mobsOnBattlefield, questsImages, ocrMobNumbers, ss);
             //cardsInHand = NewRecognition.ScanCards(cardValueImages, ss);
-            GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+            GameCurrentState gamecurrentstate = newRecognition.ScanGame(1);
 
 
             //money = NewRecognition.ScanCash(ss, moneyImages);
@@ -474,7 +474,7 @@ namespace EmguCVSandbox
         {
             if (botosd.Checked)
             {
-                GameCurrentState cur = newRecognition.ScanGame();
+                GameCurrentState cur = newRecognition.ScanGame(1);
                 OnScreenDisplay osdForm = new OnScreenDisplay(cur.cardsInHand, cur.mobs, cur.quests, cur.heroesAlly, botosd, Windows.GameWindowRectangle().Location);
 
                 osdForm.Show();
@@ -501,17 +501,35 @@ namespace EmguCVSandbox
 
         private void bbotanalyse_Click(object sender, EventArgs e)
         {
-            bot.checkEndButton();
-            GameCurrentState gamecurrentstate = newRecognition.ScanGame();
-            tologbook("gamecurrentstate.mobs.Count:" + gamecurrentstate.mobs.Count);
-            tologbook("activeAlliesNumber:" + gamecurrentstate.activeAlliesNumber);
-            tologbook("myAllies.Count:" + gamecurrentstate.myAllies.Count);
-            tologbook("activeHeroesNumber:" + gamecurrentstate.activeHeroesNumber);
-            tologbook("heroesAlly.Count:" + gamecurrentstate.heroesAlly.Count);
-            tologbook("mobsMaxatt[0].attack:" + gamecurrentstate.mobsMaxatt[0].attack);
-            tologbook("cash:" + gamecurrentstate.cash);
-            tologbook("cardsInHand.Count:" + gamecurrentstate.cardsInHand.Count);
-            tologbook("activeMobspriority1:" + gamecurrentstate.activeMobspriority1);
+
+            GameCurrentState gamecurrentstate = newRecognition.ScanGame(2);
+            tologbook("ile qestow" + gamecurrentstate.quests.Count);
+            if (gamecurrentstate.quests.Count > 0)
+            {
+                tologbook("ile qestow" + gamecurrentstate.quests[0].location.X);
+                tologbook("ile qestow" + gamecurrentstate.quests[0].location.Y);
+            }
+            tologbook("ile aktywnychalliesow:" + gamecurrentstate.activeHeroesList.Count);
+            for (int i=0; gamecurrentstate.activeHeroesList.Count<i;i++ )
+            {
+                tologbook("ktory " + gamecurrentstate.activeHeroesList[i].name);
+                tologbook("ktory X " + gamecurrentstate.activeHeroesList[i].location.X);
+                tologbook("ktory Y " + gamecurrentstate.activeHeroesList[i].location.Y);
+
+            }
+            
+
+            //bot.checkEndButton();
+            //GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+            //tologbook("gamecurrentstate.mobs.Count:" + gamecurrentstate.mobs.Count);
+            //tologbook("activeAlliesNumber:" + gamecurrentstate.activeAlliesNumber);
+            //tologbook("myAllies.Count:" + gamecurrentstate.myAllies.Count);
+            //tologbook("activeHeroesNumber:" + gamecurrentstate.activeHeroesNumber);
+            //tologbook("heroesAlly.Count:" + gamecurrentstate.heroesAlly.Count);
+            //tologbook("mobsMaxatt[0].attack:" + gamecurrentstate.mobsMaxatt[0].attack);
+            //tologbook("cash:" + gamecurrentstate.cash);
+            //tologbook("cardsInHand.Count:" + gamecurrentstate.cardsInHand.Count);
+            //tologbook("activeMobspriority1:" + gamecurrentstate.activeMobspriority1);
 
 
 
@@ -521,64 +539,106 @@ namespace EmguCVSandbox
 
         private void botplay_Click(object sender, EventArgs e)
         {
+            int phase = 1;
+            int questposzeld = 0;
             int jedziemy = Convert.ToInt32(Math.Round(numericUpDownBotIterations.Value, 0));
             for (int i = 0; jedziemy > i; i++)
             {
+
                 Thread.Sleep(500);
                 // skanuje czy koniec tury
-                if (bot.checkEndButton() == false)
+                if (bot.checkEndButton(phase) == false)
                 {
-
+                    bot.checkOkButtonAndClick();
                 }
                 else
                 {
-
-                    //skanuje ok
-                    bot.checkOkButtonAndClick();
+                    
                     //skanuje gre
-                    GameCurrentState gamecurrentstate = newRecognition.ScanGame();
+                    GameCurrentState gamecurrentstate = newRecognition.ScanGame(phase);
                     //patrze czy moge sie bronic jak sie bronie to ok jak nie to karta
                     if (bot.defendIfAble(gamecurrentstate) == true)
                     {
-                        bot.checkOkButtonAndClick();
                         //obronilem
+                        questposzeld = 0;
                     }
-                    else if (gamecurrentstate.activeAlliesNumber < 1)
+                    //jak sie nie obronilem to patrze czy moge zagrac karte
+                    else if (bot.playcardfromhand(gamecurrentstate) == true)
                     {
-                        if (bot.playcardfromhand(gamecurrentstate) == true)
-                        {
-                            bot.checkOkButtonAndClick();
-                        }
-                        else
-                        {
-                            mysz.MouseLeftClick(1365, 1027);
-                            //klikaj koniec tury
-                        }
+                        bot.checkOkButtonAndClick();
+                        questposzeld = 0;
                     }
+                    //teraz napindalam
+                    else if (bot.attackMob(gamecurrentstate) == true)
+                    {
+                        // mysz.MouseLeftClick(1365, 1027);
+                        // klikaj koniec tury
+                        bot.checkOkButtonAndClick();
+                        questposzeld = 0;
+                    }
+                    //jak nie ma mobów to sprawdzam quest
+
+                    else if (bot.goonquest(gamecurrentstate )== true)
+                    {
+                        bot.checkOkButtonAndClick();
+                        questposzeld = questposzeld + 1;
+                        if (questposzeld > 5)
+                        {
+                            mysz.MouseLeftClick(1292, 1011);
+                        }
+
+
+                    }
+                    //jak nie ma mobów to sprawdzam travel
+                    else if (gamecurrentstate.mobs.Count() == 0)
+                    {
+                        if (bot.checkTravelButton() == true)
+                        {
+                            questposzeld = 0;
+                            mysz.MouseLeftClick(837, 220);
+                            phase = 2;
+                            Thread.Sleep(5000);
+                            
+                            //tologbook("klikam continue tego biadolenia");
+                            mysz.MouseLeftClick(1446, 990);
+                            //tologbook("czekam 1000");
+                            Thread.Sleep(1000);
+                            //tologbook("klikam continue tego biadolenia 2");
+                            mysz.MouseLeftClick(1446, 990);
+                            Thread.Sleep(1000);
+                            //tologbook("klikam continue tego biadolenia 3");
+                            mysz.MouseLeftClick(1446, 990);
+                            //tologbook("czekam 6000");
+                            Thread.Sleep(6000);
+                            
+                            //tologbook("klikam ok");
+                            mysz.MouseLeftClick(840, 250);
+
+
+
+
+                        }
+                        
+                    }
+                    //klikam koniec tury bo nic nie pozostalo do roboty
                     else
                     {
-                        bot.checkOkButtonAndClick();
-                        if (gamecurrentstate.mobs.Count > 0)
-                        {
-                            bot.attackMob(gamecurrentstate);
-                        }
-                        else
-                        {
-                            mysz.MouseLeftClick(837, 220);
-                            //klikaj travel
-                        }
+                        questposzeld = 0;
+                        mysz.MouseLeftClick(1292, 1011);
                     }
+                }
                     //zagrywam karte
 
                     //sprawdzam ok
-                    Thread.Sleep(500);
+                    
                     bot.checkOkButtonAndClick();
-                }
+
+            }
 
 
             }
         }
 
         }
-    }
+   
 

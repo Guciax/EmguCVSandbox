@@ -85,10 +85,11 @@ namespace EmguCVSandbox
             {
                 get
                 {
-                    return mobs.Where(a => (a.active && a.name == "hiveguardian") || (a.active && a.name == "forestspider") || (a.active && a.name == "spiderguard")).ToList();
+                    return mobs.Where(a => (a.active && a.name == "hiveguardian") || (a.active && a.name == "giantspider") || (a.active && a.name == "spiderguard")).ToList();
                 }
 
             }
+            
             public List<MobInfo> mobsMaxatt
             {
                 get
@@ -138,12 +139,46 @@ namespace EmguCVSandbox
                 }
             }
 
+            public List<HeroAllyInfo> ActiveHeroOnly
+            {
+                get
+                {
+                    return heroesAlly.Where(a => (a.name != "Ally" && a.active)).ToList();
+                }
+
+            }
+
+            public List<HeroAllyInfo> ActiveHeroOnlyMinHP
+            {
+                get
+                {
+                    return ActiveHeroOnly.Where(a => a.hp == ActiveHeroOnly.Min(ab => ab.hp)).ToList();
+                }
+
+            }
+            public List<HeroAllyInfo> ActiveHeroOnlyMaxHP
+            {
+                get
+                {
+                    return ActiveHeroOnly.Where(a => a.hp == ActiveHeroOnly.Max(ab => ab.hp)).ToList();
+                }
+
+            }
+
             public List<HeroAllyInfo> activeHeroesList
             {
                 get
                 {
                     return heroesAlly.Where(a => a.active).ToList();
                 }
+            }
+            public List<HeroAllyInfo> AllAliesActiveMaxlore
+            {
+                get
+                {
+                    return activeHeroesList.Where(a => a.lore == activeHeroesList.Max(ab => ab.lore)).ToList();
+                }
+
             }
             public List<HeroAllyInfo> eowyn
             {
